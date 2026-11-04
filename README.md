@@ -1,9 +1,11 @@
 # Steve workspace
 
-Steve is an embodied local agent: LM Studio supplies decisions, Python owns authoritative runtime state, and Unity owns and renders a 10×10 meadow with a hovering unicorn.
+Steve is an embodied local agent: LM Studio supplies decisions, Python owns authoritative runtime state, and Unity owns and renders a 10Ã—10 meadow with a hovering unicorn.
 
 - [Run Steve](docs/RUNNING.md)
+- [Current handoff and active experiment](docs/HANDOFF.md)
 - [Architecture and state ownership](docs/ARCHITECTURE.md)
+- [Persistent Self and machinery](docs/SELF_MODEL.md)
 - [Navigation experiments](docs/EXPERIMENTS.md)
 - [Project boundaries](PROJECT_BOUNDARIES.md)
 

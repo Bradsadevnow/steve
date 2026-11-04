@@ -69,61 +69,8 @@ class LMStudio:
         if value.get('finish_reason')=='length':raise ValueError('Affect appraisal reached its separate output allowance')
         return value['message']['content']
 
-def chat_events(client,messages,dispatch,request_id,registry,temperature,live_message,on_transcript,should_stop):
-    """Each complete structured call is validated, executed once, and receipted before another inference."""
-    messages=copy.deepcopy(messages);display='';ordinal=0
-    while True:
-        if should_stop():raise InterruptedError('Turn interrupted by operator')
-        messages.append(dict(role='user',content=live_message()));on_transcript(messages)
-        response=None;partial=''
-        try:
-            outgoing=getattr(registry,'INFERENCE_MESSAGES',lambda value:value)(messages)
-            for event in client.stream(outgoing,registry.TOOLS,temperature,should_stop):
-                if event['kind']=='response':response=event
-                else:
-                    if event['kind']=='token':partial+=event['piece']
-                    yield event
-        except BaseException:
-            if partial:messages.append(dict(role='assistant',content=partial));on_transcript(messages)
-            raise
-        display+=response['text']
-        if response['finish']=='length':
-            messages.append(dict(role='assistant',content=response['text']));on_transcript(messages)
-            yield dict(kind='done',text=display,reason='provider_output_limit');return
-        calls=response['calls']
-        if not calls:
-            messages.append(dict(role='assistant',content=response['text']));on_transcript(messages)
-            yield dict(kind='done',text=display,reason='model_finished');return
-        for call in calls:
-            call['id']=request_id+'-tool-'+str(ordinal);ordinal+=1
-        messages.append(dict(role='assistant',content=response['text'],tool_calls=calls))
-        reported=None;halt=False
-        for call in calls:
-            name=call['function']['name'];arguments=call['function']['arguments']
-            yield dict(kind='call',call=call)
-            try:
-                if name not in registry.SCHEMAS:raise ValueError('Unregistered tool name')
-                outer=json.loads(arguments)
-                direct=getattr(registry,'DIRECT_ARGUMENTS',getattr(registry,'ZERO_ARGUMENT',False))
-                if direct:
-                    target=outer;command=registry.validate(name,arguments)
-                else:
-                    if not isinstance(outer,dict) or set(outer)!={'target'}:raise ValueError('Expected exactly the target argument')
-                    target=outer['target'];command=registry.validate(name,json.dumps(target))
-                if reported or halt or should_stop():result=dispatch.reject(name,target,call['id'],'stopped') if direct else dict(outcome='interrupted',error='Earlier call ended or operator stopped this turn')
-                elif direct and len(calls)!=1:result=dispatch.reject(name,target,call['id'],'rejected_conflict')
-                else:
-                    key=dispatch.submit(target,call['id'],tool=name);result=dispatch.wait(key)
-                result=dict(result,tool=name,command=command)
-            except (ValueError,TypeError,KeyError) as error:
-                result=dispatch.reject(name,{},call['id'],'rejected_schema') if getattr(registry,'DIRECT_ARGUMENTS',getattr(registry,'ZERO_ARGUMENT',False)) else dict(outcome='rejected',error=str(error),error_category='schema',tool=name)
-                result=dict(result,error=str(error),error_category='schema',tool=name)
-            messages.append(dict(role='tool',tool_call_id=call['id'],content=json.dumps(result,indent=2)))
-            # Keep call/result pairs durable together, including partial batches.
-            yield dict(kind='receipt',call=call,result=result)
-            if result.get('outcome')=='task_reported':reported='reported_'+result['task_status']
-            halt=halt or result.get('outcome') in ('stopped','offline','timeout','interrupted')
-        on_transcript(messages)
-        if reported or halt or getattr(registry,'SINGLE_ACTION',False):
-            yield dict(kind='done',text=display,reason=reported or ('interrupted' if halt else 'action_resolved'));return
-        if display and not display.endswith(('\n',' ')):display+='\n'
+
+def chat_events(*args, **kwargs):
+    # Stable import for existing integrations; execution belongs to its own boundary.
+    from decision_executor import chat_events as execute_decision
+    return execute_decision(*args, **kwargs)

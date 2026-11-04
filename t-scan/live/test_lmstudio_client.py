@@ -24,7 +24,7 @@ def call(arguments='{}',name='move_east'):
 class LMStudioTests(unittest.TestCase):
  def run_loop(self,client):
   dispatch=Dispatch();saved=[]
-  events=list(chat_events(client,[dict(role='user',content='task')],dispatch,'request',registry(),.2,lambda:'HARNESS RECORD / current state',lambda m:saved.append(copy.deepcopy(m)),lambda:False))
+  events=list(chat_events(client,[dict(role='user',content='task')],dispatch,'request',registry(max_calls=1),.2,lambda:'HARNESS RECORD / current state',lambda m:saved.append(copy.deepcopy(m)),lambda:False))
   return dispatch,saved,events
  def test_old_native_arguments_converted_without_mutating_history(self):
   messages=[dict(role='assistant',tool_calls=[dict(function=dict(arguments={'target':{'hex_id':'all'}}))])]

@@ -14,7 +14,7 @@ class CoordinateObservationTests(unittest.TestCase):
    for col in range(1,11):
     self.world.state['avatar'].update(col=col,row=row);world=self.world.observe();before=copy.deepcopy(world);text=coordinate_world(world);lines=text.splitlines()
     self.assertEqual(before,world)
-    avatar=json.loads(lines[lines.index('STEVE / measured now')+1]);self.assertEqual(avatar,dict(x=col,y=row,facing=world['self']['facing']))
+    avatar=json.loads(lines[lines.index('STEVE / measured now')+1]);self.assertEqual(avatar,dict(x=col,y=row))
     standing=json.loads(next(line.removeprefix('Standing ON: ') for line in lines if line.startswith('Standing ON: ')));self.assertEqual(standing,world['standing_on'])
     first=lines.index('LANDMARKS / measured positions; not assigned goals')+1
     landmarks=[json.loads(line) for line in lines[first:first+len(world['visible_targets'])]]

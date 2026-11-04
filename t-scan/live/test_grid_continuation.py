@@ -54,9 +54,11 @@ class ContinuationTests(unittest.TestCase):
    def stream(self,messages,tools,temperature,should_stop):
     seen.append(copy.deepcopy(messages));n=len(seen)
     previous=[json.loads(m['content']) for m in messages if m['role']=='tool']
-    if n==2:assert previous[-1]['presentation_status']=='settled'
-    name='move_east' if n<=2 else 'complete'
-    yield dict(kind='response',text='',calls=[dict(id='fixture',type='function',function=dict(name=name,arguments='{}'))],finish='tool_calls')
+    if n==5:assert previous[-1]['presentation_status']=='settled'
+    script=[('intention_write',dict(intention_id='exercise',statement='Exercise individual actions',reason='Human fixture request',status='active',lifetime='run',expected_revision=0)),('task_list_write',dict(task_id='steps',title='Exercise movement',status='pending',expected_revision=0)),('plan_handoff',dict(task_id='steps',task_list_revision=1,reason='Human requested this outcome',intention_id='exercise',criterion='manual',landmark_id='',instructions='Exercise the requested individual actions.')),('move_east',{}),('move_east',{}),('complete',{})]
+    name,arguments=script[n-1] if n<=len(script) else ('complete',{})
+    assert name in {t['function']['name'] for t in tools}
+    yield dict(kind='response',text='',calls=[dict(id='fixture',type='function',function=dict(name=name,arguments=json.dumps(arguments)))],finish='tool_calls')
   args=SimpleNamespace(lm_url='http://unused',model='test-fixture',ctx=131072,temperature=.1)
   self.message();bridge.pending['source_id']=bridge.runtime.accept_user('A user message','human-1')
   def await_pause(count):
@@ -70,9 +72,14 @@ class ContinuationTests(unittest.TestCase):
   with patch('grid_worker.LMStudio',FakeModel):
    thread=threading.Thread(target=run,args=(bridge,args),daemon=True);thread.start()
    try:
-    await_pause(3);self.assertEqual(self.world.state['avatar']['col'],7)
+    await_pause(6);self.assertEqual(self.world.state['avatar']['col'],7)
     self.assertEqual([r['action'] for r in self.world.receipts],['move_east','move_east','complete'])
-    self.message('human-2');bridge.pending['source_id']=bridge.runtime.accept_user('Another message','human-2');bridge.request.set();await_pause(4)
+    decisions=bridge.runtime.db.execute('SELECT id,status,context FROM agent_decisions ORDER BY time').fetchall()
+    self.assertEqual(len(decisions),6);self.assertEqual(len({d['id'] for d in decisions}),6)
+    self.assertTrue(all(d['status']=='complete' and d['context'] for d in decisions))
+    move_contexts=[json.loads(d['context'])['observation_id'] for d in decisions[-3:]]
+    self.assertEqual(len(set(move_contexts)),3)
+    self.message('human-2');bridge.pending['source_id']=bridge.runtime.accept_user('Another message','human-2');bridge.request.set();await_pause(7)
     self.assertEqual(self.world.loop_origin,'human-2');self.assertEqual(self.world.state['avatar']['col'],7)
    finally:bridge.shutdown.set();bridge.request.set();thread.join(2);bridge.runtime.close()
  def test_text_only_reply_waits_instead_of_ticking_repeatedly(self):
@@ -94,4 +101,23 @@ class ContinuationTests(unittest.TestCase):
     while time.monotonic()<deadline and (not calls or self.world.running or bridge.active_kind is not None):time.sleep(.01)
     time.sleep(.5)
     self.assertEqual(len(calls),1);self.assertFalse(self.world.running);self.assertEqual(self.world.pause_reason,'no_action');self.assertEqual(self.world.receipts,[])
+   finally:bridge.shutdown.set();bridge.request.set();thread.join(2);bridge.runtime.close()
+ def test_text_reply_after_a_tool_also_idles(self):
+  bridge=self.b;bridge.request=threading.Event();bridge.shutdown=threading.Event();bridge.state={};bridge.turn_start=None
+  bridge.runtime=RuntimeStore(self.root/'memory.db');bridge.conversation=GridConversation(self.root/'conversation.json',bridge.runtime);bridge.update=lambda **kw:bridge.state.update(kw);calls=[]
+  class Model:
+   context=131072
+   def __init__(self,*a):pass
+   def connect(self):return {}
+   def appraisal(self,messages):return '{"signals":[]}'
+   def stream(self,*a):
+    calls.append(1)
+    yield dict(kind='response',text='Finished speaking.' if len(calls)>1 else '',calls=[] if len(calls)>1 else [dict(id='fixture',type='function',function=dict(name='task_list_read',arguments='{}'))],finish='stop' if len(calls)>1 else 'tool_calls')
+  self.message();bridge.pending['source_id']=bridge.runtime.accept_user('Hello','human-1');args=SimpleNamespace(lm_url='http://unused',model='fixture',ctx=131072,temperature=1)
+  with patch('grid_worker.LMStudio',Model):
+   thread=threading.Thread(target=run,args=(bridge,args),daemon=True);thread.start()
+   try:
+    deadline=time.monotonic()+3
+    while time.monotonic()<deadline and (len(calls)<2 or self.world.running or bridge.active_kind is not None):time.sleep(.01)
+    time.sleep(.4);self.assertEqual(len(calls),2);self.assertFalse(self.world.running);self.assertEqual(self.world.pause_reason,'no_action')
    finally:bridge.shutdown.set();bridge.request.set();thread.join(2);bridge.runtime.close()

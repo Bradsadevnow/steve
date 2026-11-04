@@ -28,6 +28,8 @@ class RuntimeStore:
    collection,stage=classify_seed(json.loads(row['content']))
    self.db.execute('INSERT OR IGNORE INTO memory_classification VALUES(?,?,?)',(row['id'],collection,stage))
   self.db.commit()
+  from agent_state import AgentState
+  self.agent=AgentState(self)
  def event(self,kind,content,request_id=None,source_id=None):
   with self.lock,self.db:
    self.db.execute('INSERT OR IGNORE INTO events(time,kind,content,request_id,source_id) VALUES(?,?,?,?,?)',(self.clock(),kind,content,request_id,source_id))
@@ -86,6 +88,7 @@ class RuntimeStore:
     event_id=self.db.execute("SELECT id FROM events WHERE kind='seed_memory' AND request_id=?",(r['key'],)).fetchone()[0]
     collection,stage=classify_seed(value)
     self.db.execute('INSERT OR IGNORE INTO memory_classification VALUES(?,?,?)',(event_id,collection,stage))
+  if hasattr(self,'agent'):self.agent.import_identity()
  def seed_memories(self,query='',limit=16,collection=None,relevant_only=False):
   import re
   with self.lock:

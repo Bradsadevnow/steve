@@ -3,18 +3,22 @@
 No task extraction, automatic completion, next-goal selection or world mutation.
 """
 import json,re
-READ='task_list_read';WRITE='task_list_write';MARK='task_mark_complete';NAMES={READ,WRITE,MARK}
+READ='task_list_read';WRITE='task_list_write';MARK='task_mark_complete';REMOVE='task_remove';NAMES={READ,WRITE,MARK,REMOVE}
 FORMAT='steve-task-list-v1'
 def tool(name,description,properties,required):return dict(type='function',function=dict(name=name,description=description,parameters=dict(type='object',properties=properties,required=required,additionalProperties=False)))
 REV=dict(type='integer',minimum=0)
 ID=dict(type='string',pattern='^[A-Za-z0-9_-]{1,64}$')
 TOOLS=[tool(READ,'Read your persistent task list and current revision. Tasks and status claims are authored by you, not independently verified world facts.',{},[]),tool(WRITE,'Add or revise ONE task using flat arguments: task_id, title, status, expected_revision. A new ID appends a task; an existing ID updates that task in place. Other tasks are preserved. Use pending, in_progress or completed. You choose all task contents and statuses.',dict(task_id=ID,title=dict(type='string',minLength=1,maxLength=500),status=dict(type='string',enum=['pending','in_progress','completed']),expected_revision=REV),['task_id','title','status','expected_revision']),tool(MARK,'Mark one of your tasks completed after checking its criterion against action receipts. This records your assessment, not independent proof of success, and does not end the interaction.',dict(task_id=ID,expected_revision=REV),['task_id','expected_revision'])]
 def valid_id(value):return isinstance(value,str) and re.fullmatch(r'[A-Za-z0-9_-]{1,64}',value)
+
+TOOLS.append(tool(REMOVE,'Remove one task by ID from your current list. Its prior versions remain in the edit audit. This does not complete the task or undo world actions. You choose which tasks to remove.',dict(task_id=ID,expected_revision=REV),['task_id','expected_revision']))
+
+def saved_outcome(name):return 'task_removed' if name==REMOVE else 'task_marked_complete' if name==MARK else 'task_list_saved'
 def validate(name,text):
  value=json.loads(text)
  if not isinstance(value,dict):raise ValueError('Expected a tool argument object')
  if name==READ and not value:return value
- expected={'task_id','expected_revision'} if name==MARK else {'task_id','title','status','expected_revision'} if name==WRITE else set()
+ expected={'task_id','expected_revision'} if name in (MARK,REMOVE) else {'task_id','title','status','expected_revision'} if name==WRITE else set()
  if not expected or set(value)!=expected:
   raise ValueError('Expected flat arguments '+', '.join(sorted(expected))+'. Do not send a tasks array or literal quote characters in field names. Nothing was saved.')
  if type(value['expected_revision']) is not int or value['expected_revision']<0:raise ValueError('Use the current task-list revision as a nonnegative integer')
@@ -35,12 +39,12 @@ def execute(runtime,name,args,call_id):
   current=page(runtime.notepad())
   if name==READ:return dict(outcome='task_list_read',task_list=current)
   prior=runtime.db.execute("SELECT content FROM events WHERE kind='notepad_edit' AND request_id=?",(call_id,)).fetchone()
-  if prior:return dict(outcome='task_marked_complete' if name==MARK else 'task_list_saved',task_list=page(json.loads(prior[0])['notepad']))
+  if prior:return dict(outcome=saved_outcome(name),task_list=page(json.loads(prior[0])['notepad']))
   if current['revision']!=args['expected_revision']:return dict(outcome='rejected_stale_task_list',task_list=current,error='Use expected_revision='+str(current['revision'])+' from the current task list; nothing was saved.')
   tasks=[dict(task) for task in current['tasks']]
-  if name==MARK:
-   if not any(t['id']==args['task_id'] for t in tasks):return dict(outcome='rejected_unknown_task',task_list=current,error='No task with that ID exists. Create it with task_list_write before marking it complete.')
-   tasks=[dict(t,status='completed') if t['id']==args['task_id'] else t for t in tasks]
+  if name in (MARK,REMOVE):
+   if not any(t['id']==args['task_id'] for t in tasks):return dict(outcome='rejected_unknown_task',task_list=current,error='No task with that ID exists. Read the current task list before trying again.')
+   tasks=([t for t in tasks if t['id']!=args['task_id']] if name==REMOVE else [dict(t,status='completed') if t['id']==args['task_id'] else t for t in tasks])
   else:
    task=dict(id=args['task_id'],title=args['title'],status=args['status'])
    if any(t['id']==args['task_id'] for t in tasks):tasks=[task if t['id']==args['task_id'] else t for t in tasks]
@@ -50,4 +54,4 @@ def execute(runtime,name,args,call_id):
   content=json.dumps(dict(format=FORMAT,tasks=tasks,legacy_notes=current['legacy_notes']),ensure_ascii=True)
   if len(content)>8000:raise ValueError('Task list plus preserved legacy notes exceeds 8000 characters')
   result=runtime.write_notepad(content,args['expected_revision'],call_id)
-  return dict(outcome='task_marked_complete' if name==MARK else 'task_list_saved',task_list=page(result['notepad']))
+  return dict(outcome=saved_outcome(name),task_list=page(result['notepad']))

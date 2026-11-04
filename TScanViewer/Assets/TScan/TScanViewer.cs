@@ -21,7 +21,7 @@ namespace Steve.TScan {
    Application.runInBackground=true;Application.targetFrameRate=60;
    foreach(var camera in FindObjectsByType<Camera>(FindObjectsSortMode.None))camera.gameObject.SetActive(false);
    StartCoroutine(PollMemoryGraphs());StartCoroutine(RestoreChat());
-   StartCoroutine(PollAgentTasks());StartCoroutine(PollOperatorNotes());StartCoroutine(Poll());
+   StartCoroutine(PollSelf());StartCoroutine(Poll());
   }
   IEnumerator Poll(){while(true){
    using(var req=UnityWebRequest.Get(Endpoint+"/frame")){

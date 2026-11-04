@@ -12,7 +12,7 @@
 
 /t-scan/*
 !/t-scan/README.md
-!/t-scan/Start-TScan.ps1
+!/t-scan/Start-Steve.ps1
 !/t-scan/live/
 !/t-scan/art/
 

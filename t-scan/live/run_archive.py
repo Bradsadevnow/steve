@@ -1,8 +1,9 @@
 """Explicit operator-owned chat runs and lossless local research exports."""
-import copy,json,threading,time,uuid
+import copy,json,threading,time,uuid,hashlib
 from pathlib import Path
 from atomic_json import write_json
 from grid_conversation import SYSTEM,VERSION
+from context_records import decode_envelope
 
 class OperatorNotesConflict(ValueError):
  def __init__(self,current):self.current=current;super().__init__('Run or notes revision changed; reload the saved notes before editing again')
@@ -39,11 +40,21 @@ class RunArchive:
   write_json(self.folder/'config.json',configuration);write_json(self.folder/'active-config.json',configuration)
   from grid_context import ascii_world
   (self.folder/'start-world.txt').write_text(ascii_world(world.observe()),encoding='utf-8')
+  conversation.run_id=self.current['id']
   write_json(self.pointer,self.current)
  def append(self,name,value):
   with self.lock:
    with (self.folder/name).open('a',encoding='utf-8') as output:output.write(json.dumps(value,ensure_ascii=True)+'\n')
- def request(self,path,payload,request_id):self.append('inference-requests.jsonl',dict(time=time.time(),request_id=request_id,path=path,payload=payload))
+ def request(self,path,payload,request_id):
+  self.append('inference-requests.jsonl',dict(time=time.time(),request_id=request_id,path=path,payload=payload))
+  for message in reversed(payload.get('messages',[])):
+   content=message.get('content','');marker=next((m for m in ('HARNESS RECORD / decision_context\n','HARNESS RECORD / affect_appraisal_input\n') if m in content),None)
+   if marker is None:continue
+   try:record=json.loads(content.split(marker,1)[1].split('\n',1)[1].rsplit('\n',1)[0])
+   except (ValueError,IndexError):continue
+   manifest=record.get('self_model',{}).get('manifest')
+   if manifest:self.append('context-manifests.jsonl',dict(time=time.time(),request_id=request_id,manifest=manifest,purpose=record.get('kind'),registered_tools=[t['function']['name'] for t in payload.get('tools',[])],messages_sha256=hashlib.sha256(json.dumps(payload.get('messages',[]),sort_keys=True).encode()).hexdigest(),message_roles=[m['role'] for m in payload.get('messages',[])],native_tool_result_ids=[m['tool_call_id'] for m in payload.get('messages',[]) if m['role']=='tool' and 'tool_call_id' in m]))
+   break
  def event(self,request_id,event):self.append('inference-events.jsonl',dict(time=time.time(),request_id=request_id,event=event))
  def stream_event(self,request_id,data):self.append('inference-stream.jsonl',dict(time=time.time(),request_id=request_id,data=data))
  def operator_notes(self):
@@ -67,7 +78,7 @@ class RunArchive:
    for index,message in enumerate(messages):
     text=message.get('content') or ''
     if message['role']=='user' and text.startswith('HARNESS RECORD / decision_context\n'):
-     record=json.loads(text.split('\n',2)[2].rsplit('\n',1)[0]);snapshots.append(dict(message_index=index,source='decision_context',record=record))
+     record=decode_envelope(text)[1];snapshots.append(dict(message_index=index,source='decision_context',record=record))
     elif message['role']=='tool':
      result=json.loads(text);receipts.append(dict(message_index=index,tool_call_id=message['tool_call_id'],result=result))
      if result.get('observation'):snapshots.append(dict(message_index=index,source='tool_receipt',record=result['observation']))
@@ -78,6 +89,7 @@ class RunArchive:
    write_json(folder/'final-state.json',world.observe());write_json(folder/'final-notepad.json',runtime.notepad());write_json(folder/'final-affect.json',runtime.snapshot()['affect'])
    from agent_task_list import context as task_list_context
    write_json(folder/'final-task-list.json',task_list_context(runtime))
+   write_json(folder/'final-agent-state.json',dict(records=runtime.agent.records(),decisions=[dict(row) for row in runtime.db.execute('SELECT * FROM agent_decisions WHERE run_id=?',(self.current['id'],))]))
    notes=self.operator_notes();write_json(folder/'operator-notes.json',notes)
    (folder/'operator-notes.md').write_text(notes['content'],encoding='utf-8')
    from grid_context import ascii_world
@@ -95,6 +107,8 @@ class RunArchive:
   with self.lock,conversation.lock,runtime.lock:
    prior=runtime.db.execute("SELECT content FROM events WHERE kind='chat_run_rotated' AND request_id=?",(request_id,)).fetchone()
    if prior:return json.loads(prior[0])
+   # world.reset() refuses while a presentation is pending; fail before anything is cleared.
+   if world.pending:raise ValueError('Stop presentation before starting a new chat')
    # Archive must finish successfully before any chat state is cleared.
    archived=self.finish(conversation,runtime,world)
    conversation.messages=[dict(role='system',content=SYSTEM)];conversation.task=None;conversation.save()
@@ -102,6 +116,7 @@ class RunArchive:
    note=runtime.notepad();runtime.write_notepad('',note['revision'],'operator-new-chat:'+request_id)
    world.reset()
    self.start(conversation,runtime,world,'operator_new_chat')
+   runtime.agent.reset_run(self.current['id'])
    result=dict(**archived,new_run_id=self.current['id'],position_reset=True,notepad_cleared=True)
    runtime.event('chat_run_rotated',json.dumps(result),request_id)
    return result

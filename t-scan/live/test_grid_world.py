@@ -11,7 +11,7 @@ class GridTests(unittest.TestCase):
   poll(self.w);return self.w.nominate(name,args or {},turn or uuid.uuid4().hex,obs or self.w.observe()['observation_id'],'call')
  def settle(self,r):self.assertTrue(self.w.acknowledge('test',r['action_id'],self.w.state['session_id']))
  def test_spawn_and_exact_tools(self):
-  self.assertEqual(self.w.observe()['self'],dict(id='steve',col=5,row=5,facing='north'));self.assertEqual({t['function']['name'] for t in TOOLS},set(DIRECTIONS)|{'complete','task_list_read','task_list_write','task_mark_complete'})
+  self.assertEqual(self.w.observe()['self'],dict(id='steve',col=5,row=5,facing='north'));self.assertEqual({t['function']['name'] for t in TOOLS},set(DIRECTIONS)|{'complete','task_list_read','task_list_write','task_mark_complete','task_remove','agent_read','assertion_write','assertion_cite','assertion_link','intention_write','plan_handoff','request_replan'})
   for t in TOOLS:
    if t['function']['name'] in set(DIRECTIONS)|{'complete','task_list_read'}:self.assertEqual(t['function']['parameters']['properties'],{})
  def test_five_flags_are_distinct_visible_and_occupiable(self):

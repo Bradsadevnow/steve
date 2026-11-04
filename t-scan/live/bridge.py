@@ -2,6 +2,7 @@
 import argparse, json, threading, uuid, sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from urllib.parse import urlsplit,parse_qs
 from runtime_store import RuntimeStore
 ROOT=Path(__file__).resolve().parents[1]
 runtime=None
@@ -29,6 +30,30 @@ class Handler(BaseHTTPRequestHandler):
         try: self.wfile.write(body)
         except (ConnectionError,OSError): pass
     def do_GET(self):
+        if not self.allowed():return self.send_json(dict(error='Forbidden request origin'),403)
+        route=urlsplit(self.path);query=parse_qs(route.query)
+        if route.path=='/self-view':
+            from self_view import build
+            with lock:health=dict(state)
+            return self.send_json(build(runtime,grid_world,run_archive.current['id'] if run_archive else grid_world.state['session_id'],health))
+        if route.path=='/agent-state':
+            from movement_tools import registry
+            with runtime.lock:
+                phase=runtime.agent.phase();rows=runtime.db.execute('SELECT * FROM agent_decisions ORDER BY time DESC LIMIT 8').fetchall()
+                decisions=[dict(row) for row in rows]
+                for decision in decisions:
+                    for field in ('context','command','receipt'):
+                        if decision[field]:decision[field]=json.loads(decision[field])
+                run_id=run_archive.current['id'] if run_archive else grid_world.state['session_id']
+                plan=runtime.agent.get('plan','current')
+                if plan and plan['run_id']!=run_id:plan=None
+                payload=dict(identity='Steve',records=[runtime.agent.describe(r) for r in runtime.agent.records() if r['owner'] in ('self','doctrine','intention')],phase=phase,plan=plan,evidence_assessment=runtime.agent.assess(plan,run_id),continuation_running=grid_world.running,capabilities=[t['function']['name'] for t in registry(phase=phase['phase']).TOOLS],decisions=decisions,authority='Stored claims and records; decision context manifests identify actual supplied material.')
+            return self.send_json(payload)
+        if route.path=='/agent-state/graph':return self.send_json(runtime.agent.graph())
+        if route.path=='/agent-state/history':
+            owner=query.get('owner',['self'])[0];record_id=query.get('id',[''])[0]
+            if owner not in ('self','doctrine','intention','plan','orchestration'):return self.send_json(dict(error='Invalid owner'),400)
+            return self.send_json(dict(owner=owner,id=record_id,revisions=runtime.agent.history(owner,record_id)))
         if self.path=='/operator-notes':return self.send_json(run_archive.operator_notes())
         if self.path=='/grid/state':return self.send_json(grid_world.observe())
         if self.path=='/notepad':
@@ -51,8 +76,20 @@ class Handler(BaseHTTPRequestHandler):
             snapshot['nodeSamples']=len(snapshot.pop('nodes',[]))
             snapshot['displayLinks']=len(snapshot.pop('edges',[]))
         self.send_json(snapshot)
+    def allowed(self,post=False):
+        """Loopback-only API. Reject browser cross-origin requests and DNS-rebinding Host values.
+
+        Browsers always attach Origin to cross-origin writes and cannot send application/json cross-origin
+        without a preflight this server never answers. The Unity viewer and batch runner send neither Origin
+        nor a foreign Host, and already send Content-Type: application/json.
+        """
+        port=str(self.server.server_address[1])
+        if (self.headers.get('Host') or '').lower() not in ('127.0.0.1:'+port,'localhost:'+port):return False
+        if self.headers.get('Origin') is not None:return False
+        return not post or (self.headers.get('Content-Type') or '').lower().startswith('application/json')
     def do_POST(self):
         global pending
+        if not self.allowed(True):return self.send_json(dict(error='Forbidden request origin or content type'),403)
         if self.path=='/operator-notes':
             from run_archive import OperatorNotesConflict
             try:
@@ -73,7 +110,7 @@ class Handler(BaseHTTPRequestHandler):
                 with lock:
                     if pending is not None or active_kind is not None or grid_world.pending:return self.send_json(dict(error='Stop or wait for the current turn and presentation before starting a new chat'),409)
                     result=run_archive.new_chat(conversation,runtime,grid_world,key)
-                    state.update(status='ready',text='',token='',reasoningText='',reasoningToken='',reasoningTokens=0,reasoningActive=False,error='',lastTools=[],usage=None,generatedTokens=0,requestId='',index=0)
+                    state.update(status='ready',text='',token='',reasoningText='',reasoningToken='',reasoningTokens=0,reasoningActive=False,error='',lastTools=[],usage=None,generatedTokens=0,requestId='',index=0,epoch=None,context=None)
                 return self.send_json(result)
             except (ValueError,KeyError) as error:return self.send_json(dict(error=str(error)),400)
             except Exception as error:return self.send_json(dict(error='Archive/new chat failed: '+str(error)),500)
@@ -92,6 +129,11 @@ class Handler(BaseHTTPRequestHandler):
                 if self.path=='/grid/ack':return self.send_json(dict(accepted=grid_world.acknowledge(data['client_id'],data['action_id'],data['session_id'])))
                 action=data['action']
                 with lock:
+                    expected=data.get('expected_origin_request_id')
+                    if expected is not None:
+                        if action!='stop' or not isinstance(expected,str) or not expected:raise ValueError('An origin guard requires stop and a nonempty request ID')
+                        if grid_world.loop_origin!=expected or (pending is not None and pending['requestId']!=expected):
+                            return self.send_json(dict(outcome='control_skipped',reason='Conversation ownership changed'),409)
                     if action in ('run','reset') and (pending is not None or active_kind is not None):return self.send_json(dict(error='Wait for the current turn to finish'),409)
                     value=grid_world.control(action)
                     runtime.event('operator_grid_control',json.dumps(dict(action=action,state=value)))

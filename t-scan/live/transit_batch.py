@@ -9,6 +9,8 @@ from atomic_json import write_json
 
 ROUTES=[['blue','red','yellow'],['purple','orange','blue'],['yellow','blue','red'],['red','purple','orange'],['orange','yellow','purple'],['blue','orange','red'],['purple','yellow','blue'],['red','blue','orange'],['yellow','purple','red'],['orange','red','yellow']]
 
+class HumanTakeover(Exception):pass
+
 def grade(events,route,landmarks):
  settled={e['action_id'] for e in events if e.get('kind')=='presentation_result' and e.get('status')=='settled'}
  locations={(v['col'],v['row']):v['color'] for v in landmarks};visits=[];progress=0;steps=0;blocked=0
@@ -30,7 +32,12 @@ def main():
  def api(route,data=None):
   req=urllib.request.Request(args.endpoint+route,data=None if data is None else json.dumps(data).encode(),headers={'Content-Type':'application/json'})
   with urllib.request.urlopen(req,timeout=8) as r:return json.load(r)
- def stop():api('/grid/control',dict(action='stop'))
+ def stop():
+  if not report.get('current_request_id'):return
+  try:api('/grid/control',dict(action='stop',expected_origin_request_id=report['current_request_id']))
+  except urllib.error.HTTPError as error:
+   if error.code!=409:raise
+   raise HumanTakeover('Human conversation took over; batch released control') from error
  def drain():
   deadline=time.monotonic()+150
   while time.monotonic()<deadline:
@@ -63,7 +70,7 @@ def main():
     if not state['world_ready']:raise RuntimeError('Unity disconnected; batch halted')
     if health['status']=='error':raise RuntimeError('Inference failed: '+health.get('error',''))
     if loop['origin_request_id']==request_id:activated=True
-    elif activated and loop['origin_request_id']!=request_id:raise RuntimeError('New human request detected; batch halted')
+    elif activated and loop['origin_request_id']!=request_id:raise HumanTakeover('New human request detected; batch released control without stopping the conversation')
     if activated and not state['running']:
      ending=loop['pause_reason']
      if ending=='operator':report.update(status='cancelled',reason='Operator Stop');save();return
@@ -75,6 +82,8 @@ def main():
    result=dict(test=number,route=route,prompt=prompt,run_id=run_id,request_id=request_id,ending=ending,elapsed_seconds=time.time()-started,final_state=final,**grade(events,route,state['visible_targets']))
    rotation=rotate();result['archive']=rotation;report['results'].append(result);save()
   report.update(status='complete',finished_at_unix=time.time(),passed=sum(r['passed'] for r in report['results']));save()
+ except HumanTakeover as error:
+  report.update(status='cancelled',reason=str(error),finished_at_unix=time.time());save()
  except BaseException as error:
   try:stop()
   except Exception:pass

@@ -1,6 +1,6 @@
 # Steve backend
 
-The active meadow harness is `live/bridge.py`, launched by `Start-TScan.ps1`. It uses Python's standard library and calls LM Studio for inference.
+The active meadow harness is `live/bridge.py`, launched by `Start-Steve.ps1`. It uses Python's standard library and calls LM Studio for inference.
 
 - [Run and verify](../docs/RUNNING.md)
 - [Architecture](../docs/ARCHITECTURE.md)

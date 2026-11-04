@@ -1,5 +1,5 @@
 """One authoritative grid writer, separate mechanical admission and cosmetic presentation."""
-import copy,json,threading,time,uuid
+import copy,json,sys,threading,time,uuid
 from pathlib import Path
 from movement_tools import DIRECTIONS,COMPLETE
 from atomic_json import write_json
@@ -9,10 +9,22 @@ class GridWorld:
  def __init__(self,path,clock=time.monotonic,authorizer=None):
   self.path=Path(path);self.clock=clock;self.authorizer=authorizer;self.lock=threading.Condition(threading.RLock());self.receipts=[];self.used_turns=set();self.pending=None;self.enabled=True;self.running=False;self.last_poll=-1e9;self.presenter='';self.last_action=None
   self.loop_origin=None;self.pause_reason='startup';self.definition_confirmed=False
-  if self.path.exists():
-   self.state=json.loads(self.path.read_text())
+  self._digest=None
+  if self.path.exists():self._load()
   else:self._initial()
   self.save()
+ def _load(self):
+  """Resume saved state; a truncated or malformed file is set aside, loudly, instead of blocking startup."""
+  try:
+   state=json.loads(self.path.read_text(encoding='utf-8'));a=state['avatar']
+   if not (isinstance(state,dict) and state.get('world_id')=='steve_grid_v1' and isinstance(state.get('session_id'),str) and type(state.get('observation_seq')) is int and type(state.get('world_revision')) is int and type(a['col']) is int and type(a['row']) is int and 1<=a['col']<=10 and 1<=a['row']<=10 and a.get('facing') in ('north','south','east','west')):raise ValueError('unexpected grid state shape')
+   self.state=state
+  except (OSError,ValueError,KeyError,TypeError) as error:
+   aside=self.path.with_name(self.path.name+'.corrupt-'+time.strftime('%Y%m%d-%H%M%S'))
+   try:self.path.replace(aside)
+   except OSError:aside=None
+   print('WARNING: grid state unreadable ('+str(error)+'); '+('kept as '+str(aside) if aside else 'could not be moved')+'; starting a fresh grid session',file=sys.stderr,flush=True)
+   self._initial()
  def _initial(self):
   definition=copy.deepcopy(getattr(self,'state',{}).get('world_definition'))
   self.state=dict(world_id='steve_grid_v1',session_id=uuid.uuid4().hex,observation_seq=0,world_revision=0,avatar=dict(id='steve',col=5,row=5,facing='north'))
@@ -46,7 +58,9 @@ class GridWorld:
    adjacent={n[5:]:dict(terrain='open_floor' if 1<=a['col']+d[0]<=10 and 1<=a['row']+d[1]<=10 else 'board_edge',target=locations.get((a['col']+d[0],a['row']+d[1]))) for n,d in DIRECTIONS.items()}
    standing=[t['id'] for t in targets if (a['col'],a['row'])==(t['col'],t['row'])]
    state={k:copy.deepcopy(v) for k,v in self.state.items() if k not in ('targets','landmarks_version','world_definition')}
-   digest=validate_manifest(definition)[1] if definition else ''
+   if not definition:digest=''
+   elif self._digest and self._digest[0] is definition:digest=self._digest[1]
+   else:digest=validate_manifest(definition)[1];self._digest=(definition,digest)
    provenance=dict(source='unity_environment',world_id=self.state['world_id'],revision=definition['revision'] if definition else None,manifest_hash=digest,status='confirmed' if self.world_ready else 'disconnected' if self.definition_confirmed else 'awaiting_unity_manifest')
    return dict(schema=SCHEMA,**state,world_ready=self.world_ready,world_manifest_hash=digest,world_definition=provenance,observation_id=f"{self.state['session_id']}:obs-{self.state['observation_seq']:04}",self=copy.deepcopy(a),board=dict(columns=10,rows=10,north='row+1',east='col+1'),visible_targets=copy.deepcopy(targets),surroundings=adjacent,standing_on=standing,last_action=copy.deepcopy(self.last_action),available_tools=[*DIRECTIONS,COMPLETE],enabled=self.enabled,running=self.running,decision_loop=dict(active=self.running,origin_request_id=self.loop_origin,pause_reason=self.pause_reason),presentation=copy.deepcopy(self.pending))
  def wake(self,request_id):
@@ -58,6 +72,12 @@ class GridWorld:
    if self.running and not self.pending:
     self.running=False;self.pause_reason='no_action'
     self._log(dict(kind='decision_loop_idle',source='controller',reason='no_tool_requested',origin_request_id=self.loop_origin,session_id=self.state['session_id']))
+ def stall(self,epochs):
+  """The loop made no progress for several epochs in a row: hand control back, say why, choose nothing."""
+  with self.lock:
+   if self.running:
+    self.running=False;self.pause_reason='stalled'
+    self._log(dict(kind='decision_loop_stalled',source='controller',reason='repeated_rejection',epochs=epochs,origin_request_id=self.loop_origin,session_id=self.state['session_id']))
  def reset(self):
   with self.lock:
    if self.pending:raise ValueError('Stop presentation before resetting')
@@ -100,7 +120,7 @@ class GridWorld:
        else:outcome='blocked_boundary'
    self.used_turns.add(turn);self.state['observation_seq']+=1
    if after!=before:self.state['avatar']=after;self.state['world_revision']+=1
-   receipt=dict(action_id='act-'+uuid.uuid4().hex,call_id=call_id,turn_id=turn,session_id=self.state['session_id'],observation_id=observation,action=name,decision=decision,decision_basis=why or outcome,outcome=outcome,position_before=[before['col'],before['row']],position_after=[after['col'],after['row']],facing_before=before['facing'],facing_after=after['facing'],world_revision=self.state['world_revision'],observation_seq=self.state['observation_seq'],presentation_status='not_required')
+   receipt=dict(action_id='act-'+uuid.uuid4().hex,call_id=call_id,turn_id=turn,session_id=self.state['session_id'],observation_id=observation,action=str(name)[:64],decision=decision,decision_basis=why or outcome,outcome=outcome,position_before=[before['col'],before['row']],position_after=[after['col'],after['row']],facing_before=before['facing'],facing_after=after['facing'],world_revision=self.state['world_revision'],observation_seq=self.state['observation_seq'],presentation_status='not_required')
    if outcome in ('moved','blocked_boundary'):
     receipt['presentation_status']='pending';self.pending=copy.deepcopy(receipt)
    self.last_action=receipt;self.receipts.append(receipt);self.save();self._log(receipt);return copy.deepcopy(receipt)

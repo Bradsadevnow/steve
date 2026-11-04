@@ -153,9 +153,7 @@ namespace Steve.TScan
                 var body=AvatarPanel;
                 Fill(new Rect(body.x,body.y,body.width,42),panel);
                 GUI.Label(new Rect(body.x+10,body.y+12,Mathf.Max(0,body.width-335),22),"STEVE / MEADOW",caption);
-                var bridge=DashboardBody?.GetComponent<SteveBridge>();
-                if(GUI.Button(new Rect(body.xMax-238,body.y+6,66,29),OrbitEnabled?"Orbit on":"Orbit off",OrbitEnabled?accentButton:flatButton))SetOrbit(!OrbitEnabled);
-                if(GUI.Button(new Rect(body.xMax-164,body.y+6,52,29),"Stop",flatButton)){bridge?.Pause();}
+                if(GUI.Button(new Rect(body.xMax-178,body.y+6,66,29),OrbitEnabled?"Orbit on":"Orbit off",OrbitEnabled?accentButton:flatButton))SetOrbit(!OrbitEnabled);
                 if(GUI.Button(new Rect(body.xMax-104,body.y+6,96,29),memoryFlyout?"Close memory":"Memory",memoryFlyout?accentButton:flatButton))SetMemoryFlyout(!memoryFlyout);
                 if(memoryFlyout){
                     var flyout=new Rect(body.x,body.y+42,body.width,body.height-42);
@@ -170,7 +168,7 @@ namespace Steve.TScan
             var current=latestFrame??frame;
             bool online=Connection=="CONNECTED";
             GUI.enabled=online&&!sending&&!newChatBusy&&current.status!="generating"&&current.status!="using_tool"&&current.status!="queued";
-            if(GUI.Button(new Rect(width-116,20,94,28),new GUIContent(newChatBusy?"Archiving...":"Reset","Save your notes and archive this run, then clear chat and notepad and reset Steve to his starting position."),flatButton))StartNewChat();
+            if(GUI.Button(new Rect(width-116,20,94,28),new GUIContent(newChatBusy?"Archiving...":"Reset","Archive this run, then clear chat and tasks and reset Steve to his starting position."),flatButton))StartNewChat();
             GUI.enabled=true;
             GUI.Label(new Rect(22,55,width-44,36),online?$"{(sending?"Respondingâ€¦":"Connected")}  /  {current.status}\nLM Studio Â· output {current.generatedTokens:N0} tokens reported": "Bridge offline",caption);
             float archiveNotice=string.IsNullOrEmpty(newChatStatus)?0:32;

@@ -25,12 +25,12 @@ class GridContractTests(unittest.TestCase):
    def wait(self,key):return dict(outcome='moved',presentation_status='settled')
    def reject(self,*args):self.rejected+=1;return dict(outcome='rejected_conflict')
   c=Client();d=Dispatch();events=list(chat_events(c,[],d,'turn',registry(),.1,lambda:'CURRENT STATE',lambda m:None,lambda:False));return c,d,events
- def test_native_zero_argument_call_ends_decision_after_one_action(self):
-  c,d,e=self.exercise([dict(id='a',type='function',function=dict(name='move_east',arguments='{}'))]);self.assertEqual(c.count,1);self.assertEqual(d.executed,1);self.assertEqual(e[-1]['reason'],'action_resolved')
+ def test_scheduled_turn_bounds_three_separate_zero_argument_decisions(self):
+  c,d,e=self.exercise([dict(id='a',type='function',function=dict(name='move_east',arguments='{}'))]);self.assertEqual(c.count,3);self.assertEqual(d.executed,3);self.assertEqual(e[-1]['reason'],'tool_call_limit')
  def test_conflicting_batch_executes_nothing(self):
   calls=[dict(id=n,type='function',function=dict(name=n,arguments='{}')) for n in ('move_east','move_north')];c,d,e=self.exercise(calls);self.assertEqual(d.executed,0);self.assertEqual(d.rejected,2)
  def test_coordinate_arguments_are_rejected(self):
-  c,d,e=self.exercise([dict(id='a',type='function',function=dict(name='move_east',arguments='{"col":8}'))]);self.assertEqual(d.executed,0);self.assertEqual(d.rejected,1)
+  c,d,e=self.exercise([dict(id='a',type='function',function=dict(name='move_east',arguments='{"col":8}'))]);self.assertEqual(d.executed,0);self.assertEqual(d.rejected,3)
  def test_clock_tick_does_not_assign_a_goal(self):
   with tempfile.TemporaryDirectory() as t:
    store=RuntimeStore(Path(t)/'memory.db')

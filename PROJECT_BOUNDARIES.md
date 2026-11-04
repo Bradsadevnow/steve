@@ -4,7 +4,7 @@ This workspace contains three independent projects:
 
 | Project | Entry point | Owns |
 | --- | --- | --- |
-| Steve | `t-scan/Start-TScan.ps1`; Unity `TScanViewer/Assets/TScan/Observatory.unity` | Embodied agent, LM Studio inference, identity, authored memory, simulated affect, meadow interaction |
+| Steve | `t-scan/Start-Steve.ps1`; Unity `TScanViewer/Assets/TScan/Observatory.unity` | Embodied agent, LM Studio inference, identity, authored memory, simulated affect, meadow interaction |
 | PleaseHold | Unity `PleaseHold/Assets/Scenes/PleaseHold.unity` | Human-playable game; point-and-click jobs/progression direction |
 | PleaseHoldShorts | `PleaseHoldShorts/Production/Episode_001/episode_001_filming_set.blend` | Independent Blender production |
 

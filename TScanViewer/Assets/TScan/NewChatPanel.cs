@@ -19,8 +19,6 @@ namespace Steve.TScan {
   }
   IEnumerator ArchiveAndNewChat(){
    newChatBusy=true;newChatStatus="Archiving this run...";
-   yield return FlushOperatorNotes();
-   if(!operatorNotesResetReady){newChatStatus="Reset cancelled: your notes have not saved.";newChatBusy=false;yield break;}
    if(string.IsNullOrEmpty(newChatRequestId))newChatRequestId=Guid.NewGuid().ToString("N");
    using(var request=new UnityWebRequest(Endpoint+"/chat/new","POST")){
     request.uploadHandler=new UploadHandlerRaw(Encoding.UTF8.GetBytes(JsonUtility.ToJson(new NewChatRequest{request_id=newChatRequestId})));
@@ -29,7 +27,7 @@ namespace Steve.TScan {
     NewChatResponse result=null;
     try{result=JsonUtility.FromJson<NewChatResponse>(request.downloadHandler.text);}catch(Exception){}
     if(request.result==UnityWebRequest.Result.Success&&!string.IsNullOrEmpty(result?.archive_path)){
-     lastChatArchivePath=result.archive_path;newChatStatus="Archived. Fresh run ready.";newChatRequestId="";ResetOperatorNotesView();
+     lastChatArchivePath=result.archive_path;newChatStatus="Archived. Fresh run ready.";newChatRequestId="";
      chat.Clear();pendingChat=null;activeRequest="";prompt="";chatScroll=Vector2.zero;autoFollowChat=true;
     }else newChatStatus=result?.error??request.error??"Could not archive this run.";
    }

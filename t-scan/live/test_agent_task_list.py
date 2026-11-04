@@ -23,6 +23,16 @@ class TaskListTests(unittest.TestCase):
  def test_single_task_write_preserves_other_tasks_and_order(self):
   self.write();self.write('red','Visit red','in_progress',1,'red');self.write('blue','Revised blue','completed',2,'revise')
   self.assertEqual(context(self.runtime)['tasks'],[dict(id='blue',title='Revised blue',status='completed'),dict(id='red',title='Visit red',status='in_progress')])
+ def test_remove_is_agent_owned_audited_revision_checked_and_replay_safe(self):
+  self.write();self.write('red','Visit red','pending',1,'red')
+  def remove(task_id,revision,key):return self.dispatch.wait(self.dispatch.submit(dict(task_id=task_id,expected_revision=revision),key,tool='task_remove'))
+  self.assertEqual(remove('blue',1,'stale')['outcome'],'rejected_stale_task_list')
+  self.assertEqual(remove('missing',2,'unknown')['outcome'],'rejected_unknown_task')
+  first=remove('blue',2,'remove');self.assertEqual(first['outcome'],'task_removed');self.assertEqual(remove('blue',2,'remove'),first)
+  self.assertEqual(context(self.runtime)['tasks'],[dict(id='red',title='Visit red',status='pending')]);self.assertFalse(self.world.receipts)
+  history=[json.loads(r[0])['notepad']['content'] for r in self.runtime.db.execute("SELECT content FROM events WHERE kind='notepad_edit' ORDER BY id")]
+  self.assertIn('Visit blue',history[-2]);self.assertNotIn('Visit blue',history[-1])
+  self.assertIn('task_remove',registry(phase='planner').SCHEMAS);self.assertNotIn('task_remove',registry(phase='executor').SCHEMAS)
  def test_only_agent_calls_change_tasks_and_unsupported_claims_are_not_certified(self):
   self.world.state['avatar'].update(col=8,row=7);self.assertEqual(context(self.runtime)['tasks'],[]);self.write();self.world.state['avatar'].update(col=5,row=5);result=self.mark()
   self.assertEqual(result['outcome'],'task_marked_complete');self.assertEqual(context(self.runtime)['tasks'][0]['status'],'completed');self.assertIn('not independently verified',context(self.runtime)['authority']);self.assertFalse(self.world.receipts)

@@ -48,7 +48,7 @@ class NotepadTests(unittest.TestCase):
    def stream(client,messages,*args):
     seen.append(copy.deepcopy(messages));yield dict(kind='response',text='Keeping track.',calls=[dict(id='provider',type='function',function=dict(name='notepad_write',arguments=json.dumps(dict(content='Goal: red flag',expected_revision=0))))],finish='tool_calls')
   events=list(chat_events(Client(),conversation.messages,self.dispatch,'human',registry(),.1,lambda:conversation.context(self.dispatch),conversation.checkpoint,lambda:False))
-  self.assertEqual(events[-1]['reason'],'action_resolved');self.assertEqual(self.store.notepad()['revision'],0)
+  self.assertEqual(events[-1]['reason'],'tool_call_limit');self.assertEqual(self.store.notepad()['revision'],0)
   self.assertEqual(conversation.messages[-1]['role'],'tool');self.assertEqual(conversation.messages[-1]['tool_call_id'],conversation.messages[-2]['tool_calls'][0]['id'])
   self.assertEqual(json.loads(conversation.messages[-1]['content'])['outcome'],'rejected_schema')
  def test_conflicting_note_and_movement_batch_commits_neither(self):
