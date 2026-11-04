@@ -1,0 +1,168 @@
+{
+  "project_owner": "Steve",
+  "name": "Meadow kit 001",
+  "cell_size_m": 2,
+  "board_cells": [
+    10,
+    10
+  ],
+  "movement_plane_z": 0,
+  "logical_obstructions": [],
+  "runtime_status": "Art only; no engine or governance changes.",
+  "assets": [
+    {
+      "id": "Ground_2m_Variant_01",
+      "file": "exports/Ground_2m_Variant_01.glb",
+      "role": "ground",
+      "vertices": 81,
+      "triangles": 128
+    },
+    {
+      "id": "Ground_2m_Variant_02",
+      "file": "exports/Ground_2m_Variant_02.glb",
+      "role": "ground",
+      "vertices": 81,
+      "triangles": 128
+    },
+    {
+      "id": "Ground_2m_Variant_03",
+      "file": "exports/Ground_2m_Variant_03.glb",
+      "role": "ground",
+      "vertices": 81,
+      "triangles": 128
+    },
+    {
+      "id": "Ground_2m_Variant_04",
+      "file": "exports/Ground_2m_Variant_04.glb",
+      "role": "ground",
+      "vertices": 81,
+      "triangles": 128
+    },
+    {
+      "id": "Grass_Tuft_01",
+      "file": "exports/Grass_Tuft_01.glb",
+      "role": "decoration",
+      "vertices": 96,
+      "triangles": 80
+    },
+    {
+      "id": "Grass_Tuft_02",
+      "file": "exports/Grass_Tuft_02.glb",
+      "role": "decoration",
+      "vertices": 120,
+      "triangles": 100
+    },
+    {
+      "id": "Grass_Tuft_03",
+      "file": "exports/Grass_Tuft_03.glb",
+      "role": "decoration",
+      "vertices": 144,
+      "triangles": 120
+    },
+    {
+      "id": "Grass_Tuft_04",
+      "file": "exports/Grass_Tuft_04.glb",
+      "role": "decoration",
+      "vertices": 168,
+      "triangles": 140
+    },
+    {
+      "id": "Grass_Tuft_05",
+      "file": "exports/Grass_Tuft_05.glb",
+      "role": "decoration",
+      "vertices": 192,
+      "triangles": 160
+    },
+    {
+      "id": "Daisy_Cream",
+      "file": "exports/Daisy_Cream.glb",
+      "role": "decoration",
+      "vertices": 711,
+      "triangles": 894
+    },
+    {
+      "id": "Buttercup_Gold",
+      "file": "exports/Buttercup_Gold.glb",
+      "role": "decoration",
+      "vertices": 531,
+      "triangles": 702
+    },
+    {
+      "id": "Wildflower_Lilac",
+      "file": "exports/Wildflower_Lilac.glb",
+      "role": "decoration",
+      "vertices": 531,
+      "triangles": 702
+    },
+    {
+      "id": "Clover_Pink",
+      "file": "exports/Clover_Pink.glb",
+      "role": "decoration",
+      "vertices": 1257,
+      "triangles": 2286
+    },
+    {
+      "id": "Bush_Round",
+      "file": "exports/Bush_Round.glb",
+      "role": "obstruction_candidate",
+      "vertices": 2058,
+      "triangles": 2912
+    },
+    {
+      "id": "Bush_Low_Spreading",
+      "file": "exports/Bush_Low_Spreading.glb",
+      "role": "obstruction_candidate",
+      "vertices": 2058,
+      "triangles": 2912
+    },
+    {
+      "id": "Bush_Flowering",
+      "file": "exports/Bush_Flowering.glb",
+      "role": "obstruction_candidate",
+      "vertices": 2772,
+      "triangles": 4256
+    },
+    {
+      "id": "Tree_Oak_Soft",
+      "file": "exports/Tree_Oak_Soft.glb",
+      "role": "obstruction_candidate",
+      "vertices": 5063,
+      "triangles": 7270
+    },
+    {
+      "id": "Tree_Aspen_Tall",
+      "file": "exports/Tree_Aspen_Tall.glb",
+      "role": "obstruction_candidate",
+      "vertices": 5063,
+      "triangles": 7270
+    },
+    {
+      "id": "Tree_Maple_Goldgreen",
+      "file": "exports/Tree_Maple_Goldgreen.glb",
+      "role": "obstruction_candidate",
+      "vertices": 5063,
+      "triangles": 7270
+    },
+    {
+      "id": "Rock_Moss_01",
+      "file": "exports/Rock_Moss_01.glb",
+      "role": "obstruction_candidate",
+      "vertices": 52,
+      "triangles": 100
+    },
+    {
+      "id": "Rock_Moss_02",
+      "file": "exports/Rock_Moss_02.glb",
+      "role": "obstruction_candidate",
+      "vertices": 52,
+      "triangles": 100
+    },
+    {
+      "id": "Rock_Moss_03",
+      "file": "exports/Rock_Moss_03.glb",
+      "role": "obstruction_candidate",
+      "vertices": 52,
+      "triangles": 100
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+# The active meadow backend uses only Python 3.12's standard library.
+# LM Studio owns inference. Original research scripts have separate dependencies.

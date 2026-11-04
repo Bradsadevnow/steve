@@ -1,0 +1,339 @@
+{
+  "passed": true,
+  "flat_surface": true,
+  "tile_count": 100,
+  "matching_tile_border_colors": true,
+  "roundtrip_assets": 22,
+  "roundtrip": [
+    {
+      "asset": "Ground_2m_Variant_01",
+      "meshes": 1,
+      "bounds_min": [
+        -1.0,
+        -1.0,
+        0.0
+      ],
+      "bounds_max": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Ground_2m_Variant_02",
+      "meshes": 1,
+      "bounds_min": [
+        -1.0,
+        -1.0,
+        0.0
+      ],
+      "bounds_max": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Ground_2m_Variant_03",
+      "meshes": 1,
+      "bounds_min": [
+        -1.0,
+        -1.0,
+        0.0
+      ],
+      "bounds_max": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Ground_2m_Variant_04",
+      "meshes": 1,
+      "bounds_min": [
+        -1.0,
+        -1.0,
+        0.0
+      ],
+      "bounds_max": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Grass_Tuft_01",
+      "meshes": 1,
+      "bounds_min": [
+        -0.11805912852287292,
+        -0.09576459974050522,
+        0.0
+      ],
+      "bounds_max": [
+        0.05595110356807709,
+        0.07352248579263687,
+        0.37886202335357666
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Grass_Tuft_02",
+      "meshes": 1,
+      "bounds_min": [
+        -0.05755351111292839,
+        -0.10650434345006943,
+        0.0
+      ],
+      "bounds_max": [
+        0.08264980465173721,
+        0.08610174059867859,
+        0.4024583697319031
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Grass_Tuft_03",
+      "meshes": 1,
+      "bounds_min": [
+        -0.12748689949512482,
+        -0.09942660480737686,
+        0.0
+      ],
+      "bounds_max": [
+        0.07013557106256485,
+        0.11319457739591599,
+        0.4507843852043152
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Grass_Tuft_04",
+      "meshes": 1,
+      "bounds_min": [
+        -0.12409867346286774,
+        -0.11946640908718109,
+        0.0
+      ],
+      "bounds_max": [
+        0.06704731285572052,
+        0.1273137927055359,
+        0.4826010465621948
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Grass_Tuft_05",
+      "meshes": 1,
+      "bounds_min": [
+        -0.08800844848155975,
+        -0.1378842294216156,
+        0.0
+      ],
+      "bounds_max": [
+        0.13613206148147583,
+        0.10626862943172455,
+        0.4599441885948181
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Daisy_Cream",
+      "meshes": 1,
+      "bounds_min": [
+        -0.21661868691444397,
+        -0.1533130407333374,
+        0.0
+      ],
+      "bounds_max": [
+        0.23423723876476288,
+        0.18130023777484894,
+        0.38243207335472107
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Buttercup_Gold",
+      "meshes": 1,
+      "bounds_min": [
+        -0.0859752744436264,
+        -0.11789901554584503,
+        0.0
+      ],
+      "bounds_max": [
+        0.2731659412384033,
+        0.09012162685394287,
+        0.3574957847595215
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Wildflower_Lilac",
+      "meshes": 1,
+      "bounds_min": [
+        -0.047999750822782516,
+        0.01438046619296074,
+        0.0
+      ],
+      "bounds_max": [
+        0.2482244074344635,
+        0.19317291676998138,
+        0.40166017413139343
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Clover_Pink",
+      "meshes": 1,
+      "bounds_min": [
+        -0.20587646961212158,
+        -0.15726834535598755,
+        0.0
+      ],
+      "bounds_max": [
+        0.16032691299915314,
+        0.05532117187976837,
+        0.4701845347881317
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Bush_Round",
+      "meshes": 1,
+      "bounds_min": [
+        -0.842390775680542,
+        -0.85719233751297,
+        0.0
+      ],
+      "bounds_max": [
+        0.8389785289764404,
+        0.7591758370399475,
+        0.9004303216934204
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Bush_Low_Spreading",
+      "meshes": 1,
+      "bounds_min": [
+        -1.0140631198883057,
+        -1.1082534790039062,
+        0.0
+      ],
+      "bounds_max": [
+        1.1317458152770996,
+        0.8472610712051392,
+        0.6374754905700684
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Bush_Flowering",
+      "meshes": 1,
+      "bounds_min": [
+        -0.9894663095474243,
+        -0.919904351234436,
+        0.0
+      ],
+      "bounds_max": [
+        0.7990726232528687,
+        0.8498094081878662,
+        1.0390701293945312
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Tree_Oak_Soft",
+      "meshes": 1,
+      "bounds_min": [
+        -2.1553502082824707,
+        -1.8880014419555664,
+        0.0
+      ],
+      "bounds_max": [
+        2.1231496334075928,
+        1.922558069229126,
+        5.084568023681641
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Tree_Aspen_Tall",
+      "meshes": 1,
+      "bounds_min": [
+        -1.8808872699737549,
+        -1.6418118476867676,
+        0.0
+      ],
+      "bounds_max": [
+        1.8348002433776855,
+        1.7171424627304077,
+        6.2934980392456055
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Tree_Maple_Goldgreen",
+      "meshes": 1,
+      "bounds_min": [
+        -2.3181114196777344,
+        -1.9644408226013184,
+        0.0
+      ],
+      "bounds_max": [
+        2.270411968231201,
+        2.024693250656128,
+        4.553730010986328
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Rock_Moss_01",
+      "meshes": 1,
+      "bounds_min": [
+        -0.46392497420310974,
+        -0.38060230016708374,
+        0.0
+      ],
+      "bounds_max": [
+        0.5681122541427612,
+        0.3600691556930542,
+        0.4854346513748169
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Rock_Moss_02",
+      "meshes": 1,
+      "bounds_min": [
+        -0.6583220362663269,
+        -0.5308528542518616,
+        0.0
+      ],
+      "bounds_max": [
+        0.8442766070365906,
+        0.5500337481498718,
+        0.7833877801895142
+      ],
+      "vertex_colors": true
+    },
+    {
+      "asset": "Rock_Moss_03",
+      "meshes": 1,
+      "bounds_min": [
+        -0.8927229046821594,
+        -0.6941381692886353,
+        0.0
+      ],
+      "bounds_max": [
+        0.987277090549469,
+        0.7497022151947021,
+        1.065000057220459
+      ],
+      "vertex_colors": true
+    }
+  ]
+}

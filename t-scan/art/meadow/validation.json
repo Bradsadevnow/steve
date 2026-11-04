@@ -1,0 +1,14 @@
+{
+  "flat_ground": true,
+  "tile_count": 100,
+  "tile_dimensions_m": [
+    2,
+    2
+  ],
+  "trees_on_playfield": 0,
+  "bushes_on_playfield": 0,
+  "shared_decoration_meshes": 9,
+  "decoration_instances": 5230,
+  "exported_assets": 22,
+  "external_images": 0
+}
