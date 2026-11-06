@@ -63,8 +63,8 @@ namespace Steve.TScan {
 
   // ---------- construction ----------
   void BxCreate(){
-   var go=new GameObject("Builder UI"){hideFlags=HideFlags.DontSave};go.SetActive(false);
-   var ps=ScriptableObject.CreateInstance<PanelSettings>();ps.hideFlags=HideFlags.DontSave;
+   var go=new GameObject("Builder UI");go.transform.SetParent(transform,false);go.SetActive(false);
+   var ps=ScriptableObject.CreateInstance<PanelSettings>();
    ps.scaleMode=PanelScaleMode.ScaleWithScreenSize;ps.referenceResolution=new Vector2Int(1600,900);ps.screenMatchMode=PanelScreenMatchMode.MatchWidthOrHeight;ps.match=.5f;ps.sortingOrder=20;ps.clearColor=false;ps.themeStyleSheet=Resources.Load<ThemeStyleSheet>("UI/SteveTheme");
    bxDoc=go.AddComponent<UIDocument>();bxDoc.panelSettings=ps;go.SetActive(true);
    var sheet=Resources.Load<StyleSheet>("UI/builder");

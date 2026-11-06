@@ -44,10 +44,13 @@ NAMES = {
  'prop_trashcan':'Trash can','prop_vending':'Vending machine','prop_wetfloor':'Wet floor sign and mop bucket','prop_whiteboard':'Whiteboard','stairs_up':'Stairs up',
  'wall_bulletin':'Bulletin board wall','wall_clock':'Clock wall','wall_hall':'Hallway wall','wall_lockers_a':'Locker wall (teal)','wall_lockers_b':'Locker wall (navy)','wall_trophy':'Trophy case wall','wall_window':'Window wall','door_classroom':'Classroom door',
  'enemy_cart':'Cart monster','enemy_gnome':'Gnome walker','enemy_haggler':'Haggler','enemy_mannequin':'Possessed mannequin','enemy_mascot':'Bootleg mascot','enemy_goblin':'Goblin bomber','enemy_golem':'Stone golem','enemy_mimic':'Mimic','enemy_skeleton':'Skeleton knight','enemy_slime':'Slime',
- 'enemy_hall_monitor':'Hall monitor','enemy_locker':'Rogue locker','enemy_meat':'Mystery meat blob','enemy_pep_wombat':'Pep rally wombat','enemy_sub_teacher':'Substitute teacher'}
+ 'enemy_hall_monitor':'Hall monitor','enemy_locker':'Rogue locker','enemy_meat':'Mystery meat blob','enemy_pep_wombat':'Pep rally wombat','enemy_sub_teacher':'Substitute teacher',
+ 'boss_mimic_queen':'Mimic Queen','enemy_mimic_queen_mini':'Tiny mimic queen','boss_glitterfang':'Count Glitterfang','boss_archivist_mold':'Grand Archivist Mold',
+ 'boss_haggler':'The Haggler','boss_raccoon_stack':'Big Raccoon Energy','boss_dowser_dave':'Dowser Dave','boss_principal_fogwhistle':'Principal Fogwhistle',
+ 'boss_lunch_lady':'The Lunch Lady Colossus','boss_pep_rally':'Pep Rally, Incarnate'}
 ROLE_OVERRIDE = {'door_classroom': 'structure'}   # doors are structures everywhere
 # triangle budget per piece (floors are instanced 225 times in a full world)
-BUDGET = {'floor': 1800, 'default': 9000}
+BUDGET = {'floor': 1800, 'default': 9000, 'boss': 16000}   # bosses are one-off sculpts: a larger budget
 PREFIX_ROLE_WORD = {'floor', 'wall'}   # these read better as a trailing word: "Plain wall"
 def display_name(name):
     if name in NAMES: return NAMES[name]
@@ -106,7 +109,7 @@ def plan_ratios(root, budget):
 
 def bake(root, depsgraph):
     positions, normals, colors, indices = [], [], [], []
-    ratios = plan_ratios(root, BUDGET['floor'] if str(root.get('category')) == 'floor' else BUDGET['default'])
+    ratios = plan_ratios(root, BUDGET['floor'] if str(root.get('category')) == 'floor' else BUDGET['boss'] if root.get('boss') else BUDGET['default'])
     lookup = {}
     inverse = root.matrix_world.inverted()
     for ob in descendants(root):

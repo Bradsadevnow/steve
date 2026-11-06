@@ -23,7 +23,7 @@ retired={'avatar_dispatch','avatar_protocol','bench_tools','body_tools','body_pr
 checks={
  'game_has_no_inference_or_research_imports':not re.search(r'UnityWebRequest|HttpClient|SteveBridge|TScanViewer|t-scan|localhost|127\.0\.0\.1|namespace Steve\.',game_code),
  'game_sources_import_locally':'../../avatars/' not in game_code and '../../environments/' not in game_code,
- 'steve_resources_are_meadow_only':{p.name for p in (steve/'Assets/Resources').iterdir() if p.is_dir()}=={'Meadow'},
+ 'steve_resources_are_meadow_only':{p.name for p in (steve/'Assets/Resources').iterdir() if p.is_dir()}=={'Meadow','UI'},   # Meadow world art plus the interface styles
  'steve_has_no_navigation_or_game_code':not re.search(r'DungeonWorld|DungeonActor|ExplorationObservation|Office/|Apartment/|Trenchcoat/|HomeRaccoons/|Hugh Mann|PollCampaignMap',steve_code),
  'backend_has_no_retired_tools_or_campaign_imports':not re.search(r'world_step|world_observe|world_interact|map_recall|campaign_memory|world_tools|Please Hold|Hugh Mann',backend),
  'active_backend_has_no_retired_or_native_dependencies':not any(dependencies[name] & (retired|{'numpy','jinja2','sklearn','torch','transformers'}) for name in active),

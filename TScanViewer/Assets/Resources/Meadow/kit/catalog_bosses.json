@@ -1,0 +1,126 @@
+{
+ "pack": "bosses",
+ "title": "Bosses",
+ "pieces": [
+  {
+   "id": "bosses_boss_archivist_mold",
+   "name": "Grand Archivist Mold",
+   "role": "actor",
+   "blocks": true,
+   "category": "enemy",
+   "pack": "bosses",
+   "note": "Grand Archivist Mold: a floating bookshelf wizard with a spore-cloud head. Fights with an OVERDUE rubber stamp and a dripping quill.",
+   "height": 9.145,
+   "vertices": 13874,
+   "triangles": 26820
+  },
+  {
+   "id": "bosses_boss_dowser_dave",
+   "name": "Dowser Dave",
+   "role": "actor",
+   "blocks": true,
+   "category": "enemy",
+   "pack": "bosses",
+   "note": "Dowser Dave, the Inflatable Prophet: a wacky waving tube man on a leaf blower. Flails a pennant whip and points a dowsing rod.",
+   "height": 12.458,
+   "vertices": 9654,
+   "triangles": 18960
+  },
+  {
+   "id": "bosses_boss_glitterfang",
+   "name": "Count Glitterfang",
+   "role": "actor",
+   "blocks": true,
+   "category": "enemy",
+   "pack": "bosses",
+   "note": "Count Glitterfang the Brooding: a very pale, very sparkly vampire. Wields a rhinestone baseball bat and a cape of bats.",
+   "height": 6.095,
+   "vertices": 10827,
+   "triangles": 20350
+  },
+  {
+   "id": "bosses_boss_haggler",
+   "name": "The Haggler",
+   "role": "actor",
+   "blocks": true,
+   "category": "enemy",
+   "pack": "bosses",
+   "note": "The Haggler: a six-armed folding-table merchant with a megaphone beard. Every arm holds a bargain. NO REFUNDS.",
+   "height": 7.7,
+   "vertices": 14050,
+   "triangles": 27184
+  },
+  {
+   "id": "bosses_boss_lunch_lady",
+   "name": "The Lunch Lady Colossus",
+   "role": "actor",
+   "blocks": true,
+   "category": "enemy",
+   "pack": "bosses",
+   "note": "The Lunch Lady Colossus: a huge cafeteria lunch lady rising from a steam table. Swings a giant ladle of glowing gravy and serves mystery meat that fights back.",
+   "height": 13.832,
+   "vertices": 13308,
+   "triangles": 25732
+  },
+  {
+   "id": "bosses_boss_mimic_queen",
+   "name": "Mimic Queen",
+   "role": "actor",
+   "blocks": true,
+   "category": "enemy",
+   "pack": "bosses",
+   "note": "A treasure chest wearing a crown, with too many teeth and a tongue she uses as a flail. Wields a scepter and a sack of coins.",
+   "height": 5.669,
+   "vertices": 16440,
+   "triangles": 31892
+  },
+  {
+   "id": "bosses_boss_pep_rally",
+   "name": "Pep Rally, Incarnate",
+   "role": "actor",
+   "blocks": true,
+   "category": "enemy",
+   "pack": "bosses",
+   "note": "Pep Rally, Incarnate: a mascot wombat fused with an entire cheer squad. Swings a giant foam finger and a megaphone cannon.",
+   "height": 9.032,
+   "vertices": 12148,
+   "triangles": 22816
+  },
+  {
+   "id": "bosses_boss_principal_fogwhistle",
+   "name": "Principal Fogwhistle",
+   "role": "actor",
+   "blocks": true,
+   "category": "enemy",
+   "pack": "bosses",
+   "note": "Principal Fogwhistle: a spindly principal whose mouth is a PA horn. Announces attacks over the intercom. Carries a yardstick lance and a detention-slip clipboard.",
+   "height": 10.441,
+   "vertices": 7840,
+   "triangles": 15156
+  },
+  {
+   "id": "bosses_boss_raccoon_stack",
+   "name": "Big Raccoon Energy",
+   "role": "actor",
+   "blocks": true,
+   "category": "enemy",
+   "pack": "bosses",
+   "note": "Big Raccoon Energy: three raccoons in one trench coat, stacked three stories high. The one on top is in charge.",
+   "height": 9.938,
+   "vertices": 13306,
+   "triangles": 25764
+  },
+  {
+   "id": "bosses_enemy_mimic_queen_mini",
+   "name": "Tiny mimic queen",
+   "role": "actor",
+   "blocks": true,
+   "category": "enemy",
+   "pack": "bosses",
+   "note": "A tiny mimic queen: a chest the size of a footstool in a crown, snapping at ankles.",
+   "height": 1.524,
+   "vertices": 1583,
+   "triangles": 2998
+  }
+ ]
+}

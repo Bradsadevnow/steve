@@ -35,8 +35,8 @@ namespace Steve.TScan {
   }
 
   UIDocument NewUIDoc(string name,int order,out VisualElement root){
-   var go=new GameObject(name){hideFlags=HideFlags.DontSave};go.SetActive(false);
-   var ps=ScriptableObject.CreateInstance<PanelSettings>();ps.hideFlags=HideFlags.DontSave;
+   var go=new GameObject(name);go.transform.SetParent(transform,false);go.SetActive(false);
+   var ps=ScriptableObject.CreateInstance<PanelSettings>();
    ps.scaleMode=PanelScaleMode.ScaleWithScreenSize;ps.referenceResolution=new Vector2Int(1600,900);ps.screenMatchMode=PanelScreenMatchMode.MatchWidthOrHeight;ps.match=.5f;ps.sortingOrder=order;ps.clearColor=false;
    ps.themeStyleSheet=Resources.Load<ThemeStyleSheet>("UI/SteveTheme");
    var doc=go.AddComponent<UIDocument>();doc.panelSettings=ps;go.SetActive(true);
