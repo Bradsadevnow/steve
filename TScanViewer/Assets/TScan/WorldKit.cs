@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 namespace Steve.TScan {
- [Serializable] public class KitPieceInfo {public string id,name,role,category,pack,note;public bool blocks;public float height;public int vertices,triangles;}
+ [Serializable] public class KitPieceInfo {public string id,name,role,category,pack,note;public bool blocks;public int footprint=1;public string tier;public float height;public int vertices,triangles;}
  [Serializable] public class KitCatalogFile {public string pack,title;public KitPieceInfo[] pieces;}
 
  // Baked, vertex-coloured kit pieces and their role catalog (written by t-scan/art/export_kit.py).
@@ -61,6 +61,9 @@ namespace Steve.TScan {
 
   public static bool Blocks(string id)=>Info(id)?.blocks==true;
   public static string RoleOf(string id)=>Info(id)?.role;
-  public static bool IsPlaceable(KitPieceInfo piece)=>piece!=null&&piece.role!=ActorRole;
+  public static bool IsPlaceable(KitPieceInfo piece)=>piece!=null;
+  public static int FootprintOf(KitPieceInfo piece)=>piece==null?1:Mathf.Max(1,piece.footprint);
+  // What the builder files a piece under: its role, except that bosses are listed apart from other enemies.
+  public static string CategoryOf(KitPieceInfo piece)=>piece==null?"":piece.role==ActorRole&&piece.tier=="boss"?"boss":piece.role;
  }
 }

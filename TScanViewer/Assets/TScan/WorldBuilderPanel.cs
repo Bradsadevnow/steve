@@ -103,6 +103,7 @@ namespace Steve.TScan {
    outlineMaterial.SetColor("_BaseColor",hoverValid?new Color(.2f,.9f,.85f):new Color(.95f,.25f,.25f));
    var info=buildTool==BuildTool.Piece?WorldKit.Info(selectedPiece):null;
    ghost.SetActive(info!=null&&hoverValid);
+   float cells=info!=null?WorldKit.FootprintOf(info):1;outlineRenderer.transform.localScale=new Vector3(1.9f*cells+(cells>1?.2f:0),1.9f*cells+(cells>1?.2f:0),1);
    if(info!=null){ghostFilter.sharedMesh=WorldKit.MeshOf(info.id);ghost.transform.localRotation=Quaternion.Euler(0,info.role==WorldKit.FloorRole?0:buildYaw,0);ghost.transform.localPosition=Vector3.up*(info.role==WorldKit.FloorRole?.03f:0);}
   }
   void HideCursor(){if(cursorRoot!=null)cursorRoot.SetActive(false);hoverCell=false;}
@@ -125,7 +126,7 @@ namespace Steve.TScan {
    builder.Load(buildEnv.definition.manifest);builder.MarkClean();SetBaseline();buildEnv.Override=null;buildEnv.Rebuild();buildStatus="Reverted to the published world.";buildProblem=false;
   }
 
-  static int RoleRank(string role)=>System.Array.IndexOf(new[]{"floor","wall","obstacle","structure","hazard","decor"},role);
+  static int RoleRank(string role)=>System.Array.IndexOf(new[]{"floor","wall","obstacle","structure","hazard","decor","actor","boss"},role);
   static string ShortPack(string pack)=>pack=="dungeon"?"Dungeon":pack=="swap"?"Swap meet":pack=="school"?"School":WorldKit.PackTitle(pack);
  }
 }

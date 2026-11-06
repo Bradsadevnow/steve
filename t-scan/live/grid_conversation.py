@@ -6,7 +6,7 @@ from atomic_json import write_json
 from grid_context import memory_context,MEMORY_POLICY,WORLD_POLICY
 import time
 from agent_task_list import context as task_list_context
-VERSION='shared-chat-v8.5.0-built-worlds'
+VERSION='shared-chat-v8.6.0-actors'
 TRANSITION='The operator approved an execution clarification: in executor phase you execute the handed-off task yourself by choosing individual movement tools. Handing off a plan does not start automatic navigation. The X map, world, tools, receipts and continuation rules are unchanged.'
 SYSTEM='''STEVE / MEADOW MOVEMENT
 ======================

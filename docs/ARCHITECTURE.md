@@ -65,3 +65,7 @@ The world camera fills the screen; the interface is two runtime UI Toolkit docum
 - **Bubbles.** Steve's provider reasoning streams in a thought bubble anchored above him, with a short trail of earlier thoughts; his replies use a different speech bubble. The expanded thought says it is a model-generated explanation. Reasoning is displayed only; it is not stored in chat or memory.
 - **Builder.** Build mode swaps the docks for the tool rail, thumbnail palette, hotbar, overview map and Apply bar. Camera and paint input ignore pointer positions over either document (`OverUI`).
 - **Not yet done.** Custom fonts, and removal of the unused IMGUI draw methods.
+
+## Enemies and bosses in worlds
+
+The `actor` role is now placeable. Actors are static, blocking pieces that live in `obstacles` (they have no behaviour yet; combat is still being designed). A catalog entry may carry `footprint` (1 or 3; only actors may be 3): a footprint of 3 covers the 3 x 3 cells around the placement's anchor. `world_manifest.py` expands footprints to cells, rejects overlap, edges, spawn, flags and props inside them, and counts every covered cell in the reachability check. `world_manifest.expand_obstacles` gives `grid_world.py` one entry per blocked cell, so movement, `visible_obstacles` and the model's OBSTACLES lines all see the whole footprint. The Unity builder mirrors the rules (`WorldBuilder.cs`) and shows actors under an "Enemies" tab with thumbnails; a 1 x 1 piece cannot be put on a boss, and a boss cannot be put on other pieces ("erase it first").

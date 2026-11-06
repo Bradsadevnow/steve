@@ -47,7 +47,8 @@ NAMES = {
  'enemy_hall_monitor':'Hall monitor','enemy_locker':'Rogue locker','enemy_meat':'Mystery meat blob','enemy_pep_wombat':'Pep rally wombat','enemy_sub_teacher':'Substitute teacher',
  'boss_mimic_queen':'Mimic Queen','enemy_mimic_queen_mini':'Tiny mimic queen','boss_glitterfang':'Count Glitterfang','boss_archivist_mold':'Grand Archivist Mold',
  'boss_haggler':'The Haggler','boss_raccoon_stack':'Big Raccoon Energy','boss_dowser_dave':'Dowser Dave','boss_principal_fogwhistle':'Principal Fogwhistle',
- 'boss_lunch_lady':'The Lunch Lady Colossus','boss_pep_rally':'Pep Rally, Incarnate'}
+ 'boss_lunch_lady':'The Lunch Lady Colossus','boss_pep_rally':'Pep Rally, Incarnate',
+ 'dummy_unarmed':'Crash-test dummy','dummy_melee':'Crash-test dummy with sword','dummy_ranged':'Crash-test dummy with crossbow'}
 ROLE_OVERRIDE = {'door_classroom': 'structure'}   # doors are structures everywhere
 # triangle budget per piece (floors are instanced 225 times in a full world)
 BUDGET = {'floor': 1800, 'default': 9000, 'boss': 16000}   # bosses are one-off sculpts: a larger budget
@@ -68,6 +69,11 @@ def display_name(name):
         variant = ' (%s)' % words[-1].upper(); words = words[:-1]
     text = ' '.join(words)
     return text[:1].upper() + text[1:] + variant
+
+def footprint_of(root):
+    """Cells covered per side, from the piece's footprint note ('3x3 cells (6m)' -> 3). Only actors may be larger than 1."""
+    try: return int(str(root.get('footprint', '1x1')).split('x')[0])
+    except ValueError: return 1
 
 def material_color(mat):
     if mat is None: return (0.5, 0.5, 0.5, 1.0)
@@ -166,7 +172,7 @@ for root in roots:
     for i in indices: blob += struct.pack('<I', i)
     ys = [p[1] for p in positions]
     catalog.append(dict(id=pid, name=display_name(raw), role=ROLE_OVERRIDE.get(raw) or role_of(category, blocks, raw), blocks=blocks,
-                        category=category, pack=PACK, note=str(root.get('note', '')), height=round(max(ys), 3), vertices=len(positions), triangles=len(indices) // 3))
+                        category=category, pack=PACK, footprint=footprint_of(root), tier=('boss' if raw.startswith('boss_') else 'enemy'), note=str(root.get('note', '')), height=round(max(ys), 3), vertices=len(positions), triangles=len(indices) // 3))
     count += 1
 blob[8:12] = struct.pack('<I', count)
 with open(os.path.join(OUT, 'kit_%s.bytes' % PACK), 'wb') as f: f.write(blob)

@@ -1,5 +1,7 @@
 # Steve handoff — AI escape RPG and memory design
 
+**Current game-design reference:** [GAME_DESIGN.md](GAME_DESIGN.md) records the subsequent agreed direction: open-ended AI survival RPG, modular equipment-granted capabilities, a Superhot-like world-action clock, autonomous enemies, escalating danger, permanent character death and player-owned Token progression. It distinguishes agreed principles, illustrative numbers and unresolved choices. It supersedes earlier design assumptions below where they differ. We remain in design-only mode.
+
 Written 5 November 2026, America/New_York. This replaces the earlier operational handoff. Runtime status is a snapshot: read live files before acting. The prior accumulated handoff is retained in [history](history/HANDOFF-before-memory-review-20261105.md); its launch, experiment and next-action instructions are historical.
 
 ## Immediate direction from the owner
@@ -94,3 +96,42 @@ These are discussion points, not an approved implementation plan. Keep Steve's c
 Codex's navigation work is done; the world is now built from classified Blender kit pieces (manifest v3, see ARCHITECTURE.md). Four kits are exported (dungeon 25 pieces, swap meet 29, high school 34, dungeon foes 5; 93 total) with roles assigned in `t-scan/art/export_kit.py`. The runtime builder is live in Unity (Build button). Backend is `shared-chat-v8.5.0-built-worlds`, restarted from `Start-Steve.ps1`; it confirmed revision 6 of a built test world with hazards. The shipped `World.asset` is revision 5 (Codex's course re-drawn with dungeon pieces); the builder never edits it, and the last applied world resumes from `persistentDataPath/Worlds/_current.json`.
 
 Not done: enemies are exported but not placeable (role `actor` is reserved); there is no hazard, combat or turn mechanic yet; the Uni-Core avatar modules are Blender-only; no model run on a built world; the avatar (`hover.json`) is still the old hover unicorn. Nothing was committed.
+
+## Status update, 5-6 November 2026: UI, bosses, music engine (read this first)
+
+This supersedes the "Nothing was committed" line above. Git HEAD is `46e3fe0` on `main`, pushed to the public repo `Bradsadevnow/steve`. The only uncommitted files are the owner's own `docs/HANDOFF.md` edits and `docs/GAME_DESIGN.md` (the owner is designing combat there; do not overwrite or "fix" it). The game direction is in `GAME_DESIGN.md`: an AI survival RPG, "you build the world and his character, you don't control Steve". It is a design reference, not implemented.
+
+### Done and verified
+
+- **Built worlds** (see ARCHITECTURE.md "Built worlds and the asset kit"): manifest `meadow-world-v3`, roles assigned once in `t-scan/art/export_kit.py`, backend `shared-chat-v8.5.0-built-worlds`. 17 tests in `t-scan/live/test_built_world.py` pass (run from `t-scan/live`: `..\.venv\Scripts\python.exe -m unittest test_built_world`). `Tools/verify_project_boundaries.py` passes (it now allows `Resources/UI`).
+- **Unity interface rebuilt in UI Toolkit** (see ARCHITECTURE.md "Unity interface"). IMGUI draws nothing; `OnGUI` was removed. Files: `ShellUI.cs` (Steve card, Watch/Build switch, chat drawer, right rail tabs Goal/Self/Log/Debug, transport and message bar, memory graph, bubbles), `WorldBuilderUI.cs` (thumbnail palette, hotbar, tool rail, undo/redo, overview map, Apply/Revert, saved worlds), `WorldBuilderPanel.cs` (builder logic), `Resources/UI/{builder.uss,shell.uss,SteveTheme.tss}`. Steve's provider reasoning shows as a thought bubble above him, his replies as a speech bubble; the expanded thought carries a "model-generated explanation" note and is display-only. Keys: B/P/F/X tools, 1-9 hotbar, Q/E/R rotate, Ctrl+Z/Y, Tab collapses the palette, H hides the interface, Esc closes panels.
+- **Bosses**: nine static bosses and a tiny mimic queen, built from code in `t-scan/art/bosses/` (`boss_helpers.py` plus `build_dungeon.py`, `build_swap*.py`, `build_school*.py`; saved in `boss_kit.blend`; previews in `previews/`). Exported as the `bosses` pack (`Resources/Meadow/kit/kit_bosses.bytes`, `catalog_bosses.json`), role `actor`, so they are not placeable in the builder yet. Dungeon: Mimic Queen (+ tiny minion), Count Glitterfang, Grand Archivist Mold. Swap meet: The Haggler, Big Raccoon Energy, Dowser Dave. High school: Principal Fogwhistle, The Lunch Lady Colossus, Pep Rally Incarnate. Sir Gelatin was scrapped. To re-export: `blender -b t-scan/art/bosses/boss_kit.blend --python t-scan/art/export_kit.py -- TScanViewer/Assets/Resources/Meadow/kit bosses "Bosses"` (bosses get a 16,000 triangle budget via a `boss` property). To edit a boss, exec `boss_helpers.py` and the build file in Blender, rebuild that function, `park()` it, save, re-export.
+- **Credits**: `CREDITS.md` credits Andrew Edmark prominently for the music engine (see below).
+
+### Music engine: not integrated yet
+
+Andrew Edmark's "The Whimsy Machine" (https://oopismcgoopis.com/whimsy/) is a deterministic phrase-to-music engine: FNV-1a seed, a LOLCODE score of about 40 parameters, voices in Malbolge, Brainfuck, Befunge, Piet/FRACTRAN, Shakespeare, INTERCAL conductor and Inform 7 rulebooks. The owner has his permission to use it and wants only the music in Unity, standalone. The unmodified source is in `third_party/whimsy-machine/` (about 27,000 lines of JavaScript; `NOTICE.md` records provenance). **`third_party/` is deliberately git-ignored** because the source has no licence file: before it or any port is published, get a written licence from Andrew. The composer modules are pure logic (no DOM or Web Audio); only `voices.mjs`, `ensemble.mjs` and `schedulers.mjs` use Web Audio. Recommended approach: run his composers verbatim in Unity with Jint (a C# JavaScript interpreter) and write a small C# synth; spike first by running `score.mjs` plus `oracle.lol` for a phrase and checking against the website. The owner wants his deterministic controls tied to agent state, affect (`/runtime` warmth/tension/curiosity/calm/focus), world state and events. Keep audio one-way: it reads state and never writes it.
+
+### Gotchas learned this session
+
+- `TScanViewer` has `[DefaultExecutionOrder(300)]` so bubbles follow the camera. Its `Start` deactivates other cameras, so it must skip cameras under `SteveBody` (it does); removing that check blacks out the world.
+- UI documents are children of the viewer. They were once `DontSave` and leaked ghost copies between play sessions; if the editor shows a stale or doubled UI, destroy objects named "* UI" and re-enter play mode.
+- Never call `WorldKit.Reload()` in play mode: it destroys meshes the environment is rendering.
+- Unity UI Toolkit: `border-radius` larger than half an element's height makes ellipses; translucent white overlays look much brighter in linear colour space, so keep alpha small; USS class names are global (a `.hint` clash broke the menu once).
+- The pointer simulator drives the Input System but not UI Toolkit; test UI by sending `ClickEvent`s through reflection or `script_eval`.
+- Blender MCP quirks: texts need `use_fake_user=True`; `bpy.ops.wm.read_homefile` needs its own call; `materials` cache by name, so delete a material before changing its values; blob `floor=` is in local space.
+- Bash here fails silently on heredocs missing their closing `EOF`; prefer the Write tool for scripts.
+
+### Not done / next
+
+- No combat, enemy placement, hazard effect, turn system or loadout-to-tool registry yet (owner is designing combat in `GAME_DESIGN.md`).
+- The avatar is still the old hover unicorn; the Uni-Core modular avatar (including a two-handed mage loadout `mage2h`) exists only in `t-scan/art/unicore/unicore_chassis.blend`.
+- Bosses are static (no poses or animation). Custom UI fonts (Outfit, Nunito, JetBrains Mono) are not added; the unused IMGUI draw methods are still in the source files.
+- No model run on a built world yet; no memory reset or seed change was made (the premise-seed idea in `GAME_DESIGN.md` is unapproved).
+
+### Update: enemies, bosses and dummies are placeable (later the same night)
+
+- The `actor` role is now placeable in the world builder under **Enemies** and **Bosses** tabs (bosses are catalog `tier: "boss"`; everything else with role `actor` is an enemy). Actors are static, blocking pieces in `obstacles`; they have no behaviour. A catalog entry may have `footprint` 1 or 3 (only actors may be 3): the nine bosses cover 3 x 3 cells around their anchor. Backend: `world_manifest.py` (`ROLES['actor']`, footprint validation, `expand_obstacles`), `grid_world.py` (movement and observation use expanded cells). Unity mirrors the rules in `WorldBuilder.cs`. 262 backend tests pass; condition `shared-chat-v8.6.0-actors` is recorded in EXPERIMENTS.md (not run).
+- Three crash-test dummies (unarmed, sword, crossbow) were added to `boss_kit.blend` (`build_dummies.py`) and exported in the same `bosses` pack as enemies. The pack is titled "Boss kit".
+- The backend was restarted from `Start-Steve.ps1` for v8.6.0. `GridWorkbench` now bumps the world revision automatically when the backend says "Changed world definitions require a higher revision" (the backend remembers its highest confirmed revision), so a restarted Unity no longer gets stuck.
+- Boss thumbnails were rendered with `export_thumbs.py` (absolute output path required).

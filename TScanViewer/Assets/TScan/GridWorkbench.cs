@@ -47,6 +47,8 @@ namespace Steve.TScan {
    if(publishedManifest!=definition||string.IsNullOrEmpty(manifestHash)){
     yield return Post("/grid/world",new Registration{client_id=client,manifest=environment.definition.manifest},text=>received=JsonUtility.FromJson<GridSnapshot>(text));
     if(received!=null&&received.world_ready&&!string.IsNullOrEmpty(received.world_manifest_hash)){publishedManifest=definition;manifestHash=received.world_manifest_hash;}
+    // The backend remembers the highest revision it confirmed. If this definition is older and different, publish it as a newer revision rather than leaving the builder stuck.
+    else if(received==null&&Error.Contains("higher revision")){environment.definition.manifest.revision++;WorldBuilder.SaveCurrent(environment.definition.manifest);Error="";}
    }else yield return Post("/grid/poll",new Client{client_id=client,manifest_hash=manifestHash},text=>received=JsonUtility.FromJson<GridSnapshot>(text));
    if(received==null||!received.world_ready){manifestHash="";State=null;yield return new WaitForSecondsRealtime(1);continue;}
    State=received;

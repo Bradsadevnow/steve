@@ -16,7 +16,9 @@ ROLES={
  'obstacle':dict(layer='object',blocks=True),
  'structure':dict(layer='either',blocks=None),   # doors block; archways and stairs do not
  'hazard':dict(layer='prop',blocks=False),       # walkable, flagged for later mechanics
- 'decor':dict(layer='prop',blocks=False)}        # cosmetic only. 'actor' is reserved and not placeable yet.
+ 'decor':dict(layer='prop',blocks=False),       # cosmetic only
+ 'actor':dict(layer='object',blocks=True)}       # enemies and bosses: static, blocking, may cover 1 or 3 cells square (catalog footprint)
+FOOTPRINTS=(1,3)
 
 def _cell(item,size,what):
  if any(type(item[k]) is not int or not 1<=item[k]<=size for k in ('col','row')):raise ValueError(what+' outside the meadow')
@@ -35,13 +37,15 @@ def _catalog(value):
  if not isinstance(value,list) or not 1<=len(value)<=400:raise ValueError('Invalid asset catalog')
  table={}
  for item in value:
-  if not isinstance(item,dict) or set(item)!={'prototype','name','role','blocks'}:raise ValueError('Invalid catalog entry fields')
+  if not isinstance(item,dict) or set(item) not in ({'prototype','name','role','blocks'},{'prototype','name','role','blocks','footprint'}):raise ValueError('Invalid catalog entry fields')
   if not isinstance(item['prototype'],str) or not IDENT.fullmatch(item['prototype']) or item['prototype'] in table:raise ValueError('Catalog prototypes must be unique stable identifiers')
   if not isinstance(item['name'],str) or not 1<=len(item['name'])<=100:raise ValueError('Invalid catalog name')
   rule=ROLES.get(item['role'])
   if rule is None:raise ValueError('Catalog role '+json.dumps(item['role'])+' is not a placeable role; expected one of '+', '.join(ROLES))
   if type(item['blocks']) is not bool or (rule['blocks'] is not None and item['blocks']!=rule['blocks']):
    raise ValueError('Catalog piece '+item['prototype']+' is a '+item['role']+' so it '+('must' if rule['blocks'] else 'cannot')+' block movement')
+  if 'footprint' in item and (type(item['footprint']) is not int or item['footprint'] not in FOOTPRINTS or (item['footprint']>1 and item['role']!='actor')):
+   raise ValueError('Catalog piece '+item['prototype']+' has an unsupported footprint; only actors may cover 3 x 3 cells')
   table[item['prototype']]=dict(item)
  return table
 
@@ -86,7 +90,17 @@ def _validate_v3(value):
  for number,proto in enumerate(floors):
   piece=table.get(proto) if isinstance(proto,str) else None
   if piece is None or piece['role']!='floor':raise ValueError('Cell (%d,%d) has %s as its floor, which is not a floor piece'%(number%size+1,number//size+1,json.dumps(proto)[:60]))
- blocking,obstacles=_placements(value['obstacles'],table,size,'obstacle',lambda p:p['blocks'] and p['role'] in ('wall','obstacle','structure'),ids,spawn_cell,landmark_cells)
+ blocking,obstacles=_placements(value['obstacles'],table,size,'obstacle',lambda p:p['blocks'] and p['role'] in ('wall','obstacle','structure','actor'),ids,spawn_cell,landmark_cells)
+ occupied={}
+ for o in obstacles:
+  half=table[o['prototype']].get('footprint',1)//2
+  for dc in range(-half,half+1):
+   for dr in range(-half,half+1):
+    covered=(o['col']+dc,o['row']+dr)
+    if not (1<=covered[0]<=size and 1<=covered[1]<=size):raise ValueError('Obstacle '+o['id']+' ('+table[o['prototype']]['name']+') extends past the edge of the meadow')
+    if covered in occupied:raise ValueError('Obstacle '+o['id']+' overlaps '+occupied[covered])
+    occupied[covered]=o['id']
+ blocking=occupied
  props_placed,props=_placements(value['props'],table,size,'prop',lambda p:(not p['blocks']) and p['role'] in ('hazard','decor','structure'),ids,spawn_cell,landmark_cells)
  for cell,name in blocking.items():
   if cell==spawn_cell or cell in landmark_cells:raise ValueError('Obstacle '+name+' must not overlap the spawn or a landmark')
@@ -101,6 +115,16 @@ def _validate_v3(value):
   if cell not in reachable:raise ValueError('Landmark '+name+' cannot be reached from the spawn without crossing an obstacle')
  result=dict(value,landmarks=sorted(landmarks,key=lambda item:item['id']),obstacles=obstacles,props=props,catalog=sorted((dict(c) for c in table.values()),key=lambda item:item['prototype']))
  return result
+
+def expand_obstacles(definition):
+ """One entry per blocked cell. Pieces with a larger footprint cover every cell around their anchor; all share the anchor's id."""
+ catalog={c['prototype']:c for c in definition.get('catalog',[])}
+ out=[]
+ for o in definition.get('obstacles',[]):
+  half=catalog.get(o.get('prototype'),{}).get('footprint',1)//2
+  for dc in range(-half,half+1):
+   for dr in range(-half,half+1):out.append(o if not half else dict(o,col=o['col']+dc,row=o['row']+dr))
+ return out
 
 def validate_manifest(value):
  if not isinstance(value,dict):raise ValueError('Expected a complete Unity world manifest')

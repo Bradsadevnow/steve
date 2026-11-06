@@ -6,7 +6,7 @@ namespace Steve.TScan {
  // A placed kit piece. yaw is degrees clockwise seen from above with north up: 0, 90, 180 or 270.
  [Serializable] public class MeadowPlacement {public string id,prototype;public int col,row,yaw;}
  // The role is assigned once, in the kit catalog; the backend independently checks that roles and blocking agree.
- [Serializable] public class MeadowCatalogEntry {public string prototype,name,role;public bool blocks;}
+ [Serializable] public class MeadowCatalogEntry {public string prototype,name,role;public bool blocks;public int footprint=1;}   // footprint: cells covered per side (1, or 3 for large actors)
  [Serializable] public class MeadowManifest {
   public string schema="meadow-world-v3",world_id="steve_grid_v1";
   public int revision=1,columns=15,rows=15;

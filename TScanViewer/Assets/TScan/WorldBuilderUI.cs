@@ -11,12 +11,12 @@ namespace Steve.TScan {
   static readonly Color Teal=new Color(.22f,.86f,.78f),Gold=new Color(.96f,.73f,.31f),Muted=new Color(.56f,.64f,.71f),Bright=new Color(.91f,.94f,.97f);
   static readonly Dictionary<string,Color> RoleColors=new Dictionary<string,Color>{
    {"floor",new Color32(210,174,114,255)},{"wall",new Color32(132,153,200,255)},{"obstacle",new Color32(230,166,92,255)},
-   {"structure",new Color32(170,151,242,255)},{"hazard",new Color32(255,123,123,255)},{"decor",new Color32(127,216,170,255)}};
+   {"structure",new Color32(170,151,242,255)},{"hazard",new Color32(255,123,123,255)},{"decor",new Color32(127,216,170,255)},{"actor",new Color32(255,111,168,255)},{"boss",new Color32(196,110,255,255)}};
   static readonly Dictionary<string,Color> FlagPaint=new Dictionary<string,Color>{
    {"blue",new Color32(61,139,255,255)},{"red",new Color32(255,77,94,255)},{"yellow",new Color32(255,210,61,255)},{"purple",new Color32(176,108,255,255)},{"orange",new Color32(255,138,42,255)}};
-  static readonly string[] RoleOrder={"floor","wall","obstacle","structure","hazard","decor"};
-  static readonly Dictionary<string,string> RoleLabel=new Dictionary<string,string>{{"floor","Floors"},{"wall","Walls"},{"obstacle","Objects"},{"structure","Structures"},{"hazard","Hazards"},{"decor","Decor"}};
-  static readonly Dictionary<string,string> RoleOne=new Dictionary<string,string>{{"floor","Floor"},{"wall","Wall"},{"obstacle","Object"},{"structure","Structure"},{"hazard","Hazard"},{"decor","Decor"}};
+  static readonly string[] RoleOrder={"floor","wall","obstacle","structure","hazard","decor","actor","boss"};
+  static readonly Dictionary<string,string> RoleLabel=new Dictionary<string,string>{{"floor","Floors"},{"wall","Walls"},{"obstacle","Objects"},{"structure","Structures"},{"hazard","Hazards"},{"decor","Decor"},{"actor","Enemies"},{"boss","Bosses"}};
+  static readonly Dictionary<string,string> RoleOne=new Dictionary<string,string>{{"floor","Floor"},{"wall","Wall"},{"obstacle","Object"},{"structure","Structure"},{"hazard","Hazard"},{"decor","Decor"},{"actor","Enemy"},{"boss","Boss"}};
 
   UIDocument bxDoc;VisualElement bxStack,bxRoot,bxRail,bxCards,bxHint,bxGrid,bxRoles,bxPacks,bxHotbar,bxSel,bxSelChip,bxToast,bxTip,bxWorlds,bxDraft,bxWorldList;
   Label bxSelName,bxYaw,bxTipName,bxTipSub,bxToastText,bxDraftText,bxMiniOk;Button bxApply;VisualElement bxSelPic,bxMiniOkBox,bxSwatches,bxMini;BxIcon bxYawIcon,bxOkIcon;TextField bxSaveField;
@@ -148,7 +148,7 @@ namespace Steve.TScan {
   }
 
   // ---------- refresh ----------
-  static string BxRoleLine(KitPieceInfo info)=>RoleOne[info.role]+(info.blocks?"  ·  blocks movement":"  ·  walkable");
+  static string BxRoleLine(KitPieceInfo info)=>RoleOne[WorldKit.CategoryOf(info)]+(info.blocks?"  ·  blocks movement":"  ·  walkable")+(WorldKit.FootprintOf(info)>1?"  ·  "+WorldKit.FootprintOf(info)+" × "+WorldKit.FootprintOf(info)+" cells":"");
   void BxShowTip(VisualElement anchor,string name,string sub,bool side){
    bxTipName.text=name;bxTipSub.text=sub;bxTip.AddToClassList("show");
    var a=anchor.worldBound;var r=bxRoot.worldBound;
@@ -189,7 +189,7 @@ namespace Steve.TScan {
     var inPack=usable.Where(p=>packFilter==""||p.pack==packFilter).ToList();
     foreach(var role in RoleOrder){
      var r=role;var chip=BxEl("role",bxRoles);chip.EnableInClassList("on",roleFilter==r);var dot=BxEl("dot",chip);dot.style.backgroundColor=RoleColor(r);dot.pickingMode=PickingMode.Ignore;
-     BxLabel(RoleLabel[r],"",chip);BxLabel(inPack.Count(p=>p.role==r).ToString(),"count",chip);
+     BxLabel(RoleLabel[r],"",chip);BxLabel(inPack.Count(p=>WorldKit.CategoryOf(p)==r).ToString(),"count",chip);
      if(roleFilter==r)chip.style.borderTopColor=chip.style.borderBottomColor=chip.style.borderLeftColor=chip.style.borderRightColor=RoleColor(r);
      chip.RegisterCallback<ClickEvent>(_=>{roleFilter=roleFilter==r?"":r;BxRefreshPalette();});
     }
@@ -199,12 +199,12 @@ namespace Steve.TScan {
      var k=pack;var chip=BxEl("pack",bxPacks);chip.EnableInClassList("on",packFilter==k);BxLabel(k==""?"All kits":ShortPack(k),"",chip);
      chip.RegisterCallback<ClickEvent>(_=>{packFilter=k;BxRefreshPalette();});
     }
-    var list=usable.Where(p=>(roleFilter==""||p.role==roleFilter)&&(packFilter==""||p.pack==packFilter)).OrderBy(p=>RoleRank(p.role)).ThenBy(p=>p.name).ToList();
+    var list=usable.Where(p=>(roleFilter==""||WorldKit.CategoryOf(p)==roleFilter)&&(packFilter==""||p.pack==packFilter)).OrderBy(p=>RoleRank(WorldKit.CategoryOf(p))).ThenBy(p=>p.name).ToList();
     bxCards.Clear();
     foreach(var p in list){
      var info=p;var card=BxEl("card",bxCards);card.EnableInClassList("on",selectedPiece==info.id);
      var pic=BxEl("pic",card);pic.pickingMode=PickingMode.Ignore;SetPic(pic,info.id);
-     var bar=BxEl("bar",card);bar.style.backgroundColor=RoleColor(info.role);bar.pickingMode=PickingMode.Ignore;
+     var bar=BxEl("bar",card);bar.style.backgroundColor=RoleColor(WorldKit.CategoryOf(info));bar.pickingMode=PickingMode.Ignore;
      if(info.blocks){var s=new BxIcon("shield"){pickingMode=PickingMode.Ignore};s.AddToClassList("blocks");s.Tint=Muted;card.Add(s);}
      card.RegisterCallback<ClickEvent>(_=>SelectPiece(info.id));
      card.RegisterCallback<PointerEnterEvent>(_=>BxShowTip(card,info.name,BxRoleLine(info),false));
@@ -218,7 +218,7 @@ namespace Steve.TScan {
    var info=WorldKit.Info(selectedPiece);bool piece=buildTool==BuildTool.Piece&&info!=null;
    if(piece){
     SetPic(bxSelPic,info.id);bxSelName.text=info.name;
-    ((Label)bxSelChip[1]).text=RoleOne[info.role]+(info.blocks?" · blocks":" · walkable");bxSelChip[0].style.backgroundColor=RoleColor(info.role);
+    ((Label)bxSelChip[1]).text=RoleOne[WorldKit.CategoryOf(info)]+(info.blocks?" · blocks":" · walkable");bxSelChip[0].style.backgroundColor=RoleColor(WorldKit.CategoryOf(info));
     bxSelChip.style.display=DisplayStyle.Flex;
    }else{
     bxSelPic.style.backgroundImage=new StyleBackground(StyleKeyword.None);
@@ -233,7 +233,7 @@ namespace Steve.TScan {
    for(int i=0;i<WorldBuilder.Size;i++)for(int j=0;j<WorldBuilder.Size;j++){
     BxRect(p,ox+i*s,oy+j*s,s,s,(i+j)%2==0?new Color(.055f,.095f,.14f):new Color(.07f,.11f,.16f));
    }
-   void Cell(MeadowPlacement m){var info=WorldKit.Info(m.prototype);if(info==null)return;BxRect(p,ox+(m.col-1)*s+1.5f,oy+(WorldBuilder.Size-m.row)*s+1.5f,s-3,s-3,RoleColor(info.role));}
+   void Cell(MeadowPlacement m){var info=WorldKit.Info(m.prototype);if(info==null)return;int h=WorldKit.FootprintOf(info)/2;float side=(2*h+1)*s;BxRect(p,ox+(m.col-1-h)*s+1.5f,oy+(WorldBuilder.Size-m.row-h)*s+1.5f,side-3,side-3,RoleColor(WorldKit.CategoryOf(info)));}
    foreach(var o in builder.Obstacles)Cell(o);foreach(var pr in builder.Props)Cell(pr);
    foreach(var f in builder.Landmarks){
     p.fillColor=FlagPaint.TryGetValue(f.color??"",out var fc)?fc:Bright;p.BeginPath();p.Arc(new Vector2(ox+(f.col-.5f)*s,oy+(WorldBuilder.Size-f.row+.5f)*s),s*.3f,Angle.Degrees(0),Angle.Degrees(360));p.Fill();

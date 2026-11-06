@@ -53,9 +53,36 @@ class RoleRules(unittest.TestCase):
         self.rejects(lambda m:m['props'].append(placement('x','t_door',2,2)),'cannot be placed there')
         self.rejects(lambda m:m['obstacles'].append(placement('x','t_arch',2,2)),'cannot be placed there')
 
-    def test_actors_are_reserved_and_not_placeable_yet(self):
+    def test_actors_are_placeable_blocking_pieces(self):
         def actor(m):m['catalog'].append(piece('t_slime','Slime','actor',True));m['obstacles'].append(placement('x','t_slime',2,2))
-        self.rejects(actor,'not a placeable role')
+        value=built();actor(value);self.assertIn('x',[o['id'] for o in validate_manifest(value)[0]['obstacles']])
+        def walkable(m):m['catalog'].append(piece('t_slime','Slime','actor',False));m['obstacles'].append(placement('x','t_slime',2,2))
+        self.rejects(walkable,'is a actor so it must block')
+
+    def boss(self,col,row,footprint=3):
+        entry=dict(piece('t_boss','Test boss','actor',True),footprint=footprint)
+        def add(m):m['catalog'].append(entry);m['obstacles'].append(placement('big','t_boss',col,row))
+        return add
+
+    def test_a_three_by_three_actor_covers_every_cell_around_its_anchor(self):
+        value=built();self.boss(5,5)(value);result=validate_manifest(value)[0]
+        from world_manifest import expand_obstacles
+        cells={(o['col'],o['row']) for o in expand_obstacles(result) if o['id']=='big'}
+        self.assertEqual(cells,{(c,r) for c in (4,5,6) for r in (4,5,6)})
+
+    def test_a_large_actor_cannot_overlap_edge_spawn_flag_or_other_pieces(self):
+        self.rejects(self.boss(1,5),'extends past the edge')
+        def on_spawn(m):m['spawn']=dict(col=12,row=3);self.boss(12,4)(m)
+        self.rejects(on_spawn,'must not overlap the spawn')
+        self.rejects(self.boss(15,5),'extends past the edge')
+        self.rejects(self.boss(10,8),'overlaps')          # touches the wall at (9,8)
+        self.rejects(lambda m:(self.boss(5,5)(m),m['props'].append(placement('p','t_flowers',4,5))),'sits inside blocking obstacle')
+
+    def test_only_actors_may_have_a_larger_footprint_and_it_must_be_one_or_three(self):
+        def big_wall(m):next(c for c in m['catalog'] if c['prototype']=='t_wall')['footprint']=3
+        self.rejects(big_wall,'only actors may cover 3 x 3')
+        self.rejects(self.boss(5,5,5),'unsupported footprint')
+
 
     def test_unknown_roles_and_bad_fields_are_rejected(self):
         self.rejects(lambda m:m['catalog'][0].update(role='scenery'),'not a placeable role')
@@ -134,5 +161,14 @@ class BuiltWorldInTheLoop(unittest.TestCase):
         self.assertIn('HAZARDS / measured cells you may enter',text);self.assertIn('{"name":"Test spike trap","cells":[[8,7]]}',text)
         self.assertIn('! hazard',text);self.assertNotIn('t_wall',text);self.assertNotIn('t_spikes',text);self.assertNotIn('Test flowers',text)   # decor is cosmetic, not model context
         map_rows=[l for l in text.splitlines() if l.startswith('07 ')];self.assertIn('!',map_rows[0])
+
+    def test_a_large_actor_blocks_every_covered_cell_and_is_named_to_the_model(self):
+        value=built();entry=dict(piece('t_boss','Test boss','actor',True),footprint=3)
+        value['catalog'].append(entry);value['obstacles'].append(placement('big','t_boss',5,13))   # covers x 4-6, y 12-14
+        with tempfile.TemporaryDirectory() as folder:
+            world=GridWorld(Path(folder)/'g.json');world.register_world('t',value);world.reset()
+            seen=world.observe();covered={(o['col'],o['row']) for o in seen['visible_obstacles'] if o['id']=='big'}
+            self.assertEqual(covered,{(c,r) for c in (4,5,6) for r in (12,13,14)})
+            text=coordinate_world(seen);self.assertIn('"name":"Test boss","role":"actor"',text);self.assertNotIn('t_boss',text)
 
 if __name__=='__main__':unittest.main()

@@ -198,3 +198,7 @@ Model, sampling, tools and the epoch rules are unchanged. Model-visible changes,
 - **Decor and floors** are cosmetic and not part of the model's context.
 
 Verification: 258 tests pass, including role-rule tests and a test that every exported catalog piece validates in its own world. The assembled observation text was inspected on a live v3 world (revision 6) and contains only curated names, roles, hazards and the two map symbols. No navigation batch has been run on a built world; compare against the v8.4.7 15x15 result only after one is.
+
+## Condition: `shared-chat-v8.6.0-actors` (not yet run)
+
+Everything in `shared-chat-v8.5.0-built-worlds` is unchanged except what the model can see of a world that contains enemies or bosses. Those pieces appear in the OBSTACLES section like any blocker, grouped by curated name with role `actor` (for example `{"name":"Mimic Queen","role":"actor","cells":[[4,4],[4,5],...]}`), every covered cell listed and marked `X` on the map. They have no behaviour, do not move, and the prompt does not explain the `actor` role. No prototype ids are shown. Compare against v8.5.0 only on worlds with actors; worlds without them produce the same context.

@@ -3,7 +3,7 @@ import copy,json,sys,threading,time,uuid
 from pathlib import Path
 from movement_tools import DIRECTIONS,COMPLETE
 from atomic_json import write_json
-from world_manifest import validate_manifest
+from world_manifest import validate_manifest,expand_obstacles
 SCHEMA='steve-grid-v1'
 class GridWorld:
  def __init__(self,path,clock=time.monotonic,authorizer=None):
@@ -43,7 +43,7 @@ class GridWorld:
    confirmed_now=not self.definition_confirmed
    if changed or confirmed_now:
     self.state['world_definition']=definition
-    a=self.state['avatar'];blocked={(o['col'],o['row']) for o in definition.get('obstacles',[])}
+    a=self.state['avatar'];blocked={(o['col'],o['row']) for o in expand_obstacles(definition)}
     if (a['col'],a['row']) in blocked or not (1<=a['col']<=definition['columns'] and 1<=a['row']<=definition['rows']):
      previous=copy.deepcopy(a);a.update(definition.get('spawn',dict(col=5,row=5)));self.state['world_revision']+=1
      self._log(dict(kind='world_change_relocation',position_before=previous,position_after=copy.deepcopy(a),reason='Previous cell is not occupiable in the new Unity world'))
@@ -63,7 +63,7 @@ class GridWorld:
    catalog={c['prototype']:c for c in definition.get('catalog',[])} if definition else {}
    named=lambda items:[dict(i,name=catalog[i['prototype']]['name'],role=catalog[i['prototype']]['role']) if i.get('prototype') in catalog else dict(i) for i in items]
    live=bool(definition and self.definition_confirmed)
-   obstacles=named(definition.get('obstacles',[])) if live else [];blocked={(o['col'],o['row']):o['id'] for o in obstacles}
+   obstacles=named(expand_obstacles(definition)) if live else [];blocked={(o['col'],o['row']):o['id'] for o in obstacles}
    hazards=[i for i in named(definition.get('props',[])) if i.get('role')=='hazard'] if live else [];hazardous={(h['col'],h['row']):h['id'] for h in hazards}
    labels={o['id']:o.get('name') for o in obstacles+hazards}
    def neighbour(d):
