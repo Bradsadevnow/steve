@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: c9e39ab510a37364d8dfe0712d45c88c
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 13804, guid: 0000000000000000e000000000000000, type: 0}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 269061
+  packageName: Fantasy RPG UI Pack
+  packageVersion: 1.2
+  assetPath: Assets/Fantasy RPG UI Pack/UI Toolkit/Templates/Painted/Healthbars/RPG_linear/RPG_linear_gold_blue_2.uxml
+  uploadId: 1006546

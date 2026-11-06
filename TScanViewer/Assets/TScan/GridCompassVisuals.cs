@@ -31,7 +31,7 @@ namespace Steve.TScan {
   }
   void RefreshFont(Font changed){if(changed==font&&textMaterial)textMaterial.mainTexture=font.material.mainTexture;}
   void LateUpdate(){
-   if(!eye)eye=FindFirstObjectByType<SteveBody>()?.BodyCamera;
+   if(!eye)eye=FindAnyObjectByType<SteveBody>()?.BodyCamera;
    if(!eye)return;
    foreach(var label in labels)label.rotation=eye.transform.rotation;
   }

@@ -7,30 +7,31 @@ namespace Steve.TScan {
  // and Apply to publish a new manifest revision. The backend validates roles and blocking again on publish.
  public sealed partial class TScanViewer {
   enum BuildTool {Piece,Spawn,Flag,Erase}
-  bool buildOpen;
+  [SerializeField,HideInInspector] bool buildOpen;
   WorldBuilder builder;MeadowEnvironment buildEnv;GridWorkbench buildBench;Camera buildCamera;
+  [SerializeField] string buildDraftReload="";
   BuildTool buildTool=BuildTool.Piece;
   string selectedPiece="",flagColor="blue",packFilter="",roleFilter="",saveName="my-world",buildStatus="";
   bool buildProblem;int buildYaw;Vector2 paletteScroll;string[] savedWorlds=new string[0];
-  int hoverCol,hoverRow;bool hoverCell,hoverValid;Vector2Int lastPaint=new Vector2Int(-1,-1);
+  int hoverCol,hoverRow;bool hoverCell,hoverValid;
   GameObject cursorRoot,ghost;Material ghostMaterial,outlineMaterial;MeshFilter ghostFilter;Renderer outlineRenderer;
   public bool BuildDirty=>builder!=null&&builder.Dirty;
 
   void ToggleBuild(){
-   if(buildOpen){buildOpen=false;HideCursor();return;}
-   buildEnv=FindFirstObjectByType<MeadowEnvironment>();buildBench=FindFirstObjectByType<GridWorkbench>();
+   if(buildOpen){buildOpen=false;HideCursor();ShowPublishedWorld();return;}
+   buildEnv=FindAnyObjectByType<MeadowEnvironment>();buildBench=FindAnyObjectByType<GridWorkbench>();
    if(buildEnv==null||buildEnv.definition==null){buildStatus="No world definition in the scene.";buildProblem=true;buildOpen=true;return;}
    WorldKit.EnsureLoaded();
    // Edit a runtime copy so the shipped World.asset is never modified, in the editor or in a build.
    if(!buildEnv.definition.name.EndsWith(" (runtime)")){var copy=Instantiate(buildEnv.definition);copy.name=buildEnv.definition.name+" (runtime)";buildEnv.definition=copy;}
-   if(builder==null){builder=new WorldBuilder(buildEnv.definition.manifest);builder.MarkClean();SetBaseline();}
+   EnsureBuildDraft();
    if(string.IsNullOrEmpty(selectedPiece))selectedPiece=WorldKit.Pieces.Where(p=>WorldKit.IsPlaceable(p)&&p.role==WorldKit.WallRole).OrderBy(p=>p.id).Select(p=>p.id).FirstOrDefault()??"";
-   savedWorlds=WorldBuilder.SavedNames();buildOpen=true;buildStatus=builder.Dirty?"Draft not applied yet.":"";buildProblem=false;
+   savedWorlds=WorldBuilder.SavedNames();buildOpen=true;RefreshPreview();buildStatus=bxDirtyNow?"Draft not applied yet.":"";buildProblem=false;
   }
 
   Vector2 ToGui(Vector2 screen)=>new Vector2(screen.x/UIScale,(Screen.height-screen.y)/UIScale-MessageHeight);
   bool PickCell(Vector2 screen,out int col,out int row){
-   col=row=0;if(buildCamera==null)buildCamera=FindFirstObjectByType<SteveBody>()?.BodyCamera;if(buildCamera==null||buildEnv==null)return false;
+   col=row=0;if(buildCamera==null)buildCamera=FindAnyObjectByType<SteveBody>()?.BodyCamera;if(buildCamera==null||buildEnv==null)return false;
    var ray=buildCamera.ScreenPointToRay(screen);var ground=new Plane(buildEnv.transform.up,buildEnv.transform.position);
    if(!ground.Raycast(ray,out float distance))return false;
    var local=buildEnv.transform.InverseTransformPoint(ray.GetPoint(distance));
@@ -47,12 +48,26 @@ namespace Steve.TScan {
   }
 
   void RefreshPreview(){buildEnv.Override=builder.ToManifest(buildEnv.definition.manifest.revision);buildEnv.Rebuild();}
+  void ShowPublishedWorld(){if(buildEnv&&buildEnv.Override!=null){buildEnv.Override=null;buildEnv.Rebuild();}}
+  void EnsureBuildDraft(){
+   if(builder!=null||!buildEnv||!buildEnv.definition)return;
+   if(!string.IsNullOrEmpty(buildDraftReload)){
+    builder=new WorldBuilder(JsonUtility.FromJson<MeadowManifest>(buildDraftReload));
+    bxBaseline=JsonUtility.ToJson(new WorldBuilder(buildEnv.definition.manifest).ToManifest(0));RefreshDirty();
+   }else{builder=new WorldBuilder(buildEnv.definition.manifest);builder.MarkClean();SetBaseline();}
+  }
 
-  bool strokeBlocked,strokePushed;
   void UpdateBuilder(){
+   if(buildOpen){if(!buildEnv)buildEnv=FindAnyObjectByType<MeadowEnvironment>();if(!buildBench)buildBench=FindAnyObjectByType<GridWorkbench>();}
+   if(!string.IsNullOrEmpty(buildDraftReload))EnsureBuildDraft();
+   if(!buildOpen)ShowPublishedWorld();
+   if(buildOpen&&buildEnv!=null&&bxRoot==null){
+    builder=new WorldBuilder(!string.IsNullOrEmpty(buildDraftReload)?JsonUtility.FromJson<MeadowManifest>(buildDraftReload):buildEnv.definition.manifest);
+    if(string.IsNullOrEmpty(buildDraftReload)){builder.MarkClean();SetBaseline();}RefreshPreview();RefreshDirty();
+   }
    UpdateBuildUI();
    var mouse=Mouse.current;
-   if(!buildOpen||builder==null||buildEnv==null||mouse==null){HideCursor();return;}
+   if(!buildOpen||characterOpen||worldApplying||builder==null||buildEnv==null||mouse==null){HideCursor();return;}
    var keyboard=Keyboard.current;
    if(keyboard!=null&&GUIUtility.keyboardControl==0&&!BxTyping()){
     bool ctrl=keyboard.leftCtrlKey.isPressed||keyboard.rightCtrlKey.isPressed;
@@ -60,30 +75,26 @@ namespace Steve.TScan {
     else{
      if(keyboard.qKey.wasPressedThisFrame)RotateYaw(-90);
      if(keyboard.eKey.wasPressedThisFrame||keyboard.rKey.wasPressedThisFrame)RotateYaw(90);
-     if(keyboard.bKey.wasPressedThisFrame)buildTool=BuildTool.Piece;
+     if(keyboard.bKey.wasPressedThisFrame)SelectBuildTool(BuildTool.Piece);
      if(keyboard.tabKey.wasPressedThisFrame)TogglePieces();
-     if(keyboard.pKey.wasPressedThisFrame)buildTool=BuildTool.Spawn;
-     if(keyboard.fKey.wasPressedThisFrame)buildTool=BuildTool.Flag;
-     if(keyboard.xKey.wasPressedThisFrame)buildTool=BuildTool.Erase;
+     if(keyboard.pKey.wasPressedThisFrame)SelectBuildTool(BuildTool.Spawn);
+     if(keyboard.fKey.wasPressedThisFrame)SelectBuildTool(BuildTool.Flag);
+     if(keyboard.xKey.wasPressedThisFrame||keyboard.deleteKey.wasPressedThisFrame)SelectBuildTool(BuildTool.Erase);
      for(int i=0;i<9;i++)if(keyboard[(Key)((int)Key.Digit1+i)].wasPressedThisFrame)SelectSlot(i);
     }
    }
    Vector2 screen=mouse.position.ReadValue();
    bool overUi=OverUI(screen);
-   if(mouse.leftButton.wasPressedThisFrame){strokeBlocked=overUi;strokePushed=false;}
-   if(!mouse.leftButton.isPressed)strokeBlocked=false;
    bool inWorld=WorldInputContains(screen)&&!overUi;
    hoverCell=inWorld&&PickCell(screen,out hoverCol,out hoverRow);
    string why=null;hoverValid=hoverCell&&RunTool(hoverCol,hoverRow,false,out why);
    UpdateCursor();
-   if(!strokeBlocked&&hoverCell&&(mouse.leftButton.wasPressedThisFrame||(mouse.leftButton.isPressed&&new Vector2Int(hoverCol,hoverRow)!=lastPaint))){
-    lastPaint=new Vector2Int(hoverCol,hoverRow);
+   if(buildClick&&hoverCell){
     if(hoverValid){
-     if(!strokePushed){PushUndo();strokePushed=true;}
+     PushUndo();
      RunTool(hoverCol,hoverRow,true,out why);RefreshPreview();AfterEdit();
-    }else if(mouse.leftButton.wasPressedThisFrame){buildStatus=why??"Cannot do that there.";buildProblem=true;}
+    }else{buildStatus=why??"Cannot do that there.";buildProblem=true;}
    }
-   if(!mouse.leftButton.isPressed)lastPaint=new Vector2Int(-1,-1);
   }
 
   void EnsureCursor(){
@@ -110,17 +121,22 @@ namespace Steve.TScan {
 
   // At startup, resume the last applied world so Unity publishes a revision the backend will accept.
   void LoadAppliedWorld(){
-   var env=FindFirstObjectByType<MeadowEnvironment>();if(env==null||env.definition==null)return;
+   var env=FindAnyObjectByType<MeadowEnvironment>();if(env==null||env.definition==null)return;
    var saved=WorldBuilder.LoadCurrent(env.definition.manifest.revision);if(saved==null)return;
    var copy=Instantiate(env.definition);copy.name=env.definition.name+" (runtime)";copy.manifest=saved;env.definition=copy;
   }
 
-  void ApplyBuild(){
-   var lost=builder.Unreachable();if(lost!=null){buildStatus=lost+" Fix the layout before applying.";buildProblem=true;return;}
-   if(buildBench!=null&&buildBench.State!=null&&buildBench.State.running){buildStatus="Stop Steve's loop before changing the world.";buildProblem=true;return;}
+  bool worldApplying;
+  void ApplyBuild(){if(!worldApplying)StartCoroutine(ApplyBuildConfirmed());}
+  System.Collections.IEnumerator ApplyBuildConfirmed(){
+   var lost=builder.Unreachable();if(lost!=null){buildStatus=lost+" Fix the layout before applying.";buildProblem=true;yield break;}
+   if(buildBench==null||buildBench.State==null||buildBench.State.running||buildBench.Busy||sending){buildStatus="Stop Steve and wait for backend/presentation before applying.";buildProblem=true;yield break;}
    int next=buildEnv.definition.manifest.revision+1;
-   JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(builder.ToManifest(next)),buildEnv.definition.manifest);
-   buildEnv.Override=null;buildEnv.Rebuild();builder.MarkClean();SetBaseline();WorldBuilder.SaveCurrent(buildEnv.definition.manifest);buildProblem=false;buildStatus="Applied as revision "+next+". Waiting for the backend to confirm.";
+   var draft=builder.ToManifest(next);worldApplying=true;buildProblem=false;buildStatus="Awaiting backend confirmation…";bool accepted=false;
+   yield return buildBench.PublishWorld(draft,(ok,message)=>{accepted=ok;buildStatus=message;});
+   worldApplying=false;
+   if(!accepted){buildProblem=true;yield break;}
+   buildEnv.definition.manifest=draft;buildEnv.Override=null;buildEnv.Rebuild();builder.MarkClean();SetBaseline();WorldBuilder.SaveCurrent(draft);buildStatus="Applied · confirmed world revision "+next;
   }
   void RevertBuild(){
    builder.Load(buildEnv.definition.manifest);builder.MarkClean();SetBaseline();buildEnv.Override=null;buildEnv.Rebuild();buildStatus="Reverted to the published world.";buildProblem=false;

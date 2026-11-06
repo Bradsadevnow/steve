@@ -1,5 +1,134 @@
 # Steve handoff — AI escape RPG and memory design
 
+## Current checkpoint — cleanup, 6 November 2026
+
+See [CLEANUP_REVIEW.md](CLEANUP_REVIEW.md) for the reviewed scope, verification and
+remaining work. Current code is the modular seven-body forge, authoritative
+base-1 stats, sword +2 STR/shield +2 CON, Slash=STR, Bash=max(1,floor(CON/3)),
+max HP=10+(CON−1), and no gear-swap healing. Main session and agent-owned goals
+were preserved during the idle backend reload.
+
+World builder: left options, right assets, bottom selection inspector; Steve's
+corner HUD is Watch-only. Character editor has a larger composition and compact
+build sheet. Item hovers show actual rotating meshes and catalog mechanics.
+Preview cleanup handles DontSave studios and prevents leftover swords.
+
+Watch uses the existing records flyout only. One icon row inside it navigates
+Goals/Self/Log/Debug plus camera/menu; collapsing retains that row. The minimap is
+at the top. No separate Goals monitor remains. Goal/task notes are hover metadata.
+
+290 backend tests and 2/2 isolated Gemma probes passed. Runtime UI checks preserve
+drafts and verify studio lifetimes. Dummies remain fixed-HP passive targets with
+no level/scaling sheet or death/despawn animation. Do not claim otherwise.
+
+## Earlier updates — historical context
+
+**Latest builder layout, 6 November 2026:** World builder options live on the left,
+assets in a taller right browser, and selected asset/tool details in a separate
+bottom inspector. Both side panels start at the top; Steve's corner HUD is hidden
+throughout Build and retained in Watch. Options retain Apply, Revert, saved worlds,
+Undo/Redo/rotation; the overview is collapsible. Selection is palette definition
+information, not an invented enemy character sheet. Bottom space is available
+for future authoritative enemy stats/attacks. Live bounds/input checks verified
+alignment, separation and a clear center for placement; Unity compiled and boundary
+checks passed. No placement or Apply was performed during verification.
+
+World/Character tabs are styled with active states and parented inside the active
+builder pane. Module tiles show names/previews without prototype/action subtitles.
+Hovering an occupied mount or module opens a bounded card with catalog stat bonuses,
+ability rules and a larger rotating mesh. One cosmetic camera/studio is enabled
+only while inspecting; hidden on leave/mode changes, disposed with the viewer.
+Unequip moved left. Native hover and live rotation were verified. Prototype modules
+still grant no abilities; this fact remains explicit in the inspection card.
+
+**Latest module icons, 6 November 2026:** all 12 equipment modules have baked,
+transparent thumbnails rendered from their actual catalog meshes. Builder tiles,
+occupied mounts and the corner HUD use `CharacterPresentation.ModuleIcon`, loading
+`Resources/Meadow/character/thumbnails/<module_id>.png`. Regenerate after mesh
+changes with Unity CLI `script eval_file` on `Tools/RenderCharacterThumbnails.cs`.
+No runtime thumbnail cameras are needed. Unequip is now a compact header button.
+All 12 resources and visible tile bindings checked; live builder visually verified,
+Unity compilation and boundary check passed. No loadout applied during verification.
+
+**Latest HP/build sheet, 6 November 2026:** max HP = 10 + (effective CON − 1),
+not 10 HP per CON. Shield CON 3 gives 12 max HP. Apply and preview share the
+engine evaluator; capacity increases never heal, decreases persistently clamp
+current HP. Resource rules `steve-resources-v2-con-hp`; migration is idempotent.
+Idle main backend reloaded with backup under `runtime_data/verification/con-hp/`:
+session, position, equipment and tick 0 preserved; current/max HP 10/12, MP 10/10.
+285 backend tests, Unity compilation, live build-sheet inspection and boundary
+checks passed. The enlarged Character editor now has a compact right-hand build
+sheet with level/resources, stat totals/deltas and granted ability damage/range;
+details on hover. Chassis selection collapses; presets are deferred, camera
+instructions removed. Keep the operator's live draft separate from confirmed gear.
+
+**Latest chat/border UI, 6 November 2026:** Watch's compact chat toggle now lives
+inside Steve's card alongside Run/Stop. Conversation and composer share the card's
+width below it and hide together; unsent text survives closing/reopening. Opening
+the expanded sheet closes chat and vice versa. Adaptive builder/chat panels use
+actual beveled edge borders rather than fitting a complete painted frame into
+the middle; fixed authored pack compositions retain their artwork. Unity compiled;
+live click/layout checks and project-boundary verification passed. No chat was sent.
+Latest Watch inspection showed one confirmed target at tick 0; the earlier
+three-target/unpublished-draft note below describes an earlier testing state.
+
+**Latest assets/UI, 6 November 2026:** Duelist (L/R hand + horn) and Mantle (L/R
+shoulder + horn) are in Blender and Unity's seven-body catalog. Watch camera
+input no longer stays blocked by a hidden Character workspace. HP labels recover
+across reloads without duplicates. Watch now renders the published world, while
+Build retains its unapplied draft; a pack-framed top-right minimap shows the same
+measured world and a separate draft notice. The current one-target draft is not
+published: Watch correctly has the three confirmed targets until Apply. Operator
+selected Duelist during testing; respect that live configuration.
+
+**Latest roadmap addition:** run XP develops equipment; persistent player Tokens
+unlock additional equippable secondary modules, enabling hardware multiclassing
+(e.g. sword/shield plus mage shoulder/back module). Human owns purchases/builds;
+Steve owns action choices. Module unlock persistence is distinct from equipment
+XP/rank carryover across death, which remains open. Recorded in
+`FUTURE_ROADMAP.md` section 6 and `GAME_DESIGN.md`; design only, no implementation.
+
+**Latest runtime, 6 November 2026:** `shared-chat-v8.8.0-character-stats`, catalog v2.
+Authoritative level-1 sheet: base attributes 1, HP/MP 10, sword +2 STR, shield +2
+CON. Slash=STR, Bash=max(1,floor(CON/3)); range/clear-lane rules unchanged. Separate
+character stats, module definitions and pure combat evaluator feed both execution
+and read-only `/character/preview`. The live HUD and draft comparison are bound.
+Active affect appraisal/context and body polling are retired; historical records
+and legacy compatibility remain. Main loadout migrated r2→r3; continuity hashes,
+equipment, session, position (12,4), stopped state and tick 0 were preserved.
+281 tests and 2/2 final isolated Gemma probes passed. See the current stats design and
+architecture; older UI-only/unavailable/flat-damage statements below are history.
+
+**Latest UI pass, 6 November 2026:** the corner character pane and expandable sheet
+are implemented with native pack frames/resource bars, a confirmed-loadout
+portrait, mounts and module details. Character Forge has a collapsible draft
+equipment/action comparison and sits beside the pane. Ownership is separated
+into `CharacterPresentation`, `CharacterHudView` and `CharacterPortrait`; no
+simulation formulas were moved into UI. Live stats/HP/MP/level remain unavailable
+until the stats backend is implemented. See the architecture and UI plan.
+
+**Latest design lock:** [STATS_AND_SCALING.md](STATS_AND_SCALING.md) records the
+approved five-stat sheet, level-1 baseline, retirement of affect, equipment/level
+modifiers and stat-scaled sword/shield abilities. The runtime conversion is being
+discussed; current attacks still use flat damage and affect is not yet removed.
+The same document locks module/character/perception/world/engine ownership. Keep
+Steve's inference isolated behind observations and validated action requests;
+do not grow the existing controller into the owner of every game concept.
+
+**Latest implementation, 6 November 2026:** Fantasy UI restyle and Build →
+Character are implemented, with Original Hover/Uni-Core/Skimmer/Bulwark/Wisp,
+twelve module visuals, mount validation and presets. Backend-confirmed equipment
+grants executor tools; sword Slash (3) and shield Bash (1, clear lane up to 3) work
+against stationary authored training dummies. Python remains position/damage/clock
+authority. Main Steve was equipped with the starter Uni-Core sword/shield build
+through the UI and left stopped. Other module actions are explicitly visual-only.
+See the current architecture and experiment notes; older design-only statements
+below describe prior stages and are superseded by this update.
+
+The latest [UI and character builder plan](UI_CHARACTER_BUILDER_PLAN.md) includes the full Fantasy RPG UI restyle and baseline plus Skimmer, Bulwark and Wisp bodies. Alternate bodies have isolated Blender sources, renders and concept socket metadata under `t-scan/art/unicore/body_variants/`; they are not yet integrated into Unity or equipment gameplay.
+
+Owner's later notes are saved verbatim in [FUTURE_ROADMAP.md](FUTURE_ROADMAP.md): autobiographical run exports, BYOA, a Sims-style sandbox, portable histories/community ideas and the working identity HURT THE ROBOT. These are proposals only, explicitly not authorized for implementation. Current priority remains usable equipment-granted combat actions and training-dummy experiments before a larger skill/leveling system. Separately, the owner authorized visible Flags/Delete builder controls and requested a more compact UI; this does not authorize roadmap features.
+
 **Current game-design reference:** [GAME_DESIGN.md](GAME_DESIGN.md) records the subsequent agreed direction: open-ended AI survival RPG, modular equipment-granted capabilities, a Superhot-like world-action clock, autonomous enemies, escalating danger, permanent character death and player-owned Token progression. It distinguishes agreed principles, illustrative numbers and unresolved choices. It supersedes earlier design assumptions below where they differ. We remain in design-only mode.
 
 Written 5 November 2026, America/New_York. This replaces the earlier operational handoff. Runtime status is a snapshot: read live files before acting. The prior accumulated handoff is retained in [history](history/HANDOFF-before-memory-review-20261105.md); its launch, experiment and next-action instructions are historical.

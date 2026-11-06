@@ -188,7 +188,7 @@ class AgentState:
                 raise ValueError('landmark_id ' + json.dumps(a.get('landmark_id')) + ' is not a landmark in the current world. Landmark IDs: ' + ', '.join(t['id'] for t in world['visible_targets']) + '. Nothing was saved and the phase did not change.')
             body = dict(task_id=a['task_id'], task_list_revision=tasks['revision'], intention_id=a.get('intention_id'),reason=a['reason'],desired_outcome=task['title'],
                         intention_revision=intention['revision'] if intention else None, criterion=a['criterion'], landmark_id=a.get('landmark_id'),
-                        instructions=a['instructions'], run_id=run_id, world_manifest_hash=world.get('world_manifest_hash'))
+                        instructions=a['instructions'], run_id=run_id, world_manifest_hash=world.get('world_manifest_hash'),loadout_revision=world.get('character',{}).get('revision',0))
             current = self.get('plan', 'current')
             result = self._put('plan', 'current', body, current['revision'] if current else 0, call_id)
             self.set_phase('executor', 'agent_plan_handoff', run_id)

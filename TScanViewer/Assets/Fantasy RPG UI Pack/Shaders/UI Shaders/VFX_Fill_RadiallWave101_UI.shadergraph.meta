@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: a1556fdd62eb48c43b135db2c3390ca9
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 625f186215c104763be7675aa2d941aa, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 269061
+  packageName: Fantasy RPG UI Pack
+  packageVersion: 1.2
+  assetPath: Assets/Fantasy RPG UI Pack/Shaders/UI Shaders/VFX_Fill_RadiallWave101_UI.shadergraph
+  uploadId: 1006546

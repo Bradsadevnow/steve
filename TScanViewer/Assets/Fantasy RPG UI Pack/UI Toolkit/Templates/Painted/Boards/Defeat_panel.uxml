@@ -1,0 +1,29 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:mt="MoonTribe.UI">
+<ui:Style src="project://database/Assets/Fantasy RPG UI Pack/UI Toolkit/FantasyUI.uss" />
+<mt:PaintedFrame name="painted-frame" design-width="1600" design-height="1263" style="flex-grow:1; width:100%; height:100%;">
+<ui:VisualElement name="artboard" style="position:absolute;">
+<ui:VisualElement name="Defeat_panel" class="mt-node" style="position:absolute;left:0px;top:0px;width:1600px;height:1263px;">
+<mt:PaintedImage name="Defeat_panel-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/boards/UI_elements_defeat.png?fileID=21300000&amp;guid=47443bcf4d6eb9d469aa9e339e438b60&amp;type=3#UI_elements_defeat" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="defeat_title_txt" class="mt-node" style="position:absolute;left:483.4px;top:520.1px;width:600px;height:120px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<ui:Label text="DEFEAT!" picking-mode="Ignore" style="position:absolute;left:0;top:0;width:100%;height:100%;margin:0;padding:0;color:#FFFFFFFF;font-size:120px;white-space:nowrap;-unity-text-align:middle-center;-unity-font-definition:url('project://database/Assets/Fantasy RPG UI Pack/Fonts/Wonderland.otf?fileID=12800000&amp;guid=32cc83d748e18b14b8c32ab6e7706cef&amp;type=3#Wonderland');" />
+</ui:VisualElement>
+<ui:Button name="menu_1_txt" class="mt-node mt-button" style="position:absolute;left:483.4px;top:676.5px;width:600px;height:120px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<ui:Label text="SCORE" picking-mode="Ignore" style="position:absolute;left:0;top:0;width:100%;height:100%;margin:0;padding:0;color:#FFFFFFFF;font-size:100px;white-space:nowrap;-unity-text-align:middle-center;-unity-font-definition:url('project://database/Assets/Fantasy RPG UI Pack/Fonts/Wonderland.otf?fileID=12800000&amp;guid=32cc83d748e18b14b8c32ab6e7706cef&amp;type=3#Wonderland');" />
+<ui:VisualElement name="img_arrow" class="mt-node" style="position:absolute;left:-60.3001px;top:-10px;width:146px;height:112px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="img_arrow-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_111.png?fileID=21300000&amp;guid=201e0a0bb50215844ac42fc6dd8c7edf&amp;type=3#UI_elements_decor_111" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="menu_2_txt" class="mt-node mt-button" style="position:absolute;left:483.4px;top:798.7401px;width:600px;height:120px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<ui:Label text="REPLAY" picking-mode="Ignore" style="position:absolute;left:0;top:0;width:100%;height:100%;margin:0;padding:0;color:#FFFFFFFF;font-size:100px;white-space:nowrap;-unity-text-align:middle-center;-unity-font-definition:url('project://database/Assets/Fantasy RPG UI Pack/Fonts/Wonderland.otf?fileID=12800000&amp;guid=32cc83d748e18b14b8c32ab6e7706cef&amp;type=3#Wonderland');" />
+<ui:VisualElement name="img_arrow" class="mt-node" style="position:absolute;left:-60.3001px;top:-10px;width:146px;height:112px;transform-origin:50% 50%;scale:1 1;rotate:0deg;display:none;">
+<mt:PaintedImage name="img_arrow-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_111.png?fileID=21300000&amp;guid=201e0a0bb50215844ac42fc6dd8c7edf&amp;type=3#UI_elements_decor_111" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="menu_3_txt" class="mt-node mt-button" style="position:absolute;left:483.4px;top:922.5px;width:600px;height:120px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<ui:Label text="EXIT" picking-mode="Ignore" style="position:absolute;left:0;top:0;width:100%;height:100%;margin:0;padding:0;color:#FFFFFFFF;font-size:100px;white-space:nowrap;-unity-text-align:middle-center;-unity-font-definition:url('project://database/Assets/Fantasy RPG UI Pack/Fonts/Wonderland.otf?fileID=12800000&amp;guid=32cc83d748e18b14b8c32ab6e7706cef&amp;type=3#Wonderland');" />
+<ui:VisualElement name="img_arrow" class="mt-node" style="position:absolute;left:-60.3px;top:-10px;width:146px;height:112px;transform-origin:50% 50%;scale:1 1;rotate:0deg;display:none;">
+<mt:PaintedImage name="img_arrow-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_111.png?fileID=21300000&amp;guid=201e0a0bb50215844ac42fc6dd8c7edf&amp;type=3#UI_elements_decor_111" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+</ui:VisualElement>
+</ui:VisualElement></mt:PaintedFrame></ui:UXML>

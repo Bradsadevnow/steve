@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 96edbb9fd2304fe4aa824096f5d144e4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 269061
+  packageName: Fantasy RPG UI Pack
+  packageVersion: 1.2
+  assetPath: Assets/Fantasy RPG UI Pack/Scripts/Demo/mr_GM.cs
+  uploadId: 1006546

@@ -89,6 +89,10 @@ class WorldHttpTests(unittest.TestCase):
      registered=post('/grid/world',dict(client_id='unity',manifest=manifest()))
      state=post('/grid/poll',dict(client_id='unity',manifest_hash=registered['world_manifest_hash']))
      self.assertEqual(state['visible_targets'],registered['visible_targets']);self.assertTrue(state['world_ready'])
+     import character_rules
+     before=world.path.read_bytes()
+     preview=post('/character/preview',dict(character_id='steve',expected_revision=world.state['character']['revision'],catalog_version=character_rules.CATALOG['version'],body_id='unicore',equipment=[dict(socket_id='arm_R',module_id='warrior_blade')]))
+     self.assertTrue(preview['preview']);self.assertEqual(preview['character']['sheet']['abilities'][0]['damage'],3);self.assertEqual(world.path.read_bytes(),before)
      receipt=world.nominate('move_east',{},'turn',state['observation_id'],'call')
      response=post('/grid/ack',dict(client_id='unity',action_id=receipt['action_id'],session_id=state['session_id']))
      self.assertTrue(response['accepted']);self.assertEqual(world.wait(receipt['action_id'])['presentation_status'],'settled')

@@ -144,7 +144,7 @@ class RuntimeStore:
   with self.lock:
    a=self._affect();v={k:round(.75*a['values'][k]+.25*a['mood'][k],4) for k in EMOTIONS}
    warm=min(1,v['joy']+v['gratitude']*.5+v['bond']*.3);tense=min(1,v['frustration']+v['anxiety']+v['anger']*.5)
-   return dict(affect=v,mood={k:round(x,4) for k,x in a['mood'].items()},dominant=max(v,key=v.get),warmth=warm,tension=tense,curiosity=v['curiosity'],calm=v['calm'],focus=v['focus'],recent=[dict(m,content=m['content'][:1200]) for m in self.history(6)],memories=[dict(m,content=m['content'][:600]) for m in self.notes()],seed_memories=self.seed_memories(limit=8,collection="conversation"))
+   return dict(affect_status='retired_legacy_projection',affect=v,mood={k:round(x,4) for k,x in a['mood'].items()},dominant=max(v,key=v.get),warmth=warm,tension=tense,curiosity=v['curiosity'],calm=v['calm'],focus=v['focus'],recent=[dict(m,content=m['content'][:1200]) for m in self.history(6)],memories=[dict(m,content=m['content'][:600]) for m in self.notes()],seed_memories=self.seed_memories(limit=8,collection="conversation"))
  def development_context(self,query):
   words=set(query.lower().split())
   if not words.intersection({'project','build','building','avatar','blender','vr','design','code','implementation','implemented','plan','development','rig','memory','system','runtime'}):return ''

@@ -1,0 +1,512 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:mt="MoonTribe.UI">
+<ui:Style src="project://database/Assets/Fantasy RPG UI Pack/UI Toolkit/FantasyUI.uss" />
+<mt:PaintedFrame name="painted-frame" design-width="1920" design-height="2580" style="flex-grow:1; width:100%; height:100%;">
+<ui:VisualElement name="artboard" style="position:absolute;">
+<ui:VisualElement name="Panel_default" class="mt-node" style="position:absolute;left:0px;top:0px;width:1920px;height:1080px;">
+<mt:PaintedImage name="Panel_default-art" sprite="project://database/Assets/Fantasy RPG UI Pack/UI Toolkit/Support/Background.png?fileID=21300000&amp;guid=2fe96cb5930f65f49b4269adc8ef0c36&amp;type=3#Background" tint="#FFFFFF64" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:Button name="btn_default_84" class="mt-node mt-button" style="position:absolute;left:0px;top:0px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_84-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_84" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_84-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_84.png?fileID=21300000&amp;guid=2a4d2ffc8b0b76142ab77a479c5a7166&amp;type=3#UI_icon_84" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_83" class="mt-node mt-button" style="position:absolute;left:235px;top:0px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_83-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_83" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_83-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_83.png?fileID=21300000&amp;guid=7cad775d1ec76d047a6898700aa0371e&amp;type=3#UI_icon_83" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_82" class="mt-node mt-button" style="position:absolute;left:470px;top:0px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_82-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_82" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_82-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_82.png?fileID=21300000&amp;guid=efce53f3b86dd5c4e81c1a2d7e59da5e&amp;type=3#UI_icon_82" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_81" class="mt-node mt-button" style="position:absolute;left:705px;top:0px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_81-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_81" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_81-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_81.png?fileID=21300000&amp;guid=8f2940964818988428fb59306aa8b4ce&amp;type=3#UI_icon_81" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_80" class="mt-node mt-button" style="position:absolute;left:940px;top:0px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_80-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_80" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_80-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_80.png?fileID=21300000&amp;guid=5993b6cc33f3f8f4387417f2f232c624&amp;type=3#UI_icon_80" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_79" class="mt-node mt-button" style="position:absolute;left:1175px;top:0px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_79-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_79" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_79-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_79.png?fileID=21300000&amp;guid=6786e1eee56676e48846e38493211502&amp;type=3#UI_icon_79" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_78" class="mt-node mt-button" style="position:absolute;left:1410px;top:0px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_78-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_78" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_78-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_79.png?fileID=21300000&amp;guid=6786e1eee56676e48846e38493211502&amp;type=3#UI_icon_79" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_77" class="mt-node mt-button" style="position:absolute;left:1645px;top:0px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_77-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_77" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_77-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_77.png?fileID=21300000&amp;guid=94652477aa46b5e499d8b0229a3fd4c0&amp;type=3#UI_icon_77" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_76" class="mt-node mt-button" style="position:absolute;left:0px;top:235px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_76-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_76" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_76-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_76.png?fileID=21300000&amp;guid=5a30cc3082eaac545bbf4b72b23ade50&amp;type=3#UI_icon_76" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_75" class="mt-node mt-button" style="position:absolute;left:235px;top:235px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_75-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_75" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_75-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_75.png?fileID=21300000&amp;guid=a0c087aa01f82be4ebc5f8b74e5028d2&amp;type=3#UI_icon_75" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_74" class="mt-node mt-button" style="position:absolute;left:470px;top:235px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_74-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_74" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_74-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_74.png?fileID=21300000&amp;guid=1845343a776d7ba4f96867e7aa671625&amp;type=3#UI_icon_74" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_73" class="mt-node mt-button" style="position:absolute;left:705px;top:235px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_73-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_73" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_73-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_73.png?fileID=21300000&amp;guid=936a66dd93dfd874b82149c32a7211a0&amp;type=3#UI_icon_73" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_72" class="mt-node mt-button" style="position:absolute;left:940px;top:235px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_72-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_72" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_72-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_72.png?fileID=21300000&amp;guid=86cb63a06b4c07941a66f3a822901905&amp;type=3#UI_icon_72" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_71" class="mt-node mt-button" style="position:absolute;left:1175px;top:235px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_71-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_71" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_71-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_71.png?fileID=21300000&amp;guid=9d1bde6c2ae0f9946b8ed74aa496f023&amp;type=3#UI_icon_71" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_70" class="mt-node mt-button" style="position:absolute;left:1410px;top:235px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_70-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_70" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_70-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_70.png?fileID=21300000&amp;guid=ca61208d1effa5d418cf81de97f1ace8&amp;type=3#UI_icon_70" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_69" class="mt-node mt-button" style="position:absolute;left:1645px;top:235px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_69-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_69" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_69-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_69.png?fileID=21300000&amp;guid=4f211e2b3767cb44daa1b425cd321c62&amp;type=3#UI_icon_69" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_68" class="mt-node mt-button" style="position:absolute;left:0px;top:470px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_68-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_68" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_68-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_68.png?fileID=21300000&amp;guid=031be0a5530e1264f967b3b00b2bc281&amp;type=3#UI_icon_68" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_67" class="mt-node mt-button" style="position:absolute;left:235px;top:470px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_67-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_67" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_67-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_67.png?fileID=21300000&amp;guid=3ad2ac57536e32941a5861305843a6b0&amp;type=3#UI_icon_67" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_66" class="mt-node mt-button" style="position:absolute;left:470px;top:470px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_66-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_66" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_66-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_66.png?fileID=21300000&amp;guid=e06053914164d484999f322caf6d94ed&amp;type=3#UI_icon_66" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_65" class="mt-node mt-button" style="position:absolute;left:705px;top:470px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_65-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_65" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_65-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_65.png?fileID=21300000&amp;guid=0e1caae9423385544b69070d224187f7&amp;type=3#UI_icon_65" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_64" class="mt-node mt-button" style="position:absolute;left:940px;top:470px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_64-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_64" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_64-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_64.png?fileID=21300000&amp;guid=54fee1f68c299f140bc7c83bb08c267b&amp;type=3#UI_icon_64" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_63" class="mt-node mt-button" style="position:absolute;left:1175px;top:470px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_63-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_63" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_63-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_63.png?fileID=21300000&amp;guid=8f1ef5f369f44784cb16d437173a75a4&amp;type=3#UI_icon_63" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_62" class="mt-node mt-button" style="position:absolute;left:1410px;top:470px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_62-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_62" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_62-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_62.png?fileID=21300000&amp;guid=b169ea48f9b725843986a34321d1a57a&amp;type=3#UI_icon_62" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_61" class="mt-node mt-button" style="position:absolute;left:1645px;top:470px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_61-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_61" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_61-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_61.png?fileID=21300000&amp;guid=5fd95b73781257147be5a972679240cf&amp;type=3#UI_icon_61" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_60" class="mt-node mt-button" style="position:absolute;left:0px;top:705px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_60-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_60" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_60-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_60.png?fileID=21300000&amp;guid=18637e5ceb056504a8eb9dbe48f9ab47&amp;type=3#UI_icon_60" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_59" class="mt-node mt-button" style="position:absolute;left:235px;top:705px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_59-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_59" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_59-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_59.png?fileID=21300000&amp;guid=f79e757ff03083042a009ddf2f95548e&amp;type=3#UI_icon_59" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_58" class="mt-node mt-button" style="position:absolute;left:470px;top:705px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_58-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_58" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_58-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_58.png?fileID=21300000&amp;guid=f89e6ce988c47894693fb885f54e08e3&amp;type=3#UI_icon_58" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_57" class="mt-node mt-button" style="position:absolute;left:705px;top:705px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_57-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_57" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_57-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_57.png?fileID=21300000&amp;guid=ae1b6b0c01fcf8c47b1fa1751dbf8737&amp;type=3#UI_icon_57" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_56" class="mt-node mt-button" style="position:absolute;left:940px;top:705px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_56-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_56" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_56-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_56.png?fileID=21300000&amp;guid=512b38e0c8e80aa478d7e4d6d4690437&amp;type=3#UI_icon_56" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_55" class="mt-node mt-button" style="position:absolute;left:1175px;top:705px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_55-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_55" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_55-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_55.png?fileID=21300000&amp;guid=7b90aab4c389c0b4cadba7d3e8aaa6d4&amp;type=3#UI_icon_55" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_54" class="mt-node mt-button" style="position:absolute;left:1410px;top:705px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_54-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_54" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_54-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_54.png?fileID=21300000&amp;guid=2f4f3564b99da2c488139cf2fa9b5b31&amp;type=3#UI_icon_54" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_53" class="mt-node mt-button" style="position:absolute;left:1645px;top:705px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_53-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_53" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_53-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_53.png?fileID=21300000&amp;guid=4126a2606ebbe0042a871d8f57cad23f&amp;type=3#UI_icon_53" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_52" class="mt-node mt-button" style="position:absolute;left:0px;top:940px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_52-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_52" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_52-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_52.png?fileID=21300000&amp;guid=2799abcd1a5a0c74b8ff4cff2d922e30&amp;type=3#UI_icon_52" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_51" class="mt-node mt-button" style="position:absolute;left:235px;top:940px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_51-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_51" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_51-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_51.png?fileID=21300000&amp;guid=2593d87dc52fc7043b3238ddbeab15d3&amp;type=3#UI_icon_51" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_50" class="mt-node mt-button" style="position:absolute;left:470px;top:940px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_50-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_50" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_50-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_50.png?fileID=21300000&amp;guid=8486a68c928738f4fadbfddc90959c91&amp;type=3#UI_icon_50" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_49" class="mt-node mt-button" style="position:absolute;left:705px;top:940px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_49-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_49" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_49-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_49.png?fileID=21300000&amp;guid=eea0ea629b6fe8b448171369cb6ca89f&amp;type=3#UI_icon_49" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_48" class="mt-node mt-button" style="position:absolute;left:940px;top:940px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_48-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_48" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_48-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_48.png?fileID=21300000&amp;guid=71f7beebefa347a43a64f3c166e7d257&amp;type=3#UI_icon_48" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_47" class="mt-node mt-button" style="position:absolute;left:1175px;top:940px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_47-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_47" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_47-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_47.png?fileID=21300000&amp;guid=791ac4a1de229574a8dc2f8494883cd9&amp;type=3#UI_icon_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_46" class="mt-node mt-button" style="position:absolute;left:1410px;top:940px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_46-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_46" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_46-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_46.png?fileID=21300000&amp;guid=910d89e082e0b7e4ab3dc3a701c4796a&amp;type=3#UI_icon_46" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_45" class="mt-node mt-button" style="position:absolute;left:1645px;top:940px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_45-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_45" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_45-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_45.png?fileID=21300000&amp;guid=0b8523759dfc876469291d1eab5c8428&amp;type=3#UI_icon_45" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_44" class="mt-node mt-button" style="position:absolute;left:0px;top:1175px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_44-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_44" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_44-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_44.png?fileID=21300000&amp;guid=22ab4df8ac1d4584bbff5dad495349e4&amp;type=3#UI_icon_44" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_43" class="mt-node mt-button" style="position:absolute;left:235px;top:1175px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_43-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_43" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_43-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_43.png?fileID=21300000&amp;guid=f66365109027cb3439d86ba2fd6e6a41&amp;type=3#UI_icon_43" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_42" class="mt-node mt-button" style="position:absolute;left:470px;top:1175px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_42-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_42" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_42-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_42.png?fileID=21300000&amp;guid=6e042b68d6ed6f743af82774b3cf017d&amp;type=3#UI_icon_42" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_41" class="mt-node mt-button" style="position:absolute;left:705px;top:1175px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_41-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_41" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_41-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_41.png?fileID=21300000&amp;guid=11900947529dab64b9d54a25422a927c&amp;type=3#UI_icon_41" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_40" class="mt-node mt-button" style="position:absolute;left:940px;top:1175px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_40-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_40" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_40-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_40.png?fileID=21300000&amp;guid=db91bcc940cf22449a3467636ba85904&amp;type=3#UI_icon_40" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_39" class="mt-node mt-button" style="position:absolute;left:1175px;top:1175px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_39-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_39" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_39-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_39.png?fileID=21300000&amp;guid=3e6c48bd141090a428b2c9336f9c9191&amp;type=3#UI_icon_39" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_38" class="mt-node mt-button" style="position:absolute;left:1410px;top:1175px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_38-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_38" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_38-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_38.png?fileID=21300000&amp;guid=bcbbfd51d5edbb94e9fb885d5bc79715&amp;type=3#UI_icon_38" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_37" class="mt-node mt-button" style="position:absolute;left:1645px;top:1175px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_37-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_37" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_37-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_37.png?fileID=21300000&amp;guid=de2172159a4d448488f790a7468b7c22&amp;type=3#UI_icon_37" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_36" class="mt-node mt-button" style="position:absolute;left:0px;top:1410px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_36-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_36" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_36-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_36.png?fileID=21300000&amp;guid=e802f992faf7d7a41ac00d6cc629d698&amp;type=3#UI_icon_36" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_35" class="mt-node mt-button" style="position:absolute;left:235px;top:1410px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_35-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_35" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_35-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_35.png?fileID=21300000&amp;guid=5d6c447978114bf40b15b391240810ea&amp;type=3#UI_icon_35" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_34" class="mt-node mt-button" style="position:absolute;left:470px;top:1410px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_34-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_34" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_34-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_34.png?fileID=21300000&amp;guid=c8793e1fdf13c55409b4643562792410&amp;type=3#UI_icon_34" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_33" class="mt-node mt-button" style="position:absolute;left:705px;top:1410px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_33-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_33" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_33-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_33.png?fileID=21300000&amp;guid=1d5c1782cdf7c1040831da8b59ed328f&amp;type=3#UI_icon_33" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_32" class="mt-node mt-button" style="position:absolute;left:940px;top:1410px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_32-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_32" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_32-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_32.png?fileID=21300000&amp;guid=6eadaeb7a2ae0fa42bb9d9988d6b32b7&amp;type=3#UI_icon_32" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_31" class="mt-node mt-button" style="position:absolute;left:1175px;top:1410px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_31-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_31" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_31-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_31.png?fileID=21300000&amp;guid=da83c722c35fdb44995fd6e661ad88bb&amp;type=3#UI_icon_31" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_30" class="mt-node mt-button" style="position:absolute;left:1410px;top:1410px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_30-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_30" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_30-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_30.png?fileID=21300000&amp;guid=bd8102beae6c6114b82da8e6c7cfd104&amp;type=3#UI_icon_30" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_29" class="mt-node mt-button" style="position:absolute;left:1645px;top:1410px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_29-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_29" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_29-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_29.png?fileID=21300000&amp;guid=77bccd75e9c14e64f94dbdea90eff3f1&amp;type=3#UI_icon_29" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_28" class="mt-node mt-button" style="position:absolute;left:0px;top:1645px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_28-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_28" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_28-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_28.png?fileID=21300000&amp;guid=424c48bd9979c0e428369cd30b2c9b7a&amp;type=3#UI_icon_28" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_27" class="mt-node mt-button" style="position:absolute;left:235px;top:1645px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_27-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_27" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_27-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_27.png?fileID=21300000&amp;guid=2498e2e29899e754783d13798a109086&amp;type=3#UI_icon_27" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_26" class="mt-node mt-button" style="position:absolute;left:470px;top:1645px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_26-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_26" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_26-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_26.png?fileID=21300000&amp;guid=c92c9633a4af46548b62ef2067eabdac&amp;type=3#UI_icon_26" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_25" class="mt-node mt-button" style="position:absolute;left:705px;top:1645px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_25-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_25" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_25-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_25.png?fileID=21300000&amp;guid=8c2475538a143f8459b1d9519a9a151f&amp;type=3#UI_icon_25" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_24" class="mt-node mt-button" style="position:absolute;left:940px;top:1645px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_24-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_24" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_24-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_24.png?fileID=21300000&amp;guid=118a42ae4bbb1974a9e06148535df7e8&amp;type=3#UI_icon_24" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_23" class="mt-node mt-button" style="position:absolute;left:1175px;top:1645px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_23-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_23" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_23-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_23.png?fileID=21300000&amp;guid=f7d27dbef7c01684bb74ebacf4bbe43c&amp;type=3#UI_icon_23" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_22" class="mt-node mt-button" style="position:absolute;left:1410px;top:1645px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_22-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_22" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_22-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_22.png?fileID=21300000&amp;guid=07cf857fe11490e4d8871abbd570a03c&amp;type=3#UI_icon_22" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_21" class="mt-node mt-button" style="position:absolute;left:1645px;top:1645px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_21-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_21" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_21-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_21.png?fileID=21300000&amp;guid=1d0622a255704cb4aa333ceeacc2b0cc&amp;type=3#UI_icon_21" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_20" class="mt-node mt-button" style="position:absolute;left:0px;top:1880px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_20-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_20" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_20-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_20.png?fileID=21300000&amp;guid=562f38e8335610447b87b62b09a4008f&amp;type=3#UI_icon_20" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_19" class="mt-node mt-button" style="position:absolute;left:235px;top:1880px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_19-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_19" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_19-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_19.png?fileID=21300000&amp;guid=b963efee774f0db4391f395af210aa12&amp;type=3#UI_icon_19" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_18" class="mt-node mt-button" style="position:absolute;left:470px;top:1880px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_18-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_18" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_18-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_18.png?fileID=21300000&amp;guid=4118b4f8db7de224f93637ac0215380f&amp;type=3#UI_icon_18" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_17" class="mt-node mt-button" style="position:absolute;left:705px;top:1880px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_17-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_17" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_17-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_17.png?fileID=21300000&amp;guid=134daeefb10793d44ab78a1ca76aa30f&amp;type=3#UI_icon_17" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_16" class="mt-node mt-button" style="position:absolute;left:940px;top:1880px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_16-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_16" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_16-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_16.png?fileID=21300000&amp;guid=1495efe1b172427479eaa31cd15b2815&amp;type=3#UI_icon_16" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_15" class="mt-node mt-button" style="position:absolute;left:1175px;top:1880px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_15-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_15" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_15-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_15.png?fileID=21300000&amp;guid=9c13473196ade174ea7e94a3b782f3dd&amp;type=3#UI_icon_15" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_14" class="mt-node mt-button" style="position:absolute;left:1410px;top:1880px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_14-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_14" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_14-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_14.png?fileID=21300000&amp;guid=159caeb4caa5e454f89b6cfb5a433b04&amp;type=3#UI_icon_14" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_13" class="mt-node mt-button" style="position:absolute;left:1645px;top:1880px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_13-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_13" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_13-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_13.png?fileID=21300000&amp;guid=f383e30f6ad565c438460ca4cd2ccf3f&amp;type=3#UI_icon_13" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_12" class="mt-node mt-button" style="position:absolute;left:0px;top:2115px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_12-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_12" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_12-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_12.png?fileID=21300000&amp;guid=a7d6f1a2510f3424c820fb7eb5667d4b&amp;type=3#UI_icon_12" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_11" class="mt-node mt-button" style="position:absolute;left:235px;top:2115px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_11-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_11" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_11-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_11.png?fileID=21300000&amp;guid=7a8329a940ccbe54e8775cbd12f9891f&amp;type=3#UI_icon_11" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_10" class="mt-node mt-button" style="position:absolute;left:470px;top:2115px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_10-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_10" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_10-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_10.png?fileID=21300000&amp;guid=dcce58a7a5b61514b8b119e4d4ce28d2&amp;type=3#UI_icon_10" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_9" class="mt-node mt-button" style="position:absolute;left:705px;top:2115px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_9-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_9" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_9-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_9.png?fileID=21300000&amp;guid=dc0421861d14c76478520d6d4d4e767b&amp;type=3#UI_icon_9" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_8" class="mt-node mt-button" style="position:absolute;left:940px;top:2115px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_8-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_8" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_8-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_8.png?fileID=21300000&amp;guid=f8b2b45b5914bd54c8dbcbe13c5ecc1e&amp;type=3#UI_icon_8" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_7" class="mt-node mt-button" style="position:absolute;left:1175px;top:2115px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_7-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_7" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_7-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_7.png?fileID=21300000&amp;guid=aaa4ac985a8615a4a85bf957ec7991b5&amp;type=3#UI_icon_7" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_6" class="mt-node mt-button" style="position:absolute;left:1410px;top:2115px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_6-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_6" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_6-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_6.png?fileID=21300000&amp;guid=31c8c07c78fc62e4b892ae8f90218749&amp;type=3#UI_icon_6" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_5" class="mt-node mt-button" style="position:absolute;left:1645px;top:2115px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_5-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_5" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_5-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_5.png?fileID=21300000&amp;guid=bf8b820ac74f23941a5bb4a8553a1e80&amp;type=3#UI_icon_5" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_4" class="mt-node mt-button" style="position:absolute;left:0px;top:2350px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_4-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_4" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_4-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_4.png?fileID=21300000&amp;guid=2d3cb4d0842bda84fa0f60e569c6d56d&amp;type=3#UI_icon_4" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_3" class="mt-node mt-button" style="position:absolute;left:235px;top:2350px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_3-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_3" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_3-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_3.png?fileID=21300000&amp;guid=86dd84df0da26e44c898c01993fd51d3&amp;type=3#UI_icon_3" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_2" class="mt-node mt-button" style="position:absolute;left:470px;top:2350px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_2-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_2" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_2-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_2.png?fileID=21300000&amp;guid=27c10c63f85f9334e99da36bc8eb2d9f&amp;type=3#UI_icon_2" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn_default_1" class="mt-node mt-button" style="position:absolute;left:705px;top:2350px;width:230px;height:230px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn_default_1-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_1" class="mt-node" style="position:absolute;left:17px;top:17px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_1-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_1.png?fileID=21300000&amp;guid=dadaa90979d944d4784a7dc89b39b3c1&amp;type=3#UI_icon_1" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+</ui:VisualElement>
+</ui:VisualElement></mt:PaintedFrame></ui:UXML>

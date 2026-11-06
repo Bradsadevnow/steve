@@ -1,0 +1,110 @@
+{
+  "status": "authored three-mount chassis; no inherent stat bonuses",
+  "bodies": [
+    {
+      "id": "duelist",
+      "name": "Duelist",
+      "sockets": [
+        {
+          "id": "hand_L",
+          "type": "tool",
+          "position": [
+            -0.66,
+            -0.39,
+            0.65
+          ],
+          "rotation": [
+            1.5707963267948966,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "hand_R",
+          "type": "tool",
+          "position": [
+            0.66,
+            -0.39,
+            0.65
+          ],
+          "rotation": [
+            1.5707963267948966,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "horn",
+          "type": "focus",
+          "position": [
+            0.004350647795945406,
+            -0.06465154886245728,
+            1.8538521528244019
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "pairs": [
+        {
+          "primary": "hand_R",
+          "secondary": "hand_L"
+        }
+      ],
+      "role": "Lean hover duelist: left/right hand tools and horn focus only."
+    },
+    {
+      "id": "mantle",
+      "name": "Mantle",
+      "sockets": [
+        {
+          "id": "shoulder_L",
+          "type": "utility",
+          "position": [
+            -0.88,
+            0.05,
+            1.4
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "shoulder_R",
+          "type": "utility",
+          "position": [
+            0.88,
+            0.05,
+            1.4
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "horn",
+          "type": "focus",
+          "position": [
+            0.004350647795945406,
+            -0.06465154886245728,
+            1.9238520860671997
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "pairs": [],
+      "role": "Armless hover support core: left/right shoulder utilities and horn focus only."
+    }
+  ]
+}

@@ -1,5 +1,63 @@
 # Running Steve
 
+Watch records use a single icon row inside the existing flyout: Goals, Self, Log,
+Debug, camera and menu. The row stays available when its content is collapsed.
+No additional Goals monitor is present. The minimap is above the flyout.
+
+Release checks: run `Tools/verify_project_boundaries.py`,
+`Tools/verify_character_assets.py`, and `python -m unittest discover -p 'test_*.py'`
+from `t-scan/live`. Unity CLI `script eval_file` can run
+`Tools/verify_live_viewer.cs` against the playing Steve project; it restores the
+current workspace and preserves drafts. Results stay under ignored runtime data.
+
+World Build uses left-hand options and a right-hand asset browser, with selection
+details across the bottom. Steve's corner HUD appears in Watch, not Build.
+World/Character tabs are inside the builder. The center remains open for placement.
+Hover equipment tiles or occupied mounts to inspect bonuses, abilities and a
+rotating asset view; selecting a tile edits only the draft until Apply.
+
+Watch has a top-right world-state minimap: mint is Steve, red markers are targets,
+gray cells are blocked, orange cells are hazards, and corner flags retain their
+colors. North stays up. It shows the published simulation; an unapplied-draft
+notice means Build still has edits waiting for **Apply to world**. Leaving Build
+preserves those edits and returns the view to the published layout.
+
+Build → Character also offers **Duelist** (two hands plus horn) and **Mantle**
+(two shoulders plus horn). Shoulder sockets accept utility modules; hand sockets
+accept tool modules. Incompatible existing equipment must be resolved before Apply.
+
+The upper-left character pane shows Steve's confirmed portrait, equipment and
+position, level, HP/MP and effective stats. **Sheet +** opens the bounded character sheet; module icons open item
+details, and **Edit loadout** opens the forge. **Changes from equipped** compares
+equipment, effective stats and gained/lost abilities before Apply using a read-only
+engine preview. Base stats are 1; sword +2 STR and shield +2 CON give the starter
+pair STR/CON 3. Slash deals STR; Bash deals floor(CON/3), minimum 1. Stale connection
+state is labeled. Maximum HP is 10 + (CON − 1): the starter shield gives 12 max HP.
+Gear swaps never heal; removing CON gear clamps excess current HP. Inspecting these
+views never issues a combat action or ticks time.
+
+Build → **Character** opens the character forge. Choose a body, select a mount,
+then choose a compatible module. **Starter pair** creates a Uni-Core sword/shield
+draft. Stop Steve and wait for any action to settle, then **Apply loadout**. Only
+the backend-confirmed revision is live. Body swaps retain unresolved modules for
+explicit removal/remapping. The enlarged editor has a compact right-hand build
+sheet showing engine-preview HP/MP, attributes, changes and granted abilities.
+Chassis choices collapse; detailed stat breakdowns and ability rules are on hover.
+Preset controls are deferred; existing saved preset files are untouched.
+
+The sword grants Slash (3 adjacent damage); the shield grants Bash (1 damage,
+clear cardinal lane, target within 3 squares, stops adjacent). Other modules are
+labeled visual prototypes. Place the authored Crash-test dummy assets using the
+world builder's actor/enemy palette and Apply the world; the backend initializes
+stationary 10 HP training targets and Unity shows their measured HP. Dummies do
+not retaliate. Defeated dummies remain blocking scenery. No Steve leveling,
+resource bars or autonomous enemy combat is implemented by this equipment pass.
+
+Quick click places one item. Hold left for half a second, then drag to rotate the
+world camera; right/middle drag pans and scroll zooms. Drag inside the Character
+preview rotates that preview without editing the world. World and Character Apply
+wait for backend confirmation; rejected drafts remain editable.
+
 The active [15×15 course](MEADOW_COURSE.md) uses x/y 1..15, resets to (8,8), and reports `blocked_obstacle` when movement attempts enter occupied obstacle cells. Historical ten-route batches are not configured for this world.
 
 The app/product name is Steve. The existing `t-scan` and `TScanViewer` folder names and internal code identifiers are retained; they do not select a separate TScan runtime.
@@ -30,6 +88,12 @@ From the workspace root, verify changes with:
 ```
 
 Boundary output is written to `t-scan/runtime_data/verification/project-boundaries.json`. Neither command wakes Steve or starts a navigation trial.
+
+In the world builder, **Start · P** selects the start tool. Click a valid cell,
+then **Apply to world** to move Steve there and save that start for future resets.
+Draft clicks alone do not move him. Applying a changed start preserves the current
+chat/run and does not advance the game clock; stop Steve and settle presentation
+before applying.
 
 ## Re-exporting the kit and building worlds
 

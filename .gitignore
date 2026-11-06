@@ -35,3 +35,9 @@ __pycache__/
 *.db
 *.db-*
 *.blend[0-9]
+
+# Local capture scratch and optional source artwork; retain on disk, not in Git.
+/TScanViewer/Assets/Temp/
+/TScanViewer/Assets/Temp.meta
+/TScanViewer/Assets/Fantasy RPG UI Pack/PSD/
+/TScanViewer/Assets/Fantasy RPG UI Pack/PSD.meta

@@ -32,6 +32,10 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if not self.allowed():return self.send_json(dict(error='Forbidden request origin'),403)
         route=urlsplit(self.path);query=parse_qs(route.query)
+        if route.path=='/character/catalog':
+            import character_rules
+            return self.send_json(dict(catalog=character_rules.CATALOG,catalog_hash=character_rules.CATALOG_HASH))
+        if route.path=='/character/state':return self.send_json(dict(character=grid_world.observe()['character']))
         if route.path=='/self-view':
             from self_view import build
             with lock:health=dict(state)
@@ -114,12 +118,18 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send_json(result)
             except (ValueError,KeyError) as error:return self.send_json(dict(error=str(error)),400)
             except Exception as error:return self.send_json(dict(error='Archive/new chat failed: '+str(error)),500)
-        if self.path in ('/grid/world','/grid/poll','/grid/ack','/grid/control'):
+        if self.path in ('/grid/world','/grid/poll','/grid/ack','/grid/control','/character/apply','/character/preview'):
             try:
                 length=int(self.headers.get('Content-Length','0'))
                 if not 0<length<=65536:raise ValueError('Invalid grid request size')
                 data=json.loads(self.rfile.read(length))
                 if not isinstance(data,dict):raise ValueError('Expected a grid request object')
+                if self.path=='/character/preview':return self.send_json(grid_world.preview_character(data))
+                if self.path=='/character/apply':
+                    with lock:
+                        if active_kind is not None or pending is not None:return self.send_json(dict(error='Wait for the current or queued inference before changing equipment'),409)
+                        value=grid_world.apply_character(data)
+                    return self.send_json(value)
                 if self.path=='/grid/world':
                     with lock:
                         if active_kind is not None:return self.send_json(dict(error='Wait for the current turn before registering the world'),409)

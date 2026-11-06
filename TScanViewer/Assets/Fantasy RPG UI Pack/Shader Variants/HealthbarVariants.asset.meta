@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 722f778c2fa04754a8613cc041b37e21
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 269061
+  packageName: Fantasy RPG UI Pack
+  packageVersion: 1.2
+  assetPath: Assets/Fantasy RPG UI Pack/Shader Variants/HealthbarVariants.asset
+  uploadId: 1006546

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: e3d6354031da8194f9646b4a89152c4a
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 269061
+  packageName: Fantasy RPG UI Pack
+  packageVersion: 1.2
+  assetPath: Assets/Fantasy RPG UI Pack/Shaders/Compatible/Toolkit/VFX_Fill_RadiallWave101_Toolkit.shader
+  uploadId: 1006546

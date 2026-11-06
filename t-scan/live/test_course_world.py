@@ -13,6 +13,31 @@ def course():
  return m
 
 class CourseWorldTests(unittest.TestCase):
+ def test_apply_changed_start_moves_avatar_without_resetting_run(self):
+  with tempfile.TemporaryDirectory() as d:
+   w=GridWorld(Path(d)/'world.json');value=course();w.register_world('test',value);w.reset()
+   w.state['game_tick']=7;before=copy.deepcopy(w.state)
+   value.update(revision=3,spawn=dict(col=13,row=4))
+   after=w.register_world('test',value)
+   self.assertEqual((after['self']['col'],after['self']['row']),(13,4))
+   for field in ('session_id','character','game_tick'):self.assertEqual(w.state[field],before[field])
+   self.assertEqual(w.register_world('test',value),after)
+   restarted=GridWorld(w.path);restarted.register_world('test',value)
+   self.assertEqual((restarted.observe()['self']['col'],restarted.observe()['self']['row']),(13,4))
+   self.assertEqual(restarted.reset()['self']['col'],13)
+ def test_apply_layout_with_unchanged_start_keeps_avatar_position(self):
+  with tempfile.TemporaryDirectory() as d:
+   w=GridWorld(Path(d)/'world.json');value=course();w.register_world('test',value);w.reset()
+   w.state['avatar'].update(col=6,row=6)
+   value['revision']=3;value['obstacles'][0].update(col=10,row=8)
+   after=w.register_world('test',value)
+   self.assertEqual((after['self']['col'],after['self']['row']),(6,6))
+ def test_changed_start_cannot_move_avatar_while_running(self):
+  with tempfile.TemporaryDirectory() as d:
+   w=GridWorld(Path(d)/'world.json');value=course();w.register_world('test',value);w.wake('human')
+   before=copy.deepcopy(w.state);value.update(revision=3,spawn=dict(col=13,row=4))
+   with self.assertRaisesRegex(ValueError,'Stop the decision loop'):w.register_world('test',value)
+   self.assertEqual(w.state,before)
  def test_invalid_overlap_and_out_of_bounds_are_rejected(self):
   for cell in [(8,8),(15,15),(16,1)]:
    m=course();m['obstacles'][0].update(col=cell[0],row=cell[1])

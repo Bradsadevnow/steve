@@ -1,0 +1,222 @@
+{
+  "status": "design prototypes; not imported or gameplay balanced",
+  "bodies": [
+    {
+      "id": "skimmer",
+      "name": "Skimmer",
+      "sockets": [
+        {
+          "id": "ventral_tool",
+          "type": "light_tool",
+          "position": [
+            0,
+            -0.59,
+            0.49
+          ],
+          "rotation": [
+            1.5707963267948966,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "dorsal_utility",
+          "type": "utility",
+          "position": [
+            0,
+            0.43,
+            0.86
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "horn",
+          "type": "focus",
+          "position": [
+            0,
+            -0.02,
+            2.06
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "role": "Compact hover scout; one light tool, one utility module, one horn focus."
+    },
+    {
+      "id": "bulwark",
+      "name": "Bulwark",
+      "sockets": [
+        {
+          "id": "left_upper",
+          "type": "tool",
+          "position": [
+            -0.95,
+            -0.36,
+            1.21
+          ],
+          "rotation": [
+            1.5707963267948966,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "left_lower",
+          "type": "tool",
+          "position": [
+            -0.95,
+            -0.36,
+            0.67
+          ],
+          "rotation": [
+            1.5707963267948966,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "left_back",
+          "type": "utility",
+          "position": [
+            -0.4,
+            0.47,
+            1.33
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "right_upper",
+          "type": "tool",
+          "position": [
+            0.95,
+            -0.36,
+            1.21
+          ],
+          "rotation": [
+            1.5707963267948966,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "right_lower",
+          "type": "tool",
+          "position": [
+            0.95,
+            -0.36,
+            0.67
+          ],
+          "rotation": [
+            1.5707963267948966,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "right_back",
+          "type": "utility",
+          "position": [
+            0.4,
+            0.47,
+            1.33
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "horn",
+          "type": "focus",
+          "position": [
+            0,
+            -0.02,
+            2.63
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "role": "Wide hover carrier; four tool couplings, two back utilities, one horn focus."
+    },
+    {
+      "id": "wisp",
+      "name": "Wisp",
+      "sockets": [
+        {
+          "id": "orbit_1",
+          "type": "arcane",
+          "position": [
+            5.75583995599256e-17,
+            -0.94,
+            0.82
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "orbit_2",
+          "type": "arcane",
+          "position": [
+            0.8140638795573724,
+            0.4699999999999999,
+            0.82
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "orbit_3",
+          "type": "arcane",
+          "position": [
+            -0.8140638795573724,
+            0.4699999999999999,
+            0.82
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "horn",
+          "type": "focus",
+          "position": [
+            0,
+            -0.02,
+            2.15
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "role": "Floating orb; three arcane satellite mounts and one horn focus; no hand-tool sockets."
+    }
+  ]
+}

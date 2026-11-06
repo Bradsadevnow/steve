@@ -1,5 +1,222 @@
 # Navigation experiments
 
+## Pre-commit cleanup verification, 6 November 2026
+
+290 backend tests passed, including atomic combat/world save failures, preservation
+of damage/death on unchanged targets after unrelated edits, and phase/loadout tool
+admission. `Tools/verify_character_assets.py` confirmed 7 bodies, 12 modules,
+19 mesh keys, matching Unity/backend catalogs and 2,242 unique Unity GUIDs.
+Boundary verification passed. Two native Gemma probes in `stats-provider-a5166cf2`
+passed (Slash 3, Bash at CON 6 dealing 2); actual provider payloads/native IDs and
+assembled followups were inspected, with reasoning retained separately.
+
+Live UI checks in `ui-cleanup.json` passed for Watch/map/records layout, world
+builder input clearance, character studio uniqueness, rotating item inspection,
+camera disabling on hide and unchanged drafts. Testing exposed the DontSave-root
+lookup problem: old studios were omitted by the general object finder, causing
+an extra sword. Owner hierarchy traversal now reclaims them; active studio/mesh
+counts are explicitly checked. Earlier failed UI diagnostics are not passes.
+The idle backend reload in `cleanup-reload-4ccb2efb` preserved world/session,
+character/resources, targets, tick and agent goals/tasks/focus.
+
+## Spawned dummy audit, 6 November 2026
+
+Live target `o_12_11` at (12,11) has HP 10/10 and no level or attribute sheet.
+Enemy level/stat scaling is therefore not implemented. An isolated copy of the
+published world and confirmed loadout verified Slash HP 10→7→4→1→0, defeat on
+the fourth hit, overkill clamped to 1 actual damage, subsequent attack rejected
+without a tick, and 0 HP retained after restart. Effective attacker STR 3/5/7
+produced damage 3/5/7; shield bash dealt 1. This establishes attacker scaling,
+not target level scaling. Current Unity code labels 0 HP as defeated; authored
+dummy geometry/collision remains, with no death animation/despawn.
+Probe uses synthetic adjacent placement and presentation ACKs, not autonomous
+model decisions/navigation or Unity combat animation. Live character, target,
+position, session and tick were unchanged. Evidence:
+`t-scan/runtime_data/verification/dummy-combat-audit/report.json` and copied-world
+receipt logs. Reproducer: `verification/probe_spawned_dummy.py`.
+
+## CON HP and compact build sheet, 6 November 2026
+
+Resource rules `steve-resources-v2-con-hp`: max HP = 10 + (effective CON − 1).
+285 backend tests passed, including read-only preview/Apply parity, source-state
+clamping, no swap healing/revival, effective CON contributions, rollback and
+idempotent legacy migration. Idle main backend reload preserved session, position,
+equipment, current HP and game tick; confirmed shield loadout reads HP 10/12 and
+MP 10/10. Before/after captures are in `runtime_data/verification/con-hp/`.
+Unity compiled and its live draft sheet showed CON 3, HP 10/12, Slash 3 and Bash 1.
+Project-boundary checks passed. No model prompt, combat action or reset was issued.
+
+## Three-mount chassis, Watch camera and world-state presentation, 6 November 2026
+
+Duelist and Mantle were built/rendered in an isolated Blender source, appended to
+the live lineup, and exported into both catalogs/Unity meshes. There are seven
+selectable bodies. All 17 equipment/stats checks passed, including the new exact
+mount sets, utility-versus-tool validation, two-hand pairing and neutral chassis
+stats. Unity checked actual attachment local positions/quaternions for both test
+loadouts. Duelist's equipped preview was visually inspected; the operator switched
+to Watch during the Mantle capture. Both authored Blender renders were inspected.
+The operator applied Duelist during verification; it was not reverted by the agent.
+
+Fixed the hidden Character workspace flag blocking Watch camera input. Mouse
+rotation changed yaw from about -14.42 to 30.22; wheel input changed zoom from
+about 9.79 to 8.51 while Watch was active and the remembered Character flag remained
+true. Those checks spent no game tick. Target-label recovery passed a deliberately
+duplicated-label fixture and repeated registry recovery, with one active label per ID.
+
+The reported one visible target versus three HP labels was additionally traced to
+an unapplied one-target draft still rendering in Watch while the simulation had
+three published targets. Watch now clears the visual override; Build restores the
+draft. The two observed draft deletions were retained without publishing them.
+The final regression measured one draft target/label versus three published Watch
+targets/labels, with the draft string unchanged across view switches.
+
+The Watch minimap was restored and themed with Panel Rect 40/board 41. It uses the
+measured 15×15 board, target count, flags, blocked/hazard cells and position, and
+shows a separate unapplied-draft notice. Runtime inspection confirmed its square
+grid and non-overlapping placement above the tool rail. Unity compiled without
+errors and project boundary checks passed. Unity's known domain-reload GC-handle
+assertions appeared during recompilation; this pass does not claim to fix that
+engine issue. Current runtime behavior and the duplication regression were checked
+after reload.
+
+## Starter stats, scaling and retirement of active affect, 6 November 2026
+
+Condition `shared-chat-v8.8.0-character-stats`, equipment catalog v2. Base stats
+are all 1; sword +2 STR, shield +2 CON; initial HP/MP 10. Module-defined integer
+curves produce Slash=STR and Bash=max(1,floor(CON/3)). No new leveling, resource
+growth, temporary effects or enemy AI was added.
+
+The complete backend suite passed 281 tests, including new baseline, stacking,
+preview purity/parity, real HTTP preview, resource preservation, unequip, rounding,
+overkill receipts, rollback and idempotent legacy migration checks. An initial
+Windows local-HTTP connection abort was not reproducible in the focused rerun;
+the final complete suite passed. Agent perception also excludes private stat
+source storage and asset prototype IDs. Existing corruption/fault fixtures intentionally
+print warnings/tracebacks while their assertions pass.
+
+Two isolated Gemma native-tool probes passed 2/2: Slash at STR 3 removed 3 HP;
+Bash at CON 6 removed 2 HP and moved (5,5)→(5,7). Captures include actual provider
+requests, separate model reasoning, source/context manifests and assembled native
+call/result followups. These use synthetic presentation acknowledgments and do
+not establish autonomous Unity combat or enemy tactics. Initial capture directory:
+`t-scan/runtime_data/verification/stats-provider-53eec2a4/`. Final captures after
+tightening entity perception also passed 2/2 under `stats-provider-8444760d/`.
+
+Unity compiled cleanly and physical checks confirmed live HP/MP bars, level,
+base/bonus/effective rows and evaluated ability damage. Removing the shield in
+the draft showed CON 3→1 and lost Bash while the confirmed HUD stayed at CON 3.
+The test draft was reverted without applying. No main combat prompt was sent.
+
+The pre-migration world, conversation and SQLite snapshot are backed up under
+`runtime_data/verification/stats-migration/`. Before/after audits matched authored
+memory/Self and historical affect hashes, body/equipment, session, position
+(12,4), stopped state and tick 0. Character loadout revision changed r2→r3 once
+to record the approved catalog/stats migration and invalidate stale handoffs.
+Active worker appraisal, current affect context and body polling are retired;
+historical compatibility records remain explicitly distinguished.
+
+## Compact character HUD verification, 6 November 2026
+
+Unity compiled the new presentation classes with no errors. Nine isolated C#
+checks verified confirmed data binding, missing sheet handling, cached stale
+state, actual zero HP, invalid resource values, supplied attribute breakdowns,
+gained/lost draft actions, unchanged confirmed equipment and invalid mount drafts.
+Fixture stats were never written to the live character or backend.
+
+Physical mouse checks opened the sheet, navigated to Character Forge and expanded
+the draft comparison. The sheet remained clickable beside the builder. Fixed
+1280×720 and 1920×1080 Game views were selected for layout checks, then the original
+Game view selection was restored and the temporary size removed. Captures use
+the CLI's normalized 1280×720 output. A smaller bounded popup replaced the initial
+oversized expansion; headers and footer controls have minimum heights.
+
+The reload-related black world view recovered when Build reconstructed its
+existing draft; no published layout was changed to recover rendering. This does
+not claim the underlying world domain-reload serialization issue is fixed.
+Live backend verification retained session `6acd61377dcc4d7c87a0aeef5b1f411f`,
+position (12,4), tick 0 and a stopped loop after inspection. Project boundary
+verification passed. Existing vendor demo obsolete-API warnings remain.
+
+## Apply a changed Steve start, 6 November 2026
+
+Start clicks had changed the draft to (13,4), but only future resets used it.
+Applying a changed authored spawn now relocates the authoritative avatar without
+resetting the session, character or game tick. Unchanged-spawn layout edits retain
+the current avatar location unless it becomes unoccupiable. Running or unsettled
+world changes remain rejected. The UI hint now describes Apply explicitly.
+All 51 focused world/backend tests passed; Unity compiled with no errors. Live
+inspection confirmed the draft start (13,4) and updated hint survived compilation;
+the backend restart preserved session, position (8,8) and tick 0. The operator's
+draft was not published during verification. Project boundary checks passed.
+
+## Fitted equipment sheet and preview zoom, 6 November 2026
+
+The responsive columns over a fixed inventory background were replaced by one
+1200×692 authored-coordinate equipment composition, uniformly fitted with the
+pack's PaintedFrame. Preview, mount slots, library and view controls share that
+coordinate space; no panel frame stretches independently. Character render-target
+aspect follows the preview rectangle, and initial framing fits the actual model
+more closely. Added preview-only wheel zoom, −/+ controls and Reset View. Physical
+wheel input visibly enlarged the character and changed orthographic size; a real
+Reset View click restored fitted framing. Draft equipment was preserved and not
+applied during these checks. Unity compiled successfully.
+
+## Visual module attachment correction, 6 November 2026
+
+An operator screenshot showed dual Cleric Orbs floating below the chassis despite
+the earlier transform-equality test passing. That test only compared renderer
+transforms to exported metadata; it did not establish that the mesh was baked
+correctly. Source module collections were excluded from Blender's view layer,
+leaving mesh world matrices stale during export. The exporter now enables source
+collections/layers before dependency-graph evaluation and baking. Visual QA in
+Unity confirmed both orbs at the wrist couplings with their full cradle/prong art,
+instead of detached below the hover base. The character UI now uses the pack's
+inventory composition and framed equipment tiles. Tile role icons are generic;
+the 3D preview remains the representation of the actual module geometry.
+
+## UI input reload fix, 6 November 2026
+
+Physical clicks exposed a Unity domain-reload issue missed by direct callback
+tests: input actions remained enabled, but the EventSystem's nonserialized UI
+Toolkit bridge lost its started flag and never recreated panel handlers. The
+viewer now recreates only its owned `Steve UI Input` EventSystem once per domain;
+the new Start registers both runtime panels. Verified two PanelEventHandlers,
+two PanelRaycasters and one EventSystem after recompilation. Physical mouse clicks
+successfully switched World, Character, Watch and Build. The unused `shSeenChat`
+field and obsolete singleton lookup calls were removed; a cleared console stayed
+empty during interaction checks. Earlier callback-only tests did not verify
+pointer routing and should not be treated as evidence that clicks worked.
+
+## Equipment integration, 6 November 2026
+
+Condition `shared-chat-v8.7.0-equipment-actions` adds authoritative equipment and
+equipment-granted executor tools. It does not change curated identity or authored
+memory. Inference epoch allowances remain operating machinery; game time uses a
+separate `game_tick` incremented only by admitted physical actions.
+
+Backend regression suite: 268 tests passed after adding six equipment/controller
+tests and updating version/clock-registration assertions. Checks cover mount
+conflicts, two-mount occupancy, idempotency across restart, stale/busy rejection,
+atomic position/HP/tick snapshot, clear-lane/range rejection, tool removal, phase
+visibility, measured context and equipment persistence across New chat. Expected
+fault-injection warnings/tracebacks are emitted by existing tests.
+
+`Tools/smoke_character_actions.py` ran one isolated real-provider test with the
+existing `google/gemma-4-e4b` model and temperature 1.0. Gemma emitted one native
+`shield_bash(target_id="test_dummy")` call. The controller recorded movement from
+(5,5) to (5,7), HP 10→9, one game tick, loadout revision 1, and accepted damage 1.
+The synthetic test presenter acknowledged the receipt; this was not a Unity
+animation test or a full planner/navigation/combat run. Success denominator: 1/1
+controlled capability test, not an estimate of general autonomous reliability.
+Requests, native response, controller state and result are under
+`t-scan/runtime_data/verification/character-provider/`.
+
+The live UI's Starter Pair and Apply callbacks were exercised against the normal
+bridge: it confirmed Uni-Core, warrior blade/shield, revision 1, and capabilities
+`slash`/`shield_bash`; game tick remained 0. Main Steve was not prompted to act.
+Character sources/meshes and the fantasy styles compile in Unity. Remaining visual
+and physical-pointer checks are recorded with the final implementation handoff.
+
 After operator cancellation of the v8.3 baseline during trial five (four archived trial results), the user approved a separate three-call-turn experiment. `shared-chat-v8.4-three-call-turn` changes scheduling to at most three sequential model-selected calls per turn, with settled feedback, separate decision IDs and phase barriers. It adds no reward score or automatic affect/memory review. Do not combine this condition with the stopped baseline or claim the baseline completed ten trials.
 
 `t-scan/live/transit_batch.py` runs ten fixed three-flag requests, capped at 300 seconds each. Steve chooses every movement and task edit. The runner grades ordered exact-cell arrivals from settled world receipts, archives each run, and resets between trials.

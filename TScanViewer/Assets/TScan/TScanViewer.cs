@@ -20,7 +20,7 @@ namespace Steve.TScan {
   bool cinema;string prompt="";
   void Start(){
    Application.runInBackground=true;Application.targetFrameRate=60;
-   foreach(var camera in FindObjectsByType<Camera>(FindObjectsSortMode.None))if(camera.GetComponentInParent<SteveBody>()==null)camera.gameObject.SetActive(false);
+   foreach(var camera in FindObjectsByType<Camera>())if(camera.GetComponentInParent<SteveBody>()==null)camera.gameObject.SetActive(false);
    LoadAppliedWorld();StartCoroutine(PollMemoryGraphs());StartCoroutine(RestoreChat());
    StartCoroutine(PollSelf());StartCoroutine(Poll());
   }
@@ -51,6 +51,7 @@ namespace Steve.TScan {
         [Serializable] class PromptRequest {public string prompt;}
         [Serializable] class AcceptedRequest {public string requestId;}
 
-  void OnDestroy(){foreach(var texture in uiTextures)if(texture)Destroy(texture);}
+  void OnDisable(){HideModuleTooltip();moduleInspectPreview?.Dispose();moduleInspectPreview=null;DestroyCharacterStage();}
+  void OnDestroy(){characterHud?.Dispose();moduleInspectPreview?.Dispose();DestroyCharacterStage();foreach(var texture in uiTextures)if(texture)Destroy(texture);}
  }
 }

@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:mt="MoonTribe.UI">
+<ui:Style src="project://database/Assets/Fantasy RPG UI Pack/UI Toolkit/FantasyUI.uss" />
+<mt:PaintedFrame name="painted-frame" design-width="256" design-height="256" style="flex-grow:1; width:100%; height:100%;">
+<ui:VisualElement name="artboard" style="position:absolute;">
+<ui:Button name="btn_highlight_26" class="mt-node mt-button" style="position:absolute;left:0px;top:0px;width:256px;height:256px;">
+<mt:PaintedImage name="btn_highlight_26-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI--elements_decor (327).png?fileID=21300000&amp;guid=98d9a010e82cde14c886e3de01ebb992&amp;type=3#UI--elements_decor (327)" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="UI_icon_26" class="mt-node" style="position:absolute;left:30px;top:30px;width:196px;height:196px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="UI_icon_26-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/icons_256x256/UI_icon_26.png?fileID=21300000&amp;guid=c92c9633a4af46548b62ef2067eabdac&amp;type=3#UI_icon_26" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:Button>
+</ui:VisualElement></mt:PaintedFrame></ui:UXML>

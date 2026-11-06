@@ -9,23 +9,28 @@ namespace Steve.TScan {
  // UI Toolkit shell: the world fills the screen; chrome is a Steve card, a mode switch, a few tools, one tabbed rail and
  // a message bar. Steve's reasoning and replies appear as bubbles above him. All data comes from existing viewer state.
  public sealed partial class TScanViewer {
-  UIDocument shDoc;VisualElement shRoot,shCard,shTop,shTools,shMenu,shRail,shPane,shPaneTabs,shDrawer,shMsgs,shBottom,shAnchor,shBubble,shBubBody,shPop,shMem,shRestore,shMemCanvas,shMemDetail,shSegWatch,shSegBuild,shStateChip,shChatBadge,shBubFullBox;
+  CharacterHudView characterHud;
+  WorldMinimapView watchMinimap;
+  UIDocument shDoc;VisualElement shRoot,shCard,shTop,shTools,shMenu,shRail,shPane,shPaneTabs,shChatStack,shDrawer,shMsgs,shBottom,shAnchor,shBubble,shBubBody,shPop,shMem,shRestore,shMemCanvas,shMemDetail,shSegWatch,shSegBuild,shChatBadge,shBubFullBox;
   ScrollView shPaneBody,shMsgScroll,shBubFull;
-  Label shState,shPos,shBTag,shBText,shBMore,shPopText,shRunLabel,shChatStatus,shMemTitle,shMemInfo,shMemSource,shMemKind;
+  Label shBTag,shBText,shBMore,shPopText,shChatStatus,shMemTitle,shMemInfo,shMemSource,shMemKind;
+  [SerializeField] string shChatDraft="";
   TextField shSay;VisualElement shPlay,shStopB,shSend;BxIcon shPopIcon,shPlayIcon;
   readonly List<VisualElement> shTrails=new List<VisualElement>();
   readonly Dictionary<string,VisualElement> shTabButtons=new Dictionary<string,VisualElement>();
   readonly Dictionary<string,VisualElement> shMenuItems=new Dictionary<string,VisualElement>();
   readonly List<string> shLog=new List<string>();readonly List<string> shTrailText=new List<string>();
   string shTab="",shPaneKey="",shChatKey="",shLastAction="",shSession="",shLastThought="",shThoughtRequest="",shSpeech="",shMemKey="";
-  float shThoughtAt,shSpeechAt;bool shMenuOpen,shDrawerOpen,shBubbleOpen,shSeenChat=true;int shSeenCount;
+  float shThoughtAt,shSpeechAt;bool shMenuOpen,shDrawerOpen,shBubbleOpen;int shSeenCount;
+  [NonSerialized] bool uiInputInitialized;
   readonly Dictionary<string,Vector2> shNodePos=new Dictionary<string,Vector2>();readonly Dictionary<string,Color> shNodeColor=new Dictionary<string,Color>();
 
   public bool OverUI(Vector2 screen){
    foreach(var root in new[]{shRoot,bxRoot}){
     if(root==null||!root.visible||root.panel==null)continue;
     var p=RuntimePanelUtils.ScreenToPanel(root.panel,new Vector2(screen.x,Screen.height-screen.y));
-    if(root.panel.Pick(p)!=null)return true;
+    var hit=root.panel.Pick(p);
+    if(hit!=null&&(hit==root||root.Contains(hit)))return true;
    }
    return false;
   }
@@ -34,6 +39,31 @@ namespace Steve.TScan {
    return false;
   }
 
+  void RemoveUIDocuments(string name){
+   foreach(var doc in GetComponentsInChildren<UIDocument>(true))if(doc.gameObject.name==name){
+    doc.enabled=false;Destroy(doc.gameObject);
+   }
+  }
+  void EnsureUIInput(){
+   // Unity does not rerun EventSystem.Start after a domain reload, but its
+   // nonserialized UI Toolkit bridge loses the started flag. Recreate our owned
+   // EventSystem once per domain so Start registers the new runtime panels.
+   if(!uiInputInitialized){
+    foreach(var owned in GetComponentsInChildren<UnityEngine.EventSystems.EventSystem>(true))if(owned.name=="Steve UI Input"){
+     owned.gameObject.SetActive(false);Destroy(owned.gameObject);
+    }
+    uiInputInitialized=true;
+   }
+   var events=UnityEngine.EventSystems.EventSystem.current;
+   if(events==null){
+    var go=new GameObject("Steve UI Input");go.transform.SetParent(transform,false);
+    events=go.AddComponent<UnityEngine.EventSystems.EventSystem>();
+   }
+   if(events.GetComponent<UnityEngine.InputSystem.UI.InputSystemUIInputModule>()==null){
+    var input=events.gameObject.AddComponent<UnityEngine.InputSystem.UI.InputSystemUIInputModule>();
+    input.AssignDefaultActions();
+   }
+  }
   UIDocument NewUIDoc(string name,int order,out VisualElement root){
    var go=new GameObject(name);go.transform.SetParent(transform,false);go.SetActive(false);
    var ps=ScriptableObject.CreateInstance<PanelSettings>();
@@ -41,8 +71,9 @@ namespace Steve.TScan {
    ps.themeStyleSheet=Resources.Load<ThemeStyleSheet>("UI/SteveTheme");
    var doc=go.AddComponent<UIDocument>();doc.panelSettings=ps;go.SetActive(true);
    var host=doc.rootVisualElement;host.pickingMode=PickingMode.Ignore;
-   foreach(var sheet in new[]{"UI/builder","UI/shell"}){var s=Resources.Load<StyleSheet>(sheet);if(s!=null)host.styleSheets.Add(s);}
+   foreach(var sheet in new[]{"UI/builder","UI/shell","UI/fantasy","UI/character-hud"}){var s=Resources.Load<StyleSheet>(sheet);if(s!=null)host.styleSheets.Add(s);}
    root=BxEl("sv-root",host);root.pickingMode=PickingMode.Ignore;root.style.left=0;root.style.top=0;root.style.right=0;root.style.bottom=0;
+   root.style.unityFontDefinition=new StyleFontDefinition(FontDefinition.FromFont(Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf")));
    return doc;
   }
   static void ShClick(VisualElement e,Action act){e.RegisterCallback<ClickEvent>(_=>act());}
@@ -57,19 +88,20 @@ namespace Steve.TScan {
 
   // ---------- construction ----------
   void ShellCreate(){
-   shDoc=NewUIDoc("Shell UI",10,out shRoot);
-   // Steve card
-   shCard=BxEl("steve-card glass",shRoot);
-   var av=BxEl("avatar",shCard);av.pickingMode=PickingMode.Ignore;
-   var who=BxEl("",shCard);BxLabel("Steve","who-name",who);var wr=BxEl("who-row",who);
-   shStateChip=BxEl("state-chip",wr);BxEl("dot",shStateChip);shState=BxLabel("Idle","",shStateChip);shPos=BxLabel("","pos",wr);
+   characterHud?.Dispose();EnsureUIInput();RemoveUIDocuments("Shell UI");
+   shTrails.Clear();shTabButtons.Clear();shMenuItems.Clear();
+   shDoc=NewUIDoc("Shell UI",30,out shRoot);
+   characterHud=new CharacterHudView(shRoot,()=>{ShSetMode(true);SetCharacterOpen(true);});shCard=characterHud.Root;
+   characterHud.ExpansionChanged+=expanded=>{if(expanded){shDrawerOpen=false;shSay?.Blur();}};
+   watchMinimap=new WorldMinimapView(shRoot);
    // mode switch
    shTop=BxEl("topbar glass",shRoot);var seg=BxEl("seg",shTop);
    shSegWatch=BxEl("seg-b",seg);BxLabel("Watch","",shSegWatch);shSegBuild=BxEl("seg-b",seg);BxLabel("Build","",shSegBuild);
    ShClick(shSegWatch,()=>ShSetMode(false));ShClick(shSegBuild,()=>ShSetMode(true));
    // tools
-   shTools=BxEl("tools glass",shRoot);
-   var chatBtn=ShIb(shTools,"chat",()=>{shDrawerOpen=!shDrawerOpen;shMenuOpen=false;shSeenChat=true;shSeenCount=chat_Count();});shChatBadge=BxEl("badge",chatBtn);shChatBadge.pickingMode=PickingMode.Ignore;shChatBadge.style.display=DisplayStyle.None;shTabButtons["_chat"]=chatBtn;
+   shTools=BxEl("record-tools",shRoot);
+   var chatBtn=ShIb(characterHud.ChatAnchor,"chat",ShToggleChat);chatBtn.AddToClassList("hud-chat-button");chatBtn.name="character-chat-toggle";chatBtn.tooltip="Chat with Steve";
+   shChatBadge=BxEl("badge",chatBtn);shChatBadge.pickingMode=PickingMode.Ignore;shChatBadge.style.display=DisplayStyle.None;shTabButtons["_chat"]=chatBtn;
    ShIb(shTools,"cam",ResetCamera);
    var menu=ShIb(shTools,"menu",()=>{shMenuOpen=!shMenuOpen;if(shMenuOpen)shTab="";});shTabButtons["_menu"]=menu;
    // menu
@@ -79,22 +111,26 @@ namespace Steve.TScan {
    ShMenuItem("memory","Memory graph","",()=>{SetMemoryFlyout(!memoryFlyout);shMenuOpen=false;});
    ShMenuItem("hide","Hide interface","H",()=>{cinema=true;shMenuOpen=false;});
    // right rail + pane
-   shRail=BxEl("dockr glass",shRoot);
-   foreach(var t in new[]{("mind","mind"),("self","self"),("log","log"),("debug","debug")}){var key=t.Item1;shTabButtons[key]=ShIb(shRail,t.Item2,()=>{shTab=shTab==key?"":key;shMenuOpen=false;});}
    shPane=BxEl("pane glass",shRoot);shPaneTabs=BxEl("tabs",shPane);
-   foreach(var t in new[]{("mind","Goal"),("self","Self"),("log","Log"),("debug","Debug")}){var key=t.Item1;var tb=BxEl("tab",shPaneTabs);BxLabel(t.Item2,"",tb);ShClick(tb,()=>shTab=key);shTabButtons["tab_"+key]=tb;}
+   shRail=BxEl("record-tabs",shPaneTabs);
+   foreach(var t in new[]{("mind","Goals"),("self","Self"),("log","Log"),("debug","Debug")}){var key=t.Item1;var tb=ShIb(shRail,key,()=>{shTab=key;shMenuOpen=false;});tb.tooltip=t.Item2;shTabButtons["tab_"+key]=tb;}
+   shPaneTabs.Add(shTools);
+   BxButton("×","btn ghost pane-close",()=>shTab="",shPaneTabs).tooltip="Collapse records";
    shPaneBody=new ScrollView(ScrollViewMode.Vertical){verticalScrollerVisibility=ScrollerVisibility.Hidden,horizontalScrollerVisibility=ScrollerVisibility.Hidden};shPaneBody.AddToClassList("pane-body");shPane.Add(shPaneBody);
    // chat drawer
-   shDrawer=BxEl("drawer glass",shRoot);BxLabel("CHAT WITH STEVE","label-cap",shDrawer).style.marginBottom=10;
+   shChatStack=BxEl("character-chat-stack",shRoot);shChatStack.name="character-chat-stack";
+   shDrawer=BxEl("drawer glass",shChatStack);shDrawer.name="steve-chat-pane";BxLabel("CHAT WITH STEVE","label-cap",shDrawer).style.marginBottom=10;
    shMsgScroll=new ScrollView(ScrollViewMode.Vertical){verticalScrollerVisibility=ScrollerVisibility.Hidden,horizontalScrollerVisibility=ScrollerVisibility.Hidden};shMsgScroll.AddToClassList("msgs");shDrawer.Add(shMsgScroll);shMsgs=shMsgScroll.contentContainer;
    shChatStatus=BxLabel("","chat-status",shDrawer);
-   // bottom bar
-   shBottom=BxEl("bottom glass",shRoot);var tr=BxEl("tr",shBottom);
+   // Run/Stop remain available with chat closed. The composer belongs to the chat stack.
+   var tr=characterHud.TransportAnchor;
    shPlay=BxEl("play",tr);shPlayIcon=new BxIcon("play"){pickingMode=PickingMode.Ignore};shPlayIcon.AddToClassList("icon");shPlayIcon.Tint=new Color(.16f,.1f,.01f);shPlay.Add(shPlayIcon);
    ShClick(shPlay,()=>{if(!(DashboardBody?.Bench?.State?.running??false))DashboardBody?.Bench?.Resume();});
    shStopB=ShIb(tr,"stop",()=>DashboardBody?.GetComponent<SteveBridge>()?.Pause());shStopB.AddToClassList("stop-b");
-   shRunLabel=BxLabel("PAUSED","run-label",shBottom);
-   shSay=new TextField();shSay.AddToClassList("say");shSay.textEdition.placeholder="Tell Steve something…";shSay.textEdition.hidePlaceholderOnFocus=true;shBottom.Add(shSay);
+   shPlay.name="character-resume";shPlay.tooltip="Resume Steve";shStopB.name="character-stop";shStopB.tooltip="Stop Steve";
+   shBottom=BxEl("bottom glass",shChatStack);shBottom.name="steve-chat-composer";
+   shSay=new TextField{value=shChatDraft};shSay.AddToClassList("say");shSay.textEdition.placeholder="Tell Steve something…";shSay.textEdition.hidePlaceholderOnFocus=true;shBottom.Add(shSay);
+   shSay.RegisterValueChangedCallback(e=>shChatDraft=e.newValue);
    shSay.RegisterCallback<KeyDownEvent>(e=>{if((e.keyCode==KeyCode.Return||e.keyCode==KeyCode.KeypadEnter)&&!e.shiftKey){e.StopPropagation();ShSend();}},TrickleDown.TrickleDown);
    shSend=BxEl("send-b",shBottom);BxLabel("Send","",shSend);ShClick(shSend,ShSend);
    // bubbles anchored to Steve
@@ -129,29 +165,35 @@ namespace Steve.TScan {
    if(key=="hide")BxEl("menu-sep",shMenu);
   }
   void ShSetMode(bool build){if(build!=buildOpen)ToggleBuild();shMenuOpen=false;if(build){shDrawerOpen=false;shTab="";}}
+  void ShToggleChat(){shDrawerOpen=!shDrawerOpen;shMenuOpen=false;shSeenCount=chat_Count();if(shDrawerOpen)characterHud.SetExpanded(false);else shSay?.Blur();}
   void ShSend(){var text=shSay.value;if(string.IsNullOrWhiteSpace(text))return;if(SubmitChat(text)){shSay.value="";shDrawerOpen=true;}}
 
   // ---------- frame update ----------
   void UpdateShell(){
-   if(shDoc==null)ShellCreate();
+   if(shDoc==null||shRoot==null||shRoot.panel==null)ShellCreate();
    var keyboard=Keyboard.current;
    if(keyboard!=null&&!UiTyping()){
     if(keyboard.hKey.wasPressedThisFrame)cinema=!cinema;
-    if(keyboard.escapeKey.wasPressedThisFrame){if(memoryFlyout)SetMemoryFlyout(false);else if(shMenuOpen)shMenuOpen=false;else if(shTab!="")shTab="";else if(shDrawerOpen)shDrawerOpen=false;}
+    if(keyboard.escapeKey.wasPressedThisFrame){if(memoryFlyout)SetMemoryFlyout(false);else if(characterHud.Expanded)characterHud.SetExpanded(false);else if(shMenuOpen)shMenuOpen=false;else if(shTab!="")shTab="";else if(shDrawerOpen)shDrawerOpen=false;}
    }
    bool watch=!buildOpen&&!cinema;
    shRoot.visible=true;
-   ShShow(shCard,!cinema);ShShow(shTop,!cinema);ShShow(shRestore,cinema);
-   ShShow(shTools,watch);ShShow(shRail,watch);ShShow(shBottom,watch);ShShow(shAnchor,watch&&!memoryFlyout&&DashboardBody?.Bench?.Tool!=null);
-   ShShow(shMenu,watch&&shMenuOpen);ShShow(shPane,watch&&shTab!="");ShShow(shDrawer,watch&&shDrawerOpen);ShShow(shMem,memoryFlyout&&!cinema);
+   ShShow(shCard,watch&&!memoryFlyout);ShShow(shTop,!cinema);ShShow(shRestore,cinema);
+   ShShow(shTools,watch);ShShow(shRail,watch);ShShow(shChatStack,watch&&shDrawerOpen&&!memoryFlyout);ShShow(shAnchor,watch&&!memoryFlyout&&DashboardBody?.Bench?.Tool!=null);
+   ShShow(shMenu,watch&&shMenuOpen);ShShow(shPane,watch&&!memoryFlyout);ShShow(shPaneBody,shTab!="");ShShow(shMem,memoryFlyout&&!cinema);
    shSegWatch.EnableInClassList("on",!buildOpen);shSegBuild.EnableInClassList("on",buildOpen);
    var f=latestFrame??frame;var grid=DashboardBody?.Bench;var snap=grid?.State;
    // Steve card
-   string css;string state=ShState(f,grid,out css);shState.text=state;shStateChip.EnableInClassList("off",css=="off");shStateChip.EnableInClassList("bad",css=="bad");
-   shPos.text=snap?.self!=null?snap.self.col+", "+snap.self.row:"";
+   string css;string state=ShState(f,grid,out css);
+   characterHud.Update(snap,Connection=="CONNECTED"&&grid!=null&&grid.Ready,state,DashboardBody?.transform,!cinema&&!memoryFlyout);
+   ShShow(characterHud.ChatAnchor,watch);ShShow(characterHud.TransportAnchor,watch);
+   shChatStack.style.left=shCard.resolvedStyle.left;shChatStack.style.width=shCard.style.width;shChatStack.style.top=shCard.resolvedStyle.top+shCard.style.height.value.value+8;
+   ShShow(watchMinimap.Root,watch&&!memoryFlyout);watchMinimap.Update(snap,Connection=="CONNECTED"&&grid!=null&&grid.Ready,builder!=null&&bxDirtyNow);
+   shPane.style.top=shTab==""?new StyleLength(StyleKeyword.Auto):new StyleLength(watchMinimap.Root.resolvedStyle.top+watchMinimap.Root.resolvedStyle.height+12);
+   shPane.style.height=shTab==""?new StyleLength(62):new StyleLength(StyleKeyword.Auto);
    // tools state
    ShSetOn(shTabButtons["_chat"],shDrawerOpen);ShSetOn(shTabButtons["_menu"],shMenuOpen);
-   foreach(var key in new[]{"mind","self","log","debug"}){ShSetOn(shTabButtons[key],shTab==key);shTabButtons["tab_"+key].EnableInClassList("on",shTab==key);}
+   foreach(var key in new[]{"mind","self","log","debug"})ShSetOn(shTabButtons["tab_"+key],shTab==key);
    var chatLast=chat.Count>0?chat[chat.Count-1]:null;
    shChatBadge.style.display=(!shDrawerOpen&&chat.Count>shSeenCount&&chatLast!=null&&chatLast.role!="user")?DisplayStyle.Flex:DisplayStyle.None;
    if(shDrawerOpen)shSeenCount=chat.Count;
@@ -159,7 +201,6 @@ namespace Steve.TScan {
    ((Label)shMenuItems["orbit"].userData).text=OrbitEnabled?"on":"off";shMenuItems["reset"].EnableInClassList("off",newChatBusy||sending);
    // transport
    bool running=snap?.running??false;
-   shRunLabel.text=Connection!="CONNECTED"?"OFFLINE":running?"RUNNING":"PAUSED";
    shPlay.EnableInClassList("off",running);shPlayIcon.Tint=running?new Color(.37f,.45f,.52f):new Color(.16f,.1f,.01f);
    if(shStopB.userData is BxIcon si)si.Tint=running?new Color(1,.48f,.48f):Muted;
    bool online=Connection=="CONNECTED";bool canSend=online&&!sending&&!newChatBusy;shSend.EnableInClassList("off",!canSend);
@@ -221,7 +262,7 @@ namespace Steve.TScan {
     var row=BxEl("task"+(t.status=="completed"?" done":t.in_focus||t.status=="in_progress"?" now":""),tasks);BxEl("ring",row);var l=BxLabel(t.title,"",row);l.enableRichText=false;
    }
    if(selfView.focus!=null&&!string.IsNullOrEmpty(selfView.focus.reason))ShTxt(tasks,selfView.focus.reason,"sec-sub");
-   ShTxt(c,string.IsNullOrEmpty(selfView.status_note)?"Goal and task statuses are Steve's own assessments, not verified by the world.":selfView.status_note,"note");
+   c.tooltip=string.IsNullOrEmpty(selfView.status_note)?"Goal and task statuses are Steve's own assessments, not verified by the world.":selfView.status_note;
   }
   void ShRecords(VisualElement c,string title,SelfRecord[] records,string empty){
    var s=ShSec(title);c.Add(s);

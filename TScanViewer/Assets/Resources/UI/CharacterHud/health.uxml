@@ -1,0 +1,29 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:mt="MoonTribe.UI">
+<ui:Style src="project://database/Assets/Fantasy RPG UI Pack/UI Toolkit/FantasyUI.uss" />
+<mt:PaintedFrame name="painted-frame" design-width="2674" design-height="399.5" style="flex-grow:1; width:100%; height:100%;">
+<ui:VisualElement name="artboard" style="position:absolute;">
+<mt:HealthBarElement name="RPG_linear_metal_red_1" class="mt-node" style="position:absolute;left:1286px;top:175px;width:100px;height:100px;">
+<ui:VisualElement name="background" class="mt-node" style="position:absolute;left:-1204.4px;top:-23.5px;width:2508.8px;height:147px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="background-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/healthbar/RPG_Linear/Metal/Background/background.png?fileID=21300000&amp;guid=387a9a6203cb4614a9ac37d32e9d541c&amp;type=3#background" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+<ui:VisualElement name="Resource Clip" class="mt-node" style="position:absolute;left:-1204.4px;top:-23.5px;width:2508.8px;height:147px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<ui:VisualElement name="fantasy_linear_fill" class="mt-node" style="position:absolute;left:8.4px;top:-0.1162px;width:2492px;height:147.2324px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="fantasy_linear_fill-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/healthbar/RPG_Linear/Metal/Fill/loading_fill_r.png?fileID=21300000&amp;guid=61435b180672dc1459befd51c1c6fa44&amp;type=3#loading_fill_r" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="true" resource-edge="false" clip-shape="project://database/Assets/Fantasy RPG UI Pack/UI Toolkit/Support/Clip_387a9a6203cb4614a9ac37d32e9d541c.asset?fileID=11400000&amp;guid=930741ad0b6cd4546884de288b1ae169&amp;type=2#Clip_387a9a6203cb4614a9ac37d32e9d541c" clip-x="-8.4" clip-y="0.1162" clip-width="2508.8" clip-height="147" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:VisualElement>
+<ui:VisualElement name="rpg_frame" class="mt-node" style="position:absolute;left:-1257.881px;top:-79px;width:2615.762px;height:258px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="rpg_frame-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/healthbar/RPG_Linear/Metal/Frame/line-base.png?fileID=21300000&amp;guid=9414ece226395c044a477d970a07449d&amp;type=3#line-base" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+<ui:VisualElement name="Additional_elements_top" class="mt-node" style="position:absolute;left:0px;top:0px;width:100px;height:100px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<ui:VisualElement name="Additional_elements_top_1" class="mt-node" style="position:absolute;left:-25px;top:-124.5px;width:150px;height:349px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="Additional_elements_top_1-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/healthbar/RPG_Linear/Metal/Frame/3.png?fileID=21300000&amp;guid=77e5f3db10da7ac4c8f369cf77bee911&amp;type=3#3" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+<ui:VisualElement name="Additional_elements_top_3" class="mt-node" style="position:absolute;left:1074px;top:-168px;width:314px;height:358px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="Additional_elements_top_3-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/healthbar/RPG_Linear/Metal/Frame/decor1.png?fileID=21300000&amp;guid=fcfd93a8664e7114db55a92a07622c44&amp;type=3#decor1" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+<ui:VisualElement name="Additional_elements_top_4" class="mt-node" style="position:absolute;left:-1286px;top:-175px;width:314px;height:358px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="Additional_elements_top_4-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/healthbar/RPG_Linear/Metal/Frame/decor2.png?fileID=21300000&amp;guid=b2654ededa0a08743b40fbe974c2bafd&amp;type=3#decor2" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:VisualElement>
+</mt:HealthBarElement>
+</ui:VisualElement></mt:PaintedFrame></ui:UXML>

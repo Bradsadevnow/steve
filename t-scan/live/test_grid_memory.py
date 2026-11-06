@@ -49,6 +49,6 @@ class GridMemoryTests(unittest.TestCase):
    def snapshot(self):return dict(state_source='deterministic_grid',observation={'world':{'self':{'col':2,'row':5}}})
   value=unpack(conversation.context(Observation()))
   self.assertEqual(value['current_observation'],Observation().snapshot());self.assertIsNone(value['active_task'])
-  self.assertNotIn('VR fingers',json.dumps(value));self.assertIn('simulated_affect',value)
+  self.assertNotIn('VR fingers',json.dumps(value));self.assertNotIn('simulated_affect',value)
 
 if __name__=='__main__':unittest.main()

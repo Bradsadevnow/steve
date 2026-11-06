@@ -113,7 +113,7 @@ def plan_ratios(root, budget):
             if rt[1] * rt[0] > 150: rt[0] = max(0.05, rt[0] * scale)
     return {k: v[0] for k, v in ratios.items()}
 
-def bake(root, depsgraph):
+def bake(root, depsgraph, position_precision=4):
     positions, normals, colors, indices = [], [], [], []
     ratios = plan_ratios(root, BUDGET['floor'] if str(root.get('category')) == 'floor' else BUDGET['boss'] if root.get('boss') else BUDGET['default'])
     lookup = {}
@@ -140,7 +140,7 @@ def bake(root, depsgraph):
                 vi = mesh.loops[loop].vertex_index
                 p = matrix @ mesh.vertices[vi].co
                 n = (normal_matrix @ Vector(corner_normals[loop].vector)).normalized()
-                pu = (round(p.x, 4), round(p.z, 4), round(p.y, 4))
+                pu = (round(p.x, position_precision), round(p.z, position_precision), round(p.y, position_precision))
                 nu = tuple(max(-127, min(127, int(round(v * 127)))) for v in (n.x, n.z, n.y))
                 key = (pu, nu, c8)
                 idx = lookup.get(key)

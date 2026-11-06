@@ -174,7 +174,7 @@ class UmbrellaTaskRecovery(unittest.TestCase):
 
 
 class PromptWording(unittest.TestCase):
-    def test_version_changed_with_the_prompt(self):self.assertEqual(VERSION,'shared-chat-v8.6.0-actors')
+    def test_version_changed_with_the_prompt(self):self.assertEqual(VERSION,'shared-chat-v8.8.0-character-stats')
 
     def test_goal_section_sits_between_tasks_and_rejections_in_the_prompt_style(self):
         self.assertIn('\n\nYOUR GOAL\n---------\n',SYSTEM)

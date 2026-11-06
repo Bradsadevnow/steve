@@ -4,6 +4,7 @@ from types import SimpleNamespace
 from grid_context import inference_messages
 import agent_task_list
 import agent_state_tools
+import character_rules
 DIRECTIONS={'move_north':(0,1),'move_south':(0,-1),'move_east':(1,0),'move_west':(-1,0)}
 COMPLETE='complete'
 MAP_DIRECTIONS={'move_north':'y +1','move_south':'y -1','move_east':'x +1','move_west':'x -1'}
@@ -17,6 +18,8 @@ def done_hint(names=None):
  if 'request_replan' in names:return 'task_mark_complete is not available in this phase. To record that a task is done, call request_replan to return to planning, where it is available.'
  return 'Task statuses are recorded in the planner phase with task_mark_complete.'
 def validate(name,text,names=None):
+ if names is not None and name not in names:raise ValueError('Tool '+name+' is not registered in the current phase/loadout. Use only the currently supplied tools.')
+ if name in character_rules.ACTIONS:return character_rules.validate_action(name,text)
  if name in agent_state_tools.NAMES:return agent_state_tools.validate(name,text)
  if name in agent_task_list.NAMES:return agent_task_list.validate(name,text)
  if name not in (*DIRECTIONS,COMPLETE):raise ValueError('Unregistered tool name')
@@ -31,11 +34,14 @@ def validate(name,text,names=None):
 # A clock tool spends the budget only when the controller admitted it (an outcome in CLOCK_OUTCOMES);
 # rejected, stale or offline attempts do not. Future world actions register by joining CLOCK_TOOLS
 # and CLOCK_OUTCOMES. Non-clock calls (tasks, reads, notes) are free but bounded by MAX_TOTAL_CALLS.
-CLOCK_TOOLS=frozenset(DIRECTIONS)
-CLOCK_OUTCOMES=frozenset({'moved','blocked_boundary','blocked_obstacle'})
+CLOCK_TOOLS=frozenset({*DIRECTIONS,*character_rules.ACTIONS})
+CLOCK_OUTCOMES=frozenset({'moved','blocked_boundary','blocked_obstacle','target_hit'})
 COUNT_ALL='all_calls';COUNT_CLOCK='clock_actions';COUNT_ACCEPTED='accepted_calls'
 MAX_TOTAL_CALLS=8
-def registry(active_task=False,phase=None,max_calls=3,count_policy=COUNT_ALL,max_total_calls=MAX_TOTAL_CALLS):
+def registry(active_task=False,phase=None,max_calls=3,count_policy=COUNT_ALL,max_total_calls=MAX_TOTAL_CALLS,capabilities=()):
  if count_policy not in (COUNT_ALL,COUNT_CLOCK,COUNT_ACCEPTED):raise ValueError('Unknown epoch count policy')
  names=({COMPLETE,*agent_task_list.NAMES,*agent_state_tools.PLANNER} if phase=='planner' else {COMPLETE,*DIRECTIONS,*agent_state_tools.EXECUTOR} if phase=='executor' else {t['function']['name'] for t in TOOLS})
- return SimpleNamespace(TOOLS=[t for t in TOOLS if t['function']['name'] in names],SCHEMAS=dict.fromkeys(names),validate=lambda name,text:validate(name,text,frozenset(names)),DIRECT_ARGUMENTS=True,SINGLE_ACTION=max_calls==1,MAX_CALLS=max_calls,INFERENCE_MESSAGES=inference_messages,CLOCK=frozenset(names&CLOCK_TOOLS),CLOCK_OUTCOMES=CLOCK_OUTCOMES,COUNT_POLICY=count_policy,MAX_TOTAL_CALLS=max_total_calls)
+ granted=set(capabilities)&character_rules.ACTIONS.keys() if phase=='executor' else set()
+ available=TOOLS+character_rules.tools(granted)
+ names.update(granted)
+ return SimpleNamespace(TOOLS=[t for t in available if t['function']['name'] in names],SCHEMAS=dict.fromkeys(names),validate=lambda name,text:validate(name,text,frozenset(names)),DIRECT_ARGUMENTS=True,SINGLE_ACTION=max_calls==1,MAX_CALLS=max_calls,INFERENCE_MESSAGES=inference_messages,CLOCK=frozenset(names&CLOCK_TOOLS),CLOCK_OUTCOMES=CLOCK_OUTCOMES,COUNT_POLICY=count_policy,MAX_TOTAL_CALLS=max_total_calls)

@@ -14,7 +14,7 @@ class Orchestrator:
         if phase=='executor':
             plan=self.store.get('plan','current');world=self.world.observe();tasks=task_context(self.runtime)
             intention=self.store.get('intention',plan['intention_id']) if plan and plan.get('intention_id') else None
-            if not plan or plan['run_id']!=run_id or plan['world_manifest_hash']!=world.get('world_manifest_hash') or plan['task_list_revision']!=tasks['revision'] or (plan.get('intention_id') and (not intention or intention['revision']!=plan['intention_revision'] or intention['status']!='active')):
+            if not plan or plan['run_id']!=run_id or plan['world_manifest_hash']!=world.get('world_manifest_hash') or plan.get('loadout_revision',0)!=world.get('character',{}).get('revision',0) or plan['task_list_revision']!=tasks['revision'] or (plan.get('intention_id') and (not intention or intention['revision']!=plan['intention_revision'] or intention['status']!='active')):
                 self.store.transition('planner','Plan references changed; agent review required.',run_id);phase='planner'
         self.conversation.run_id=run_id
         self.store.decision(job['requestId'],run_id,phase)

@@ -1,5 +1,166 @@
 # Steve architecture
 
+## Cleanup ownership and persistence
+
+`combat_rules.resolve_attack` computes a proposed admitted/rejected effect without
+mutating actors or targets. `grid_world.py` remains the sole writer and rolls back
+failed saves. `training_targets.py` initializes passive targets and retains HP on
+unchanged placements across unrelated world edits. A new run intentionally
+initializes its targets. No enemy levels, scaling sheet or controller is implied.
+
+Character visuals cache by body/equipment rather than resource values. Named
+preview studios own their render targets and temporary materials; shared cleanup
+traverses the viewer's hierarchy so `DontSave` objects are reclaimed on reload.
+Catalog meshes remain shared and are never destroyed by an unsuccessful lookup.
+See [CLEANUP_REVIEW.md](CLEANUP_REVIEW.md) for verification and open work.
+
+## Additional bodies and world presentation fixes — 6 November 2026
+
+Body selection now includes Duelist (`hand_L`, `hand_R`, `horn`) and Mantle
+(`shoulder_L`, `shoulder_R`, `horn`), for seven bodies total. Hands are standard
+tool sockets, shoulders are utilities and horns are focus sockets. Duelist has a
+right-primary two-hand pair; Mantle has no hand mounts. Body geometry does not
+grant stats, actions or a larger collision footprint. Source/export metadata lives
+under `t-scan/art/unicore/starter_chassis/`; both local catalogs and the mesh blob
+include the new bodies. Existing equipment catalog v2 remains compatible.
+
+Watch camera input gates on actual `CharacterBuilderVisible`, not the remembered
+Character workspace selection. Returning from Character to Watch permits camera
+gestures while retaining the last workspace preference. `GridWorkbench` recovers
+its owned target-label objects after reload, removes duplicates and cleans them
+up on destruction. HP remains measured backend state.
+
+Watch draws the published world: closing Build clears only the visual draft
+override. Reopening Build restores its saved draft. A shared draft-initialization
+path prevents an immediate post-reload Build toggle from replacing cached edits.
+Draft geometry suppresses HP labels for deleted/replaced/moved preview targets;
+it does not delete authoritative targets or publish the draft automatically.
+
+`WorldMinimapView` is a read-only Watch projection of measured board dimensions,
+obstacles/hazards, flags, Steve and target HP state. North is up. It marks cached
+state stale when disconnected and reports an unapplied world draft separately.
+Its top-right steel frame uses the pack's `Panel_rect_40_empty` artwork, copied
+locally as `Resources/UI/FantasyArt/board_41.png`, fitted at authored proportions
+around a square grid. Inspecting the map cannot move Steve, edit a world or tick time.
+
+## Authoritative starter stats and scaling — 6 November 2026
+
+Current condition `shared-chat-v8.8.0-character-stats` and equipment catalog v2
+replace flat damage and the active affect path. `character_stats.py` owns source
+attributes/resources, `character_mechanics.json` owns module bonuses/abilities,
+`combat_rules.py` evaluates trusted integer curves, and `character_rules.py`
+validates/composes the sheet. `grid_world.py` still alone writes position and
+commits world effects. Unity and Steve's inference consume public projections;
+neither can submit arbitrary stats or damage. Enemy state remains world-owned.
+`world_perception.py` projects measured entities for the agent, retaining stable
+target IDs, positions, HP and curated names while omitting art prototype IDs.
+
+Base attributes are all 1; sword +2 STR, shield +2 CON. HP/MP are 10/10 initially.
+Slash equals STR; Bash is max(1, floor(CON/3)). Starter pair yields STR/CON 3,
+Slash 3 and Bash 1. Maximum HP is 10 + (effective CON − 1), so the shield gives
+12 max HP. Capacity increases do not heal; decreases persistently clamp current
+HP, preventing swap healing. MP stays 10. Resource rules are versioned separately
+as `steve-resources-v2-con-hp`. Other attributes have no new starter actions.
+No XP, temporary-effect semantics or autonomous enemy AI is implied.
+
+Private `character.stats` persists source values; public `character.sheet` includes
+revision, resources, stat breakdown and evaluated abilities/rule versions. Gear
+Apply, restart and New Chat preserve current resources. Validated module instances
+stack bonuses once each; multiple copies do not grant extra turns. Receipts retain
+scaling stat, effective value, coefficients, versions, nominal/actual damage and
+target HP/tick evidence. Saved v1 loadouts migrate explicitly once to v2 with a
+character-revision bump; the run and authored continuity are preserved.
+
+Read-only `POST /character/preview` accepts character ID, expected revision,
+catalog version, body ID and equipment. It uses the same evaluator as Apply,
+returns a marked preview, and cannot write state or advance time. The Character
+builder displays proposed effective values and ability damage, discarding stale
+responses. The HUD remains bound to confirmed state. Legacy v1 presets are
+upgraded to a clearly identified review draft before Apply.
+
+Active worker appraisal calls, decision-context affect fields and Unity body
+affect polling are removed. Historical records and legacy appraisal formatting
+remain for audit compatibility; `/runtime` marks its old projection retired.
+Identity, curated sources, memory, Self, tasks, native tool IDs and Stop are intact.
+The earlier UI-only notes below describe the state before this conversion.
+
+## Compact character presentation — 6 November 2026
+
+`CharacterHudView.cs` replaces the old Steve shell card with the corner pane and
+bounded, scrollable sheet. `CharacterPresentation.cs` projects confirmed character
+data and formats draft equipment/capability differences; it does not calculate
+combat stats or write game state. `CharacterPortrait.cs` renders only confirmed
+body/equipment on a dedicated cosmetic layer. The portrait studio and texture are
+disposed when the view is rebuilt or destroyed. `ShellUI.cs` only supplies fresh
+snapshots/status and handles navigation. The shell is above builder UI so the
+sheet remains interactive; decorative bar subtrees ignore input.
+
+The pane uses the pack's uniformly fitted board 31 and native red/blue linear
+resource controls, with locally copied UXML under `Resources/UI/CharacterHud`.
+Artwork dependencies stay in this Unity project. No resource callback writes HP,
+damage or time. Missing/invalid resources display unavailable; actual zero HP is
+distinct. Disconnection keeps cached confirmed character values and marks them
+stale. Expanded sheet state and UI inspection do not enter agent context.
+
+An optional read-only `CharacterState.sheet` projection is reserved for a future
+versioned character sheet (`revision > 0`, level, resources, attribute breakdown).
+Python does not currently emit it: the live UI shows dashes for RPG values. This
+is a frontend binding shape, not a claim that the stats backend contract has
+shipped. Do not populate it from affect or infer values from the visual loadout.
+
+Character Build has a collapsible draft comparison: changed modules/body plus
+gained/lost actions, evaluated from validated trusted module definitions. Invalid
+mount drafts show the error without claiming new abilities. Numeric stat previews
+still require the future authoritative evaluator; there is no UI-owned formula.
+The existing accepted loadout remains the pane's source while drafts are edited.
+
+## Equipment and fantasy interface — 6 November 2026
+
+The current UI adds `Resources/UI/fantasy.uss` to the existing shell/builder
+layout sheets, using local Fantasy RPG UI Pack artwork. Build has World and
+Character workspaces. `CharacterBuilderUI.cs` owns the operator draft, presets and
+RenderTexture preview; `CharacterCatalog.cs` supplies body/module art and mount
+compatibility. Original Hover, Uni-Core, Skimmer, Bulwark and Wisp are selectable.
+Presets live in `Application.persistentDataPath/Characters/`, separately from world
+saves. Body swaps retain unresolved equipment and block Apply until it is resolved.
+Quick click places; half-second left hold/drag rotates; right/middle pans; scroll zooms.
+
+Python `character_rules.py` loads trusted `character_catalog.json`. Its Unity copy
+and meshes are generated by `t-scan/art/unicore/export_character.py`. Five bodies
+and twelve modules are included. Only sword/Slash and shield/Shield Bash grant
+combat actions; other equipment is explicitly a visual prototype with no spell or
+stat progression implied.
+
+`POST /character/apply` checks stopped/settled state, no active/queued inference,
+expected character revision, catalog version, body sockets, mount types and
+multi-socket conflicts. Clients supply choices, not damage values or tool schemas.
+Character configuration and bounded idempotency receipts commit together in
+`grid-world.json`. The append-only journal and SQLite remain separate commits.
+`GET /character/catalog` and `/character/state` expose definitions/configuration.
+The confirmed receipt is authoritative; preview state is not.
+
+Equipment and loadout revision are supplied in current observations and receipts.
+Equipped attacks register only in executor phase. A changed loadout invalidates a
+prior handoff for agent review. Cardinal moves remain four zero-argument, one-cell
+tools; combat tools take exactly a measured `target_id`. One tool per response and
+operator Stop remain in force.
+
+Unity-authored `bosses_dummy_unarmed`, `bosses_dummy_melee` and
+`bosses_dummy_ranged` placements become stationary 10 HP training targets. They do
+not retaliate. Slash deals 3 adjacent cardinal damage. Bash deals 1 through a clear
+cardinal lane to a target within 3 squares, ending adjacent. Position, HP and game
+tick commit in the world snapshot before cosmetic presentation acknowledgment.
+Defeated training models remain blocking scenery; further attacks are rejected.
+Rejected schema/range/lane/unequipped requests spend no tick. Admitted movement,
+including physical wall/boundary bumps, and attacks spend one tick. Thinking, chat,
+memory, task edits and operator loadout changes spend none. Inference epochs are
+scheduler telemetry, not combat turns. New chat preserves equipment and resets
+run-local dummy HP/game ticks; archived world snapshots retain equipment revisions.
+
+World Apply waits for backend confirmation before marking the draft clean or
+saving it. Rejected definitions are not silently revised/repaired. See the
+[implementation plan](UI_CHARACTER_BUILDER_PLAN.md) and experiment notes.
+
 The active world is now the [15×15 meadow course](MEADOW_COURSE.md), with four corner flags, 24 blocked obstacle cells and an authored spawn at (8,8). Unity owns placements; Python validates them and reports collision outcomes.
 
 ## Ownership

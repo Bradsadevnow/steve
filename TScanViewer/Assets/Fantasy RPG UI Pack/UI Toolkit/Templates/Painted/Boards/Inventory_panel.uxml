@@ -1,0 +1,121 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:mt="MoonTribe.UI">
+<ui:Style src="project://database/Assets/Fantasy RPG UI Pack/UI Toolkit/FantasyUI.uss" />
+<mt:PaintedFrame name="painted-frame" design-width="5241" design-height="3022.276" style="flex-grow:1; width:100%; height:100%;">
+<ui:VisualElement name="artboard" style="position:absolute;">
+<ui:VisualElement name="Inventory_panel" class="mt-node" style="position:absolute;left:0px;top:0px;width:5241px;height:3022.276px;">
+<mt:PaintedImage name="Inventory_panel-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_67.png?fileID=21300000&amp;guid=d96f525dcc1247044b7a99b393fd568c&amp;type=3#UI_elements_decor_67" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="Inventory_Grid" class="mt-node" style="position:absolute;left:2891px;top:440.4827px;width:1973px;height:2149.311px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="Inventory_Grid-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_65.png?fileID=21300000&amp;guid=89a1e282aacd51545a6db8047a526d92&amp;type=3#UI_elements_decor_65" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:Button name="btn" class="mt-node mt-button" style="position:absolute;left:289.7499px;top:2243.655px;width:499.5px;height:210px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_146.png?fileID=21300000&amp;guid=c8d181d331b39d4479f5c2eb5a3f50f8&amp;type=3#UI_elements_decor_146" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="btn_txt" class="mt-node" style="position:absolute;left:49.75px;top:55px;width:400px;height:100px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<ui:Label text="Equip" picking-mode="Ignore" style="position:absolute;left:0;top:0;width:100%;height:100%;margin:0;padding:0;color:#A3B1B1FF;font-size:110px;white-space:nowrap;-unity-text-align:middle-center;-unity-font-definition:url('project://database/Assets/Fantasy RPG UI Pack/Fonts/Wonderland.otf?fileID=12800000&amp;guid=32cc83d748e18b14b8c32ab6e7706cef&amp;type=3#Wonderland');" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="btn" class="mt-node mt-button" style="position:absolute;left:1172.75px;top:2243.655px;width:499.5px;height:210px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="btn-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_146.png?fileID=21300000&amp;guid=c8d181d331b39d4479f5c2eb5a3f50f8&amp;type=3#UI_elements_decor_146" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="btn_txt" class="mt-node" style="position:absolute;left:49.75px;top:55px;width:400px;height:100px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<ui:Label text="Drop" picking-mode="Ignore" style="position:absolute;left:0;top:0;width:100%;height:100%;margin:0;padding:0;color:#A3B1B1FF;font-size:110px;white-space:nowrap;-unity-text-align:middle-center;-unity-font-definition:url('project://database/Assets/Fantasy RPG UI Pack/Fonts/Wonderland.otf?fileID=12800000&amp;guid=32cc83d748e18b14b8c32ab6e7706cef&amp;type=3#Wonderland');" />
+</ui:VisualElement>
+</ui:Button>
+<ui:Button name="ring_inv_temp" class="mt-node mt-button" style="position:absolute;left:100.5px;top:73.6554px;width:256px;height:256px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="ring_inv_temp-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_35.png?fileID=21300000&amp;guid=f4392756f3d69ac4caac7f347b825321&amp;type=3#UI_elements_decor_35" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:Button>
+</ui:VisualElement>
+<ui:VisualElement name="equipment_slots" class="mt-node" style="position:absolute;left:2570.5px;top:1461.138px;width:100px;height:100px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<ui:VisualElement name="gear_slot_1_weapon" class="mt-node" style="position:absolute;left:-2133.5px;top:468.5px;width:563px;height:909px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_slot_1_weapon-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_49.png?fileID=21300000&amp;guid=1266fa52c647de84aa34e9c48914b023&amp;type=3#UI_elements_decor_49" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="gear_icon" class="mt-node" style="position:absolute;left:89.9999px;top:113.0001px;width:383px;height:683px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_icon-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_43.png?fileID=21300000&amp;guid=9fdbd6e3163f31c448f012951f5b865d&amp;type=3#UI_elements_decor_43" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:VisualElement>
+<ui:VisualElement name="gear_slot_2_boots" class="mt-node" style="position:absolute;left:-1522.5px;top:659px;width:511px;height:786px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_slot_2_boots-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_50.png?fileID=21300000&amp;guid=b2f63d6f937580142a585a91515f6001&amp;type=3#UI_elements_decor_50" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="gear_icon" class="mt-node" style="position:absolute;left:97px;top:203.5001px;width:317px;height:379px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_icon-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_42.png?fileID=21300000&amp;guid=cf77989b8acf64d43b480ccde1a08e50&amp;type=3#UI_elements_decor_42" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:VisualElement>
+<ui:VisualElement name="gear_slot_3_amulet" class="mt-node" style="position:absolute;left:-877px;top:-1079.5px;width:432px;height:481px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_slot_3_amulet-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_52.png?fileID=21300000&amp;guid=318de8d5eab401843b6765ae916382bd&amp;type=3#UI_elements_decor_52" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="gear_icon" class="mt-node" style="position:absolute;left:92.9999px;top:91.4999px;width:246px;height:298px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_icon-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_38.png?fileID=21300000&amp;guid=86465dfed47471641918ac75bbd356b5&amp;type=3#UI_elements_decor_38" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:VisualElement>
+<ui:VisualElement name="gear_slot_4_shoulder" class="mt-node" style="position:absolute;left:-2073.5px;top:-987px;width:467px;height:504px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_slot_4_shoulder-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_53.png?fileID=21300000&amp;guid=e0b2d1a5398175247ba54704ebcfa8b3&amp;type=3#UI_elements_decor_53" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="gear_icon" class="mt-node" style="position:absolute;left:88.4998px;top:108.5002px;width:290px;height:287px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_icon-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_36.png?fileID=21300000&amp;guid=583e6a005464cb2469d1502414d180a2&amp;type=3#UI_elements_decor_36" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:VisualElement>
+<ui:VisualElement name="gear_slot_5_off_hand" class="mt-node" style="position:absolute;left:-968.5px;top:463.5px;width:583px;height:909px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_slot_5_off_hand-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_54.png?fileID=21300000&amp;guid=aac4b7fd2ac5bfd4b8b5739e06277958&amp;type=3#UI_elements_decor_54" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="gear_icon" class="mt-node" style="position:absolute;left:89.4999px;top:191.5px;width:404px;height:526px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_icon-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_41.png?fileID=21300000&amp;guid=d54bb04471d73894f843b6126fc74583&amp;type=3#UI_elements_decor_41" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:VisualElement>
+<ui:VisualElement name="gear_slot_7_gloves" class="mt-node" style="position:absolute;left:-2085.5px;top:-264px;width:473px;height:716px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_slot_7_gloves-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_56.png?fileID=21300000&amp;guid=ca0baf9d20a93214ca0500805d808d11&amp;type=3#UI_elements_decor_56" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="gear_icon" class="mt-node" style="position:absolute;left:79.4998px;top:154.4999px;width:314px;height:407px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_icon-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_44.png?fileID=21300000&amp;guid=46237e49ae69d1b4991005b805e73663&amp;type=3#UI_elements_decor_44" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:VisualElement>
+<ui:VisualElement name="gear_slot_8_chest" class="mt-node" style="position:absolute;left:-1572.5px;top:-359px;width:597px;height:976px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_slot_8_chest-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_57.png?fileID=21300000&amp;guid=8713ba7166287ff479bec2d808e8fc05&amp;type=3#UI_elements_decor_57" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="gear_icon" class="mt-node" style="position:absolute;left:84.5px;top:224.0001px;width:428px;height:528px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_icon-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_45.png?fileID=21300000&amp;guid=6c8a56029d25a2d48a7ecfb574ca4b40&amp;type=3#UI_elements_decor_45" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:VisualElement>
+<ui:VisualElement name="gear_slot_9_helmet" class="mt-node" style="position:absolute;left:-1516.5px;top:-1190.5px;width:499px;height:797px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_slot_9_helmet-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_58.png?fileID=21300000&amp;guid=61426b5e3c5228d40986957466d0e7aa&amp;type=3#UI_elements_decor_58" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="gear_icon" class="mt-node" style="position:absolute;left:106px;top:198.5px;width:287px;height:400px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_icon-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_37.png?fileID=21300000&amp;guid=f1093b458f85c544b8ecfb92ddb9a893&amp;type=3#UI_elements_decor_37" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:VisualElement>
+<ui:VisualElement name="gear_slot_10_cloak" class="mt-node" style="position:absolute;left:-877px;top:-577.5px;width:432px;height:481px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_slot_10_cloak-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_52.png?fileID=21300000&amp;guid=318de8d5eab401843b6765ae916382bd&amp;type=3#UI_elements_decor_52" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="gear_icon" class="mt-node" style="position:absolute;left:37.4999px;top:72.5001px;width:357px;height:336px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_icon-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_39.png?fileID=21300000&amp;guid=609d22824cd3d9942925de19e3070a21&amp;type=3#UI_elements_decor_39" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:VisualElement>
+<ui:VisualElement name="gear_slot_11_belt" class="mt-node" style="position:absolute;left:-877px;top:-74.5px;width:432px;height:481px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_slot_11_belt-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_52.png?fileID=21300000&amp;guid=318de8d5eab401843b6765ae916382bd&amp;type=3#UI_elements_decor_52" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="gear_icon" class="mt-node" style="position:absolute;left:48.4999px;top:133.4999px;width:335px;height:214px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_icon-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_46.png?fileID=21300000&amp;guid=52617dc496499a542a8ce09a17573181&amp;type=3#UI_elements_decor_46" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:VisualElement>
+<ui:VisualElement name="gear_slot_12_ring" class="mt-node" style="position:absolute;left:-389px;top:-275.5px;width:330px;height:321px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_slot_12_ring-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_59.png?fileID=21300000&amp;guid=da0c26756837fda4a9ef226c723d1096&amp;type=3#UI_elements_decor_59" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="gear_icon" class="mt-node" style="position:absolute;left:75px;top:66px;width:180px;height:189px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_icon-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_40.png?fileID=21300000&amp;guid=1e91341eb7089334687f01080a8bb6af&amp;type=3#UI_elements_decor_40" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+<ui:VisualElement name="ring_inv_holder" class="mt-node" style="position:absolute;left:60px;top:56.5002px;width:196px;height:196px;transform-origin:50% 50%;scale:-1 1;rotate:0deg;display:none;">
+<mt:PaintedImage name="ring_inv_holder-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_35.png?fileID=21300000&amp;guid=f4392756f3d69ac4caac7f347b825321&amp;type=3#UI_elements_decor_35" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:VisualElement>
+<ui:VisualElement name="gear_slot_13_ring" class="mt-node" style="position:absolute;left:-388.9999px;top:70.5001px;width:330px;height:321px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_slot_13_ring-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_59.png?fileID=21300000&amp;guid=da0c26756837fda4a9ef226c723d1096&amp;type=3#UI_elements_decor_59" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="gear_icon" class="mt-node" style="position:absolute;left:74.9999px;top:66px;width:180px;height:189px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_icon-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_40.png?fileID=21300000&amp;guid=1e91341eb7089334687f01080a8bb6af&amp;type=3#UI_elements_decor_40" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:VisualElement>
+<ui:VisualElement name="gear_slot_14_empty" class="mt-node" style="position:absolute;left:-2401px;top:77px;width:282px;height:286px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_slot_14_empty-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+<ui:VisualElement name="gear_slot_15_empty" class="mt-node" style="position:absolute;left:-2401px;top:-247.0001px;width:282px;height:286px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="gear_slot_15_empty-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_47.png?fileID=21300000&amp;guid=cc5fb546675f4c9409e9074258d64f24&amp;type=3#UI_elements_decor_47" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:VisualElement>
+<ui:VisualElement name="InputField (TMP)" class="mt-node" style="position:absolute;left:3911.41px;top:246.1381px;width:994.18px;height:128px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="InputField (TMP)-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_12.png?fileID=21300000&amp;guid=c26ddce630366ac428f852950397f72f&amp;type=3#UI_elements_decor_12" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:TextField name="InputField (TMP)-input" value="Search" max-length="-1" is-read-only="false" class="mt-input" style="position:absolute;left:5%;top:5%;width:90%;height:90%;font-size:85px;-unity-font-definition:url('project://database/Assets/Fantasy RPG UI Pack/Fonts/Wonderland.otf?fileID=12800000&amp;guid=32cc83d748e18b14b8c32ab6e7706cef&amp;type=3#Wonderland');" />
+</ui:VisualElement>
+<mt:PaintedScrollbar name="Scrollbar" class="mt-node" style="position:absolute;left:4977.852px;top:392.1381px;width:121.2979px;height:2238px;transform-origin:50% 50%;scale:1 1;rotate:0deg;" value="0" horizontal="false" reversed="false" thumb-name="Handle" track-name="Sliding Area" travel-length="1771.052">
+<mt:PaintedImage name="Scrollbar-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_32.png?fileID=21300000&amp;guid=da1f61b2c54c93d429516dcb43a1c7a4&amp;type=3#UI_elements_decor_32" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+<ui:VisualElement name="Sliding Area" class="mt-node" style="position:absolute;left:51.2334px;top:77.474px;width:22.5793px;height:1784.542px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<ui:VisualElement name="Handle" class="mt-node" style="position:absolute;left:-31.5px;top:1px;width:85.5793px;height:312px;transform-origin:50% 50%;scale:1 1;rotate:0deg;">
+<mt:PaintedImage name="Handle-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/decor/UI_elements_decor_33.png?fileID=21300000&amp;guid=85219022409d0ab468f0b7e87db01ef6&amp;type=3#UI_elements_decor_33" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="false" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:VisualElement>
+</mt:PaintedScrollbar>
+</ui:VisualElement>
+</ui:VisualElement></mt:PaintedFrame></ui:UXML>

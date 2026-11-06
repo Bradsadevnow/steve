@@ -8,7 +8,7 @@ namespace Steve.TScan {
  // UI Toolkit view of the world builder: a thumbnail palette, hotbar, tool rail, overview map and apply bar.
  // It owns no world state; every action calls back into the TScanViewer builder fields.
  public sealed partial class TScanViewer {
-  static readonly Color Teal=new Color(.22f,.86f,.78f),Gold=new Color(.96f,.73f,.31f),Muted=new Color(.56f,.64f,.71f),Bright=new Color(.91f,.94f,.97f);
+  static readonly Color Teal=new Color(.82f,.67f,.38f),Gold=new Color(.96f,.73f,.31f),Muted=new Color(.65f,.69f,.71f),Bright=new Color(.95f,.91f,.81f);
   static readonly Dictionary<string,Color> RoleColors=new Dictionary<string,Color>{
    {"floor",new Color32(210,174,114,255)},{"wall",new Color32(132,153,200,255)},{"obstacle",new Color32(230,166,92,255)},
    {"structure",new Color32(170,151,242,255)},{"hazard",new Color32(255,123,123,255)},{"decor",new Color32(127,216,170,255)},{"actor",new Color32(255,111,168,255)},{"boss",new Color32(196,110,255,255)}};
@@ -18,9 +18,10 @@ namespace Steve.TScan {
   static readonly Dictionary<string,string> RoleLabel=new Dictionary<string,string>{{"floor","Floors"},{"wall","Walls"},{"obstacle","Objects"},{"structure","Structures"},{"hazard","Hazards"},{"decor","Decor"},{"actor","Enemies"},{"boss","Bosses"}};
   static readonly Dictionary<string,string> RoleOne=new Dictionary<string,string>{{"floor","Floor"},{"wall","Wall"},{"obstacle","Object"},{"structure","Structure"},{"hazard","Hazard"},{"decor","Decor"},{"actor","Enemy"},{"boss","Boss"}};
 
-  UIDocument bxDoc;VisualElement bxStack,bxRoot,bxRail,bxCards,bxHint,bxGrid,bxRoles,bxPacks,bxHotbar,bxSel,bxSelChip,bxToast,bxTip,bxWorlds,bxDraft,bxWorldList;
-  Label bxSelName,bxYaw,bxTipName,bxTipSub,bxToastText,bxDraftText,bxMiniOk;Button bxApply;VisualElement bxSelPic,bxMiniOkBox,bxSwatches,bxMini;BxIcon bxYawIcon,bxOkIcon;TextField bxSaveField;
+  UIDocument bxDoc;VisualElement bxStack,bxRoot,bxRail,bxCards,bxHint,bxGrid,bxRoles,bxPacks,bxHotbar,bxSel,bxSelChip,bxToast,bxTip,bxWorlds,bxDraft,bxWorldList,bxWorkspaces,bxOptions;
+  Label bxSelName,bxSelectionTitle,bxYaw,bxTipName,bxTipSub,bxToastText,bxDraftText,bxMiniOk;Button bxApply;VisualElement bxSelPic,bxMiniOkBox,bxSwatches,bxMini;BxIcon bxYawIcon,bxOkIcon;TextField bxSaveField;
   readonly Dictionary<BuildTool,VisualElement> bxTools=new Dictionary<BuildTool,VisualElement>();
+  readonly Dictionary<BuildTool,Button> bxModeButtons=new Dictionary<BuildTool,Button>();
   readonly Dictionary<string,Texture2D> bxThumbs=new Dictionary<string,Texture2D>();
   readonly List<string> recent=new List<string>();
   readonly List<string> undoStack=new List<string>(),redoStack=new List<string>();
@@ -29,9 +30,10 @@ namespace Steve.TScan {
 
   // ---------- state helpers used by the builder ----------
   string Snap(){return builder==null?"":JsonUtility.ToJson(builder.ToManifest(0));}
-  void SetBaseline(){bxBaseline=Snap();undoStack.Clear();redoStack.Clear();bxChanges=0;bxDirtyNow=false;buildVersion++;}
+  void SetBaseline(){bxBaseline=Snap();buildDraftReload=bxBaseline;undoStack.Clear();redoStack.Clear();bxChanges=0;bxDirtyNow=false;buildVersion++;}
   void PushUndo(){undoStack.Add(Snap());if(undoStack.Count>120)undoStack.RemoveAt(0);redoStack.Clear();}
   void AfterEdit(){
+   buildDraftReload=Snap();
    var lost=builder.Unreachable();buildStatus=lost??"";buildProblem=lost!=null;
    buildVersion++;RefreshDirty();
   }
@@ -46,6 +48,10 @@ namespace Steve.TScan {
   void TogglePieces(){bxStack.style.display=bxStack.style.display==DisplayStyle.None?DisplayStyle.Flex:DisplayStyle.None;BxHideTip();}
   void SelectSlot(int index){if(index<0||index>=recent.Count)return;bxActiveSlot=index;SelectPiece(recent[index],true);}
   void RotateYaw(int delta){buildYaw=((buildYaw+delta)%360+360)%360;}
+  void SelectBuildTool(BuildTool tool){
+   buildTool=tool;if(bxStack!=null)bxStack.style.display=DisplayStyle.Flex;
+   BxRefreshPalette();BxHideTip();
+  }
   public bool OverBuildUI(Vector2 screen){
    if(bxDoc==null||bxRoot==null||!bxRoot.visible||bxRoot.panel==null)return false;
    var p=RuntimePanelUtils.ScreenToPanel(bxRoot.panel,new Vector2(screen.x,Screen.height-screen.y));
@@ -63,14 +69,20 @@ namespace Steve.TScan {
 
   // ---------- construction ----------
   void BxCreate(){
+   HideModuleTooltip();moduleInspectPreview?.Dispose();moduleInspectPreview=null;DestroyCharacterStage();characterKey="";
+   EnsureUIInput();RemoveUIDocuments("Builder UI");bxTools.Clear();bxModeButtons.Clear();
    var go=new GameObject("Builder UI");go.transform.SetParent(transform,false);go.SetActive(false);
    var ps=ScriptableObject.CreateInstance<PanelSettings>();
    ps.scaleMode=PanelScaleMode.ScaleWithScreenSize;ps.referenceResolution=new Vector2Int(1600,900);ps.screenMatchMode=PanelScreenMatchMode.MatchWidthOrHeight;ps.match=.5f;ps.sortingOrder=20;ps.clearColor=false;ps.themeStyleSheet=Resources.Load<ThemeStyleSheet>("UI/SteveTheme");
    bxDoc=go.AddComponent<UIDocument>();bxDoc.panelSettings=ps;go.SetActive(true);
    var sheet=Resources.Load<StyleSheet>("UI/builder");
-   var root=bxDoc.rootVisualElement;root.pickingMode=PickingMode.Ignore;if(sheet!=null)root.styleSheets.Add(sheet);
+   var root=bxDoc.rootVisualElement;root.pickingMode=PickingMode.Ignore;if(sheet!=null)root.styleSheets.Add(sheet);root.styleSheets.Add(Resources.Load<StyleSheet>("UI/fantasy"));
    bxRoot=BxEl("sv-root",root);bxRoot.pickingMode=PickingMode.Ignore;
-   BxBuildRail();BxBuildMini();BxBuildDock();
+   bxRoot.style.unityFontDefinition=new StyleFontDefinition(FontDefinition.FromFont(Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf")));
+   BxBuildRail();BxBuildMini();BxBuildDock();BuildCharacterPanel();
+   bxWorkspaces=BxEl("workspaces glass",bxRoot);bxWorkspaces.name="builder-workspace-tabs";
+   BxButton("World","btn ghost workspace-tab",()=>SetCharacterOpen(false),bxWorkspaces).name="workspace-world";
+   BxButton("Character","btn ghost workspace-tab",()=>SetCharacterOpen(true),bxWorkspaces).name="workspace-character";
    bxTip=BxEl("tip",bxRoot);bxTip.pickingMode=PickingMode.Ignore;bxTipName=BxLabel("","tip-name",bxTip);bxTipSub=BxLabel("","tip-sub",bxTip);
    bxToast=BxEl("toast glass",bxRoot);bxToast.pickingMode=PickingMode.Ignore;bxToastText=BxLabel("","",bxToast);
    BxRefreshAll();
@@ -78,12 +90,10 @@ namespace Steve.TScan {
 
   void BxBuildRail(){
    bxRail=BxEl("rail glass",bxRoot);
-   BxAddTool(BuildTool.Piece,"brush","B","Place pieces");BxAddTool(BuildTool.Spawn,"pin","P","Set Steve's start");BxAddTool(BuildTool.Flag,"flag","F","Place flag");BxAddTool(BuildTool.Erase,"eraser","X","Erase");
-   BxEl("sep",bxRail);
    BxAddAction("undo","Ctrl Z","Undo",Undo);BxAddAction("redo","Ctrl Y","Redo",Redo);BxAddAction("rotate","R","Rotate piece",()=>RotateYaw(90));
   }
   void BxAddTool(BuildTool tool,string icon,string key,string tip){
-   var b=BxToolButton(icon,key,tip,()=>{buildTool=tool;BxRefreshPalette();});bxTools[tool]=b;
+   var b=BxToolButton(icon,key,tip,()=>SelectBuildTool(tool));bxTools[tool]=b;
   }
   void BxAddAction(string icon,string key,string tip,Action act)=>BxToolButton(icon,key,tip,act);
   VisualElement BxToolButton(string icon,string key,string tip,Action act){
@@ -104,7 +114,11 @@ namespace Steve.TScan {
 
   void BxBuildDock(){
    var dock=BxEl("dock",bxRoot);dock.pickingMode=PickingMode.Ignore;
+   bxOptions=BxEl("world-options glass",dock);bxOptions.name="world-builder-options";
+   var optionScroll=new ScrollView(ScrollViewMode.Vertical){horizontalScrollerVisibility=ScrollerVisibility.Hidden};optionScroll.AddToClassList("world-options-scroll");bxOptions.Add(optionScroll);
+   var options=optionScroll.contentContainer;
    bxStack=BxEl("stack",dock);
+   var pal=BxEl("palette glass",bxStack);pal.name="world-builder-assets";BxLabel("ASSET LIBRARY","sec-title",pal);
    bxHotbar=BxEl("hotbar glass",bxStack);
    for(int i=0;i<9;i++){
     int index=i;var slot=BxEl("slot",bxHotbar);BxLabel((i+1).ToString(),"num",slot);var pic=BxEl("pic",slot);pic.pickingMode=PickingMode.Ignore;
@@ -112,17 +126,29 @@ namespace Steve.TScan {
     slot.RegisterCallback<PointerEnterEvent>(_=>{if(index<recent.Count){var info=WorldKit.Info(recent[index]);if(info!=null)BxShowTip(slot,info.name,BxRoleLine(info),false);}});
     slot.RegisterCallback<PointerLeaveEvent>(_=>BxHideTip());
    }
-   var pal=BxEl("palette glass",bxStack);
-   var filters=BxEl("filters",pal);bxRoles=BxEl("chips",filters);bxPacks=BxEl("chips",filters);
-   bxGrid=new ScrollView(ScrollViewMode.Vertical){verticalScrollerVisibility=ScrollerVisibility.Hidden,horizontalScrollerVisibility=ScrollerVisibility.Hidden};bxGrid.AddToClassList("grid");pal.Add(bxGrid);
+   BxLabel("TOOLS","label-cap",options);var modes=BxEl("build-modes",options);
+   void Mode(BuildTool tool,string label,string name){
+    var button=BxButton(label,"btn ghost mode-button",()=>SelectBuildTool(tool),modes);
+    button.name=name;bxModeButtons[tool]=button;
+   }
+   Mode(BuildTool.Piece,"Pieces · B","builder-pieces");
+   Mode(BuildTool.Spawn,"Start · P","builder-start");
+   Mode(BuildTool.Flag,"Flags · F","builder-flags");
+   Mode(BuildTool.Erase,"Delete · X","builder-delete");
+   var filters=BxEl("filters",options);BxLabel("CATEGORIES","label-cap",filters);bxRoles=BxEl("chips",filters);BxLabel("ASSET KITS","label-cap",filters);bxPacks=BxEl("chips",filters);
+   bxGrid=new ScrollView(ScrollViewMode.Vertical){verticalScrollerVisibility=ScrollerVisibility.Auto,horizontalScrollerVisibility=ScrollerVisibility.Hidden};bxGrid.AddToClassList("grid");pal.Add(bxGrid);
    bxCards=BxEl("cards",((ScrollView)bxGrid).contentContainer);
-   bxHint=BxEl("hint",pal);bxHint.style.display=DisplayStyle.None;bxSwatches=BxEl("swatches",bxHint);
-   var actions=BxEl("actions glass",dock);
-   bxSel=BxEl("sel",actions);bxSelPic=BxEl("pic",bxSel);var col=BxEl("",bxSel);bxSelName=BxLabel("","sel-name",col);
+   bxHint=BxEl("hint",options);bxHint.style.display=DisplayStyle.None;bxSwatches=BxEl("swatches",bxHint);
+   var overview=new Foldout{text="World overview",value=false};options.Add(overview);overview.Add(bxRoot.Q(className:"mini"));
+   bxOptions.Add(bxRail);
+   var actions=BxEl("actions",bxOptions);
+   var inspector=BxEl("selection-inspector glass",dock);inspector.name="builder-selection-inspector";
+   bxSelectionTitle=BxLabel("SELECTED ASSET","label-cap",inspector);
+   bxSel=BxEl("sel",inspector);bxSelPic=BxEl("pic",bxSel);var col=BxEl("selection-description",bxSel);bxSelName=BxLabel("","sel-name",col);
    var row=BxEl("sel-row",col);bxSelChip=BxEl("chip",row);BxEl("dot",bxSelChip);BxLabel("","",bxSelChip);
    var yaw=BxEl("yaw",row);bxYawIcon=new BxIcon("rotate"){pickingMode=PickingMode.Ignore};bxYawIcon.AddToClassList("icon");bxYawIcon.Tint=Muted;yaw.Add(bxYawIcon);bxYaw=BxLabel("0°","",yaw);
    bxDraft=BxEl("draft",actions);BxEl("dot",bxDraft);bxDraftText=BxLabel("","",bxDraft);
-   BxButton("Pieces","btn ghost",()=>TogglePieces(),actions);
+   BxButton("Assets","btn ghost",()=>TogglePieces(),actions);
    BxButton("Worlds","btn ghost",()=>{bxWorlds.style.display=bxWorlds.style.display==DisplayStyle.None?DisplayStyle.Flex:DisplayStyle.None;BxFillWorlds();},actions);
    BxButton("Revert","btn ghost",RevertBuild,actions);
    bxApply=BxButton("Apply to world","btn primary",()=>{if(bxDirtyNow||buildVersion==0)ApplyBuild();},actions);
@@ -159,6 +185,7 @@ namespace Steve.TScan {
 
   void BxRefreshAll(){BxRefreshPalette();BxRefreshHotbar();}
   void BxRefreshHotbar(){
+   bxHotbar.style.display=recent.Count==0||buildTool!=BuildTool.Piece?DisplayStyle.None:DisplayStyle.Flex;
    var slots=bxHotbar.Children().ToList();
    for(int i=0;i<slots.Count;i++){
     var id=i<recent.Count?recent[i]:null;slots[i].EnableInClassList("filled",id!=null);slots[i].EnableInClassList("active",id!=null&&i==bxActiveSlot&&buildTool==BuildTool.Piece&&id==selectedPiece);
@@ -169,6 +196,7 @@ namespace Steve.TScan {
   void BxRefreshPalette(){
    bxShownRole=roleFilter;bxShownPack=packFilter;bxShownTool=buildTool;bxShownPiece=selectedPiece;bxShownFlag=flagColor;
    foreach(var kv in bxTools){kv.Value.EnableInClassList("on",kv.Key==buildTool);((BxIcon)kv.Value.userData).Tint=kv.Key==buildTool?Teal:Muted;}
+   foreach(var kv in bxModeButtons)kv.Value.EnableInClassList("on",kv.Key==buildTool);
    bool piece=buildTool==BuildTool.Piece;
    bxGrid.style.display=piece?DisplayStyle.Flex:DisplayStyle.None;bxRoles.parent.style.display=piece?DisplayStyle.Flex:DisplayStyle.None;
    bxHint.style.display=piece?DisplayStyle.None:DisplayStyle.Flex;
@@ -176,11 +204,14 @@ namespace Steve.TScan {
    if(!piece){
     bxHint.Clear();bxSwatches=BxEl("swatches",bxHint);
     var text=buildTool==BuildTool.Flag?"Click a cell to place or move this flag. Every flag must stay reachable."
-     :buildTool==BuildTool.Spawn?"Click a cell to set where Steve starts, and where New chat returns him."
-     :"Click or drag to remove the top item on a cell. Floors are replaced, not erased.";
+     :buildTool==BuildTool.Spawn?"Click a valid cell, then Apply to move Steve there and save his start. Draft edits do not move him until applied."
+     :"Click an object or flag to delete it. Undo restores it. Hold ½ second and drag to rotate the camera.";
     var l=BxLabel(text,"",bxHint);bxHint.Insert(0,l);
     if(buildTool==BuildTool.Flag)foreach(var c in WorldBuilder.FlagColors){
      var color=c;var sw=BxEl("swatch",bxSwatches);sw.style.backgroundColor=FlagPaint[c];sw.EnableInClassList("on",flagColor==c);
+     sw.name="builder-flag-"+c;sw.tooltip="Place or move the "+c+" flag";
+     var label=BxLabel(char.ToUpperInvariant(c[0])+c.Substring(1),"swatch-name",sw);
+     label.style.color=c=="blue"||c=="purple"?Color.white:new Color(.08f,.1f,.14f);
      sw.RegisterCallback<ClickEvent>(_=>{flagColor=color;BxRefreshPalette();});
     }else bxSwatches.style.display=DisplayStyle.None;
    }else{
@@ -216,13 +247,14 @@ namespace Steve.TScan {
 
   void BxRefreshSelection(){
    var info=WorldKit.Info(selectedPiece);bool piece=buildTool==BuildTool.Piece&&info!=null;
+   bxSelectionTitle.text=piece?"SELECTED ASSET":"ACTIVE TOOL";
    if(piece){
     SetPic(bxSelPic,info.id);bxSelName.text=info.name;
     ((Label)bxSelChip[1]).text=RoleOne[WorldKit.CategoryOf(info)]+(info.blocks?" · blocks":" · walkable");bxSelChip[0].style.backgroundColor=RoleColor(WorldKit.CategoryOf(info));
     bxSelChip.style.display=DisplayStyle.Flex;
    }else{
     bxSelPic.style.backgroundImage=new StyleBackground(StyleKeyword.None);
-    bxSelName.text=buildTool==BuildTool.Spawn?"Steve's start":buildTool==BuildTool.Flag?char.ToUpperInvariant(flagColor[0])+flagColor.Substring(1)+" flag":"Eraser";
+    bxSelName.text=buildTool==BuildTool.Spawn?"Steve's start":buildTool==BuildTool.Flag?char.ToUpperInvariant(flagColor[0])+flagColor.Substring(1)+" flag":"Delete tool";
     bxSelChip.style.display=DisplayStyle.None;
    }
   }
@@ -249,9 +281,15 @@ namespace Steve.TScan {
   // ---------- per frame ----------
   void UpdateBuildUI(){
    bool show=buildOpen&&builder!=null&&!memoryFlyout&&!cinema;
-   if(!show){if(bxRoot!=null)bxRoot.visible=false;return;}
-   if(bxDoc==null)BxCreate();
+   if(!show){if(bxRoot!=null)bxRoot.visible=false;if(characterStage)DestroyCharacterStage();return;}
+   if(bxDoc==null||bxRoot==null||bxRoot.panel==null)BxCreate();
    bxRoot.visible=true;
+   var tabParent=characterOpen?characterPanel:bxOptions;if(bxWorkspaces.parent!=tabParent)tabParent.Add(bxWorkspaces);
+   bxWorkspaces.EnableInClassList("world-workspaces",!characterOpen);
+   bxWorkspaces.Q<Button>("workspace-world").EnableInClassList("on",!characterOpen);bxWorkspaces.Q<Button>("workspace-character").EnableInClassList("on",characterOpen);
+   if(buildTool==BuildTool.Spawn)bxSelName.text="Steve's start · ("+builder.Spawn.col+", "+builder.Spawn.row+")";
+   UpdateCharacterUI();
+   foreach(var child in bxRoot.Children())if(child.ClassListContains("rail")||child.ClassListContains("mini")||child.ClassListContains("dock"))child.style.display=characterOpen?DisplayStyle.None:DisplayStyle.Flex;
    var vp=EnvironmentViewport;var panel=bxRoot.panel;
    if(panel!=null){
     var tl=RuntimePanelUtils.ScreenToPanel(panel,new Vector2(vp.x*Screen.width,Screen.height-(vp.y+vp.height)*Screen.height));

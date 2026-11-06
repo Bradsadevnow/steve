@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: fc057372579f59b43ab5e5fa085f7ea3
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 269061
+  packageName: Fantasy RPG UI Pack
+  packageVersion: 1.2
+  assetPath: Assets/Fantasy RPG UI Pack/Shaders/Compatible/Toolkit/VFX_Fill_Horisontal_Toolkit.shader
+  uploadId: 1006546

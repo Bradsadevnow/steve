@@ -33,7 +33,7 @@ namespace Steve.TScan
         bool cameraDrag,cameraPan,cameraButtonHeld;
         float lastChatHeight;
         GUIStyle chatBody,userBody,roleStyle,tokenStyle,fieldStyle,flatButton,accentButton,compactButton,shortField,caption,heading,muted,liveMessageStyle;
-        AvatarCameraRig WorldCamera=>FindFirstObjectByType<SteveBody>()?.EnvironmentCamera;
+        AvatarCameraRig WorldCamera=>FindAnyObjectByType<SteveBody>()?.EnvironmentCamera;
         public bool OrbitEnabled=>WorldCamera!=null?WorldCamera.OrbitEnabled:false;
         public int ChatMessageCount=>chat.Count;
         public bool ChatIsSending=>sending;
@@ -122,13 +122,30 @@ namespace Steve.TScan
         public void FocusSteve(){WorldCamera?.FocusActor();cameraDrag=false;}
         public object GetCameraState()=>WorldCamera?.State();
         public void ApplyCameraGesture(Vector2 delta,float scrollSteps,bool pan)=>WorldCamera?.ApplyGesture(delta,scrollSteps,pan);
+        const float BuildRotateHoldSeconds=.5f;
+        bool buildPointerPending,buildPointerRotating,buildClick;
+        float buildPointerDownAt;
+        void UpdateBuildPointer(bool down,bool held,bool up,bool pan,bool inside,float now){
+            buildClick=false;
+            if(down){buildPointerPending=inside&&!pan;buildPointerRotating=false;buildPointerDownAt=now;}
+            if(pan||!inside)buildPointerPending=false;
+            if(buildPointerPending&&now-buildPointerDownAt>=BuildRotateHoldSeconds){
+                buildPointerPending=false;buildPointerRotating=held;
+            }
+            if(up){buildClick=buildPointerPending&&inside;buildPointerPending=false;buildPointerRotating=false;}
+            if(!held&&!up){buildPointerPending=false;buildPointerRotating=false;}
+        }
         void HandleCameraInput(){
-            var mouse=Mouse.current;if(mouse==null){cameraDrag=false;return;}
-            bool inside=WorldInputContains(mouse.position.ReadValue())&&!OverUI(mouse.position.ReadValue());
+            var mouse=Mouse.current;if(mouse==null){cameraDrag=false;buildClick=buildPointerPending=buildPointerRotating=false;return;}
+            bool inside=WorldInputContains(mouse.position.ReadValue())&&!OverUI(mouse.position.ReadValue())&&!CharacterBuilderVisible;
             bool held=mouse.leftButton.isPressed||mouse.rightButton.isPressed||mouse.middleButton.isPressed;
             bool pressed=held&&!cameraButtonHeld;cameraButtonHeld=held;
             if(inside&&pressed){cameraDrag=!OrbitEnabled;cameraPan=mouse.rightButton.isPressed||mouse.middleButton.isPressed||(Keyboard.current!=null&&(Keyboard.current.leftShiftKey.isPressed||Keyboard.current.rightShiftKey.isPressed));}
-            if(buildOpen&&mouse.leftButton.isPressed&&!cameraPan)cameraDrag=false;   // building: left click paints, right/middle drag pans
+            if(buildOpen){
+                bool pan=mouse.rightButton.isPressed||mouse.middleButton.isPressed;
+                UpdateBuildPointer(mouse.leftButton.wasPressedThisFrame,mouse.leftButton.isPressed,mouse.leftButton.wasReleasedThisFrame,pan,inside,Time.unscaledTime);
+                if(mouse.leftButton.isPressed&&!pan){cameraDrag=buildPointerRotating&&!OrbitEnabled;cameraPan=false;}
+            }else buildClick=buildPointerPending=buildPointerRotating=false;
             if(!held)cameraDrag=false;
             Vector2 delta=cameraDrag?mouse.delta.ReadValue():Vector2.zero;
             float wheel=inside?mouse.scroll.ReadValue().y:0;if(Mathf.Abs(wheel)>10)wheel/=120;
@@ -182,7 +199,7 @@ namespace Steve.TScan
             GUI.enabled=true;
         }
         void DrawControls(float x,float width,float height){
-            var current=latestFrame??frame;float inset=20,content=width-40;
+            var current=latestFrame??frame;float content=width-40;
             controlScroll=GUI.BeginScrollView(new Rect(x+12,24,width-20,Mathf.Max(100,height-88)),controlScroll,new Rect(0,0,content+8,340));
             float y=DrawWorldCameraControls(0,content);
             if(GUI.Button(new Rect(8,y,content,32),"Hide panels",flatButton))cinema=true;y+=48;

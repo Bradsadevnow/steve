@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 1695a38fc613c9749b6326c3728e93a3
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 269061
+  packageName: Fantasy RPG UI Pack
+  packageVersion: 1.2
+  assetPath: Assets/Fantasy RPG UI Pack/Shaders/Compatible/Toolkit/VFX_Fill_Radial_Toolkit.shader
+  uploadId: 1006546

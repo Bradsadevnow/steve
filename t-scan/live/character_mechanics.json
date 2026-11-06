@@ -1,0 +1,16 @@
+{
+ "version":"steve-equipment-v2",
+ "rules_version":"steve-combat-v1",
+ "modules":{
+  "warrior_blade":{
+   "stat_modifiers":[{"stat":"STR","amount":2}],
+   "abilities":[{"id":"slash","name":"Slash","stat":"STR","numerator":1,"denominator":1,"minimum":1,"reach":1,"description":"Strike a cardinally adjacent target. Damage equals effective STR."}],
+   "description":"+2 STR. Grants Slash: damage equals effective STR; cardinally adjacent target."
+  },
+  "warrior_shield":{
+   "stat_modifiers":[{"stat":"CON","amount":2}],
+   "abilities":[{"id":"shield_bash","name":"Shield Bash","stat":"CON","numerator":1,"denominator":3,"minimum":1,"reach":3,"description":"Charge a clear cardinal lane to a target within 3 squares, stop adjacent. Damage is effective CON divided by 3, rounded down, minimum 1."}],
+   "description":"+2 CON. Grants Shield Bash: floor(CON / 3), minimum 1 damage; clear cardinal lane up to 3 squares, stop adjacent."
+  }
+ }
+}

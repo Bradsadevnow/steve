@@ -1,0 +1,135 @@
+/* Moon Tribe art keeps its original proportions: no nine-slicing or stretched frames. */
+.sv-root { color:rgb(233,227,211); }
+.glass { background-color:rgba(15,20,25,.97);border-color:rgb(84,105,112);border-radius:3px;border-width:1px; }
+.steve-card,.topbar,.tools,.bottom,.actions,.hotbar,.palette,.worlds,.drawer,.pane,.menu,.mini,.mem,.rail,.dockr { background-image:none;border-width:2px;border-radius:3px;border-top-color:rgb(139,159,162);border-left-color:rgb(111,137,145);border-bottom-color:rgb(49,63,71);border-right-color:rgb(65,84,94); }
+.avatar { background-image:url("FantasyArt/decor_81.png");-unity-background-scale-mode:scale-to-fit;background-color:rgb(27,39,46);border-radius:0; }
+.who-name,.character-title,.mem-title,.sec-title,.label-cap { -unity-font-definition:url("FantasyArt/Wonderland.otf");color:rgb(224,202,151);letter-spacing:1px; }
+.who-name { font-size:20px; }
+.label-cap,.sec-title { font-size:12px; }
+.character-title { font-size:24px; }
+.btn,.seg-b,.tab,.ib,.tool,.role,.pack,.chip,.send-b,.play,.card,.slot,.sec,.m,.mem-canvas,.mem-detail { border-radius:3px; }
+Button.btn,.seg-b,.tab { color:rgb(226,226,213);background-color:rgb(24,34,43);border-color:rgb(101,123,132);border-width:1px; }
+Button.btn:hover,.seg-b:hover,.tab:hover,.tool:hover,.ib:hover { background-color:rgb(39,52,62);border-color:rgb(184,193,188); }
+Button.btn.primary,.seg-b.on,.play,.send-b { background-color:rgb(78,27,34);background-image:url("FantasyArt/decor_117.png");-unity-background-scale-mode:scale-to-fit;color:rgb(250,229,185);border-color:rgb(159,113,96);border-width:1px; }
+Button.btn.primary:hover,.send-b:hover { background-color:rgb(112,39,45); }
+Button.mode-button.on,Button.btn.on,.role.on,.pack.on,.card.on,.slot.active,.tool.on,.ib.on,.tab.on { color:rgb(240,214,160);background-color:rgb(56,42,35);border-color:rgb(193,157,85); }
+.seg-b.on Label,.send-b Label,.pack.on Label { color:rgb(246,220,171); }
+.state-chip,.sec,.m.steve,.mem-detail { background-color:rgba(47,59,66,.35);border-color:rgb(81,100,108); }
+.state-chip .dot,.task.done .ring { background-color:rgb(159,184,139); }
+.state-chip,.pos,.mono,.sec-sub,.note,.m .who,.run-label,.chat-status,.kv .k { color:rgb(166,178,180); }
+.task.now .ring,.task.done .ring { border-color:rgb(211,177,101); }
+.m.you { background-color:rgba(79,43,46,.7);border-color:rgb(125,77,79); }
+.m.task { background-color:rgba(69,55,35,.7);border-color:rgb(150,123,76); }
+.bubble.thought .bub-body,.bubble.speech .bub-body,.trail .t { background-color:rgba(20,27,35,.98);border-color:rgb(119,139,145);border-width:1px;border-radius:5px; }
+.bubble.thought .bub-text,.bubble.speech .bub-text,.bub-full Label,.trail Label { color:rgb(233,227,211); }
+.bubble.thought .bub-tag Label { color:rgb(189,164,223); }
+.bubble.speech .bub-tag Label { color:rgb(224,202,151); }
+.bubble.speech .stail { background-color:rgb(20,27,35);border-color:rgb(119,139,145); }
+.bubble .bub-more,.bub-note { color:rgb(162,173,181); }
+.dots .d { background-color:rgb(155,134,181); }
+.mem-canvas { background-color:rgb(8,15,24);border-color:rgb(101,123,132); }
+.say .unity-text-field__input,TextField .unity-text-field__input { color:rgb(238,231,212);background-color:rgba(9,14,18,.6);border-color:rgb(85,105,113); }
+.card .bar { background-color:rgb(185,153,96); }
+.workspaces { position:absolute;left:12px;top:10px;flex-direction:row;padding:3px;background-color:rgb(10,17,23);border-color:rgb(91,111,120); }
+.workspaces.world-workspaces { left:10px;top:10px; }
+.workspaces Button.workspace-tab { margin:0 3px;padding:7px 20px;min-width:108px;font-size:14px;-unity-font-definition:url("FantasyArt/Wonderland.otf");border-radius:2px;border-bottom-width:2px; }
+.workspaces Button.workspace-tab.on { background-color:rgb(78,27,34);background-image:url("FantasyArt/decor_117.png");-unity-background-scale-mode:scale-to-fit;border-color:rgb(193,157,85);color:rgb(250,229,185); }
+.character-panel { position:absolute;left:16px;right:16px;top:80px;bottom:16px;padding:10px;padding-top:58px;flex-direction:row; }
+.character-bodies,.character-footer { flex-direction:row;flex-wrap:wrap;align-items:center;margin-top:8px;margin-bottom:8px; }
+.character-bodies Button,.character-footer Button { margin:3px;padding:7px 10px;font-size:12px; }
+.character-library { flex-grow:1; }
+Button.mount-button,Button.module-button { white-space:normal;margin:3px 0;padding:9px;font-size:12px;-unity-text-align:middle-left; }
+.character-details { white-space:normal;margin-top:10px;font-size:13px;color:rgb(236,216,177);min-height:30px; }
+.character-notice { white-space:normal;font-size:12px;color:rgb(210,172,141);min-height:32px; }
+Button:disabled { opacity:.45; }
+ScrollView .unity-scroller { background-color:rgb(13,20,26);border-width:1px;border-color:rgb(73,94,105); }
+ScrollView .unity-scroller Button { background-color:rgb(38,49,59);border-color:rgb(101,123,132);color:rgb(225,207,168); }
+ScrollView .unity-base-slider__tracker { background-color:rgb(11,17,23); }
+ScrollView .unity-base-slider__dragger { background-color:rgb(126,105,66);border-width:1px;border-color:rgb(189,165,115);border-radius:2px; }
+.character-panel { background-image:none;background-color:rgb(12,18,24);border-width:2px; }
+.character-library .unity-scroll-view__content-container { flex-direction:row;flex-wrap:wrap;align-content:flex-start; }
+.character-library .label-cap { width:100%;margin-bottom:10px; }
+.character-library > .unity-scroll-view__content-viewport > .unity-scroll-view__content-container > Button.btn { margin:4px; }
+Button.equipment-tile { width:98px;height:110px;margin:4px;padding:5px;border-width:0;background-color:rgba(0,0,0,0);background-image:url("FantasyArt/decor_47.png");-unity-background-scale-mode:scale-to-fit; }
+Button.equipment-tile.on { background-color:rgba(145,108,48,.18);border-width:1px; }
+.equipment-icon { position:absolute;left:12px;right:12px;top:7px;height:58px;-unity-background-scale-mode:scale-to-fit; }
+.equipment-name { position:absolute;left:7px;right:7px;bottom:9px;font-size:10px;white-space:normal;-unity-text-align:middle-center;color:rgb(223,220,202); }
+Button.character-unequip { width:90px;height:24px;min-height:24px;padding:2px 7px;margin:0;font-size:11px;flex-shrink:0; }
+.character-module-header { width:100%;flex-direction:row;align-items:center;margin-bottom:10px;padding-right:26px; }
+.sheet-artboard .character-library .character-module-header .label-cap { width:auto;flex-grow:1;margin-bottom:0; }
+.character-sheet { flex-grow:1;flex-shrink:1;flex-basis:0;min-width:0;min-height:0; }
+.sheet-artboard { background-color:rgb(10,17,23);-unity-background-scale-mode:scale-to-fit; }
+.sheet-heading { font-size:20px;color:rgb(225,204,151);-unity-font-definition:url("FantasyArt/Wonderland.otf"); }
+.sheet-preview { background-color:rgb(9,14,19);-unity-background-scale-mode:scale-to-fit; }
+.sheet-slots Button.equipment-tile { margin:0; }
+.sheet-artboard .character-library { margin:0;padding:8px; }
+.sheet-artboard .character-library Button.equipment-tile { width:100px;height:110px; }
+.character-comparison { margin-top:3px;margin-bottom:3px;font-size:12px;color:rgb(225,204,151); }
+.character-comparison-text { white-space:normal;font-size:12px;color:rgb(195,205,206);padding:4px 10px; }
+.character-sidebar { width:250px;min-width:250px;flex-shrink:0;margin-left:10px;padding:12px; }
+.character-controls-scroll { flex-grow:1;flex-shrink:1;min-height:0; }
+.character-sidebar .character-title { font-size:20px;white-space:normal;margin-bottom:6px; }
+.character-sidebar .label-cap { margin-top:8px; }
+.character-sidebar .character-bodies { margin-top:6px;margin-bottom:8px; }
+.character-sidebar .character-bodies Button,.character-sidebar .character-footer Button { width:46%;margin:3px;padding:7px 4px;white-space:normal; }
+.character-sidebar .character-details { min-height:0;margin-top:8px;margin-bottom:10px; }
+.character-sidebar .character-notice { min-height:0;margin-bottom:12px; }
+.character-camera-controls { flex-direction:row;margin-top:8px;margin-bottom:8px; }
+.character-camera-controls Button { margin:0 3px;padding:6px 10px; }
+Button.character-apply { margin-top:12px;padding:12px 8px;flex-shrink:0; }
+.character-chassis-choice { margin-top:6px;font-size:12px;color:rgb(225,204,151); }
+.build-sheet-stamp { white-space:normal;font-size:10px;color:rgb(166,178,180);margin-bottom:8px; }
+.build-sheet-resources { white-space:normal;font-size:13px;color:rgb(233,227,211);margin-bottom:8px; }
+.build-sheet-stats { margin-top:6px;margin-bottom:10px; }
+.build-stat-row { flex-direction:row;align-items:center;height:25px;border-bottom-width:1px;border-bottom-color:rgb(40,52,60); }
+.build-stat-id { flex-grow:1;font-size:12px;color:rgb(166,178,180); }
+.build-stat-total { width:40px;-unity-text-align:middle-right;font-size:14px;color:rgb(240,214,160); }
+.build-stat-delta { width:35px;-unity-text-align:middle-right;font-size:11px;color:rgb(146,207,177); }
+.build-stat-delta.loss { color:rgb(227,143,133); }
+.build-sheet-abilities { margin-top:6px;margin-bottom:12px; }
+.build-ability { padding-top:7px;padding-bottom:7px;border-bottom-width:1px;border-bottom-color:rgb(40,52,60); }
+.build-ability-name { white-space:normal;font-size:13px;color:rgb(240,214,160); }
+.build-ability-detail { white-space:normal;font-size:11px;color:rgb(166,178,180);margin-top:4px; }
+.module-inspect { position:absolute;width:300px;padding:14px;border-width:2px;border-color:rgb(157,139,98);background-color:rgb(13,20,27); }
+.module-inspect-name { white-space:normal;font-size:19px;color:rgb(240,214,160);margin-bottom:8px; }
+.module-inspect-image { height:190px;flex-shrink:0;margin-bottom:10px;-unity-background-scale-mode:scale-to-fit; }
+.module-inspect-text { white-space:normal;font-size:13px;color:rgb(233,227,211);margin-top:6px;margin-bottom:6px; }
+.module-inspect-muted { white-space:normal;font-size:12px;color:rgb(166,178,180);margin-bottom:8px; }
+.module-inspect .label-cap { margin-top:10px; }
+/* World builder: options left, asset browser right, clear placement space between. */
+.dock { left:0;right:0;top:0;bottom:0;align-items:stretch; }
+.world-options { position:absolute;left:16px;top:80px;bottom:164px;width:300px;padding:12px;padding-top:56px; }
+.world-options-scroll { flex-grow:1;flex-shrink:1;min-height:0; }
+.world-options .label-cap { margin-top:12px;margin-bottom:8px; }
+.world-options .build-modes { margin-bottom:6px; }
+.world-options Button.mode-button { width:46%;margin:3px;padding:7px 4px; }
+.world-options .filters { flex-direction:column; }
+.world-options .chips { width:100%; }
+.world-options .role { width:46%;margin:3px;padding:7px 6px; }
+.world-options .role .count { margin-left:4px; }
+.world-options .pack { margin:3px;padding:7px 9px; }
+.world-options .hint { height:auto;min-height:70px;align-items:stretch;padding:6px 0;white-space:normal; }
+.world-options .hint Label { white-space:normal; }
+.world-options .swatches { flex-wrap:wrap; }
+.world-options .swatch { margin:4px; }
+.world-options .mini { position:relative;left:auto;right:auto;top:auto;width:100%;padding:8px;margin-top:8px; }
+.world-options .rail { position:relative;left:auto;top:auto;translate:0 0;flex-direction:row;padding:2px;justify-content:center;margin-top:8px; }
+.world-options .tool { width:36px;height:32px;margin:0 6px; }
+.world-options .actions { max-width:none;flex-direction:row;flex-wrap:wrap;padding:8px 0 0 0;margin:0;flex-shrink:0; }
+.world-options .draft { width:100%;margin-bottom:8px; }
+.world-options .actions Button.btn { width:46%;margin:3px;padding:8px 4px;font-size:12px; }
+.world-options .worlds { left:0;right:auto;bottom:80px; }
+.dock .stack { position:absolute;right:16px;top:80px;bottom:164px;width:360px;align-items:stretch; }
+.dock .palette { flex-grow:1;min-height:0;max-width:none;padding:12px; }
+.dock .palette .sec-title { margin-bottom:12px;font-size:18px; }
+.dock .grid { height:auto;flex-grow:1;min-height:0;margin-top:8px; }
+.dock .cards .card { width:74px;height:86px;margin:0 5px 6px 0; }
+.dock .hotbar { width:100%;flex-wrap:wrap;flex-shrink:0;margin-top:8px;margin-bottom:0; }
+.dock .hotbar .slot { margin:3px; }
+.selection-inspector { position:absolute;left:16px;right:16px;bottom:16px;height:132px;padding:12px 16px;border-width:2px; }
+.selection-inspector > .label-cap { margin-bottom:8px; }
+.selection-inspector .sel { flex-grow:1;min-height:0; }
+.selection-inspector .sel .pic { width:72px;height:72px;flex-shrink:0;margin-right:16px; }
+.selection-inspector .selection-description { flex-grow:1;min-width:0; }
+.selection-inspector .sel-name { white-space:normal;font-size:16px; }
+.selection-inspector .sel-row { flex-wrap:wrap; }

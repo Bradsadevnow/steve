@@ -10,4 +10,9 @@ INTERCAL and Inform 7. All of that design and code is his work, used here with h
 
 ## Everything else
 
+The fantasy interface artwork and Wonderland font are from **Fantasy RPG UI Pack**
+by **Moon Tribe**, imported from the Unity Asset Store. Its third-party assets
+remain subject to their original license. Local UI Toolkit adaptations are under
+`TScanViewer/Assets/Fantasy RPG UI Pack/`; unused Photoshop source files stay local.
+
 Steve, the meadow, the world builder and the interface: Brad and Claude.

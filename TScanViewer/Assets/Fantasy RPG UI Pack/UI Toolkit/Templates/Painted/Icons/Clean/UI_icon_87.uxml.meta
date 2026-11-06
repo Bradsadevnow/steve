@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: e94a536deaca2f9408727b40afc8494a
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 13804, guid: 0000000000000000e000000000000000, type: 0}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 269061
+  packageName: Fantasy RPG UI Pack
+  packageVersion: 1.2
+  assetPath: Assets/Fantasy RPG UI Pack/UI Toolkit/Templates/Painted/Icons/Clean/UI_icon_87.uxml
+  uploadId: 1006546

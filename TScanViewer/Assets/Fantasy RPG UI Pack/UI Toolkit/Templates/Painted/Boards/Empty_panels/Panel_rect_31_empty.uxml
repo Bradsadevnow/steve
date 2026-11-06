@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:mt="MoonTribe.UI">
+<ui:Style src="project://database/Assets/Fantasy RPG UI Pack/UI Toolkit/FantasyUI.uss" />
+<mt:PaintedFrame name="painted-frame" design-width="2048" design-height="1080" style="flex-grow:1; width:100%; height:100%;">
+<ui:VisualElement name="artboard" style="position:absolute;">
+<ui:VisualElement name="Panel_rect_31_empty" class="mt-node" style="position:absolute;left:0px;top:0px;width:2048px;height:1080px;">
+<mt:PaintedImage name="Panel_rect_31_empty-art" sprite="project://database/Assets/Fantasy RPG UI Pack/PNG/boards/UI_elements_board_32.png?fileID=21300000&amp;guid=4e92de9fd28824c4c8112aa5111a54cc&amp;type=3#UI_elements_board_32" tint="#FFFFFFFF" fill="1" vertical="false" reverse="false" preserve-aspect="true" resource-fill="false" resource-edge="false" style="position:absolute;left:0;top:0;width:100%;height:100%;" />
+</ui:VisualElement>
+</ui:VisualElement></mt:PaintedFrame></ui:UXML>

@@ -37,11 +37,12 @@ def run(names,**options):
 
 
 class Registration(unittest.TestCase):
-    def test_clock_bundle_is_the_four_moves(self):
-        self.assertEqual(movement_tools.CLOCK_TOOLS,frozenset({'move_north','move_south','move_east','move_west'}))
+    def test_clock_bundle_includes_equipment_actions(self):
+        self.assertEqual(movement_tools.CLOCK_TOOLS,frozenset({'move_north','move_south','move_east','move_west','slash','shield_bash'}))
 
     def test_registry_exposes_only_the_phase_visible_clock_tools(self):
-        self.assertEqual(movement_tools.registry(phase='executor').CLOCK,movement_tools.CLOCK_TOOLS)
+        self.assertEqual(movement_tools.registry(phase='executor').CLOCK,frozenset(movement_tools.DIRECTIONS))
+        self.assertEqual(movement_tools.registry(phase='executor',capabilities=['slash','shield_bash']).CLOCK,movement_tools.CLOCK_TOOLS)
         self.assertEqual(movement_tools.registry(phase='planner').CLOCK,frozenset())
 
     def test_default_policy_is_the_v84_behavior(self):

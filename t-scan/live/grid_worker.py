@@ -17,6 +17,7 @@ from orchestrator import Orchestrator
 from epoch_meter import EpochMeter
 
 def appraisal_messages(runtime,job):
+ """Legacy archived-context formatter only. Active inference never schedules affect appraisal."""
  history=runtime.history(6);identity=copy.deepcopy(job.get('self_model'))
  if identity:
   eligible=[m['id'] for m in runtime.history(1000000)];supplied=[m['id'] for m in history]
@@ -64,14 +65,9 @@ def run(b,args):
     if job['source']=='tick':b.conversation.tick(b.grid_world.loop_origin)
     else:
      b.conversation.user(job['prompt'])
-     try:
-      from self_projection import project
-      job['self_model']=project(b.runtime,b.conversation.messages,b.grid_world.observe(),registry(phase=phase).TOOLS,run_id)
-      value=client.appraisal(appraisal_messages(b.runtime,job))
-      b.runtime.apply_appraisal(value,job.get('source_id'),job['requestId'])
-     except Exception as e:b.runtime.event('appraisal_error',str(e),job['requestId'])
+     # Affect appraisal is retired. Identity and memory are projected independently in conversation.context.
     dispatch.bind(job['requestId']);b.turn_start=len(b.conversation.messages)
-    events=chat_events(client,b.conversation.messages,dispatch,job['requestId'],registry(phase=phase,count_policy=EPOCH_POLICY),args.temperature,lambda:orchestrator.context(dispatch),b.conversation.checkpoint,b.turn_interrupt.is_set)
+    events=chat_events(client,b.conversation.messages,dispatch,job['requestId'],registry(phase=phase,count_policy=EPOCH_POLICY,capabilities=b.grid_world.observe()['character']['capabilities']),args.temperature,lambda:orchestrator.context(dispatch),b.conversation.checkpoint,b.turn_interrupt.is_set)
     try:
      for event in events:
       kind=event['kind']

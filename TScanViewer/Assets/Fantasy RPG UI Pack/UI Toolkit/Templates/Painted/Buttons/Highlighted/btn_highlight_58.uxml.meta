@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 927080c57ce576b418e2c2f1fd3f34dc
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 13804, guid: 0000000000000000e000000000000000, type: 0}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 269061
+  packageName: Fantasy RPG UI Pack
+  packageVersion: 1.2
+  assetPath: Assets/Fantasy RPG UI Pack/UI Toolkit/Templates/Painted/Buttons/Highlighted/btn_highlight_58.uxml
+  uploadId: 1006546

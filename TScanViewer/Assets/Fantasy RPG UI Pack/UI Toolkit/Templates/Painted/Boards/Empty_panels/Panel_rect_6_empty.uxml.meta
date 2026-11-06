@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 1af3411b8ab34bb4d8502f416909e95c
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 13804, guid: 0000000000000000e000000000000000, type: 0}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 269061
+  packageName: Fantasy RPG UI Pack
+  packageVersion: 1.2
+  assetPath: Assets/Fantasy RPG UI Pack/UI Toolkit/Templates/Painted/Boards/Empty_panels/Panel_rect_6_empty.uxml
+  uploadId: 1006546

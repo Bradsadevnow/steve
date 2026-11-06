@@ -1,0 +1,587 @@
+{
+ "version": "steve-equipment-v2",
+ "bodies": [
+  {
+   "id": "hover",
+   "name": "Original Hover",
+   "mesh": "body_hover",
+   "sockets": [],
+   "pairs": []
+  },
+  {
+   "id": "unicore",
+   "name": "Uni-Core",
+   "mesh": "body_unicore",
+   "sockets": [
+    {
+     "id": "arm_L",
+     "type": "tool",
+     "x": -0.7200000286102295,
+     "y": 0.8199999928474426,
+     "z": -0.23499999940395355,
+     "qx": -0.7071067690849304,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 0.7071067690849304
+    },
+    {
+     "id": "arm_R",
+     "type": "tool",
+     "x": 0.7200000286102295,
+     "y": 0.8199999928474426,
+     "z": -0.23499999940395355,
+     "qx": -0.7071067690849304,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 0.7071067690849304
+    },
+    {
+     "id": "back_L",
+     "type": "utility",
+     "x": -0.20000000298023224,
+     "y": 1.6100000143051147,
+     "z": 0.46000000834465027,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    },
+    {
+     "id": "back_R",
+     "type": "utility",
+     "x": 0.20000000298023224,
+     "y": 1.6100000143051147,
+     "z": 0.46000000834465027,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    },
+    {
+     "id": "horn",
+     "type": "focus",
+     "x": 0.005507148802280426,
+     "y": 2.2593064308166504,
+     "z": -0.027153845876455307,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    },
+    {
+     "id": "shoulder_L",
+     "type": "utility",
+     "x": -0.6600000262260437,
+     "y": 1.5299999713897705,
+     "z": 0.0,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    },
+    {
+     "id": "shoulder_R",
+     "type": "utility",
+     "x": 0.6600000262260437,
+     "y": 1.5299999713897705,
+     "z": 0.0,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    }
+   ],
+   "pairs": [
+    {
+     "primary": "arm_R",
+     "secondary": "arm_L"
+    }
+   ]
+  },
+  {
+   "id": "skimmer",
+   "name": "Skimmer",
+   "mesh": "body_skimmer",
+   "sockets": [
+    {
+     "id": "ventral_tool",
+     "type": "light_tool",
+     "x": 0,
+     "y": 0.49,
+     "z": -0.59,
+     "qx": -0.7071067690849304,
+     "qy": -0.0,
+     "qz": -0.0,
+     "qw": 0.7071067690849304
+    },
+    {
+     "id": "dorsal_utility",
+     "type": "utility",
+     "x": 0,
+     "y": 0.86,
+     "z": 0.43,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    },
+    {
+     "id": "horn",
+     "type": "focus",
+     "x": 0,
+     "y": 2.06,
+     "z": -0.02,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    }
+   ],
+   "pairs": []
+  },
+  {
+   "id": "bulwark",
+   "name": "Bulwark",
+   "mesh": "body_bulwark",
+   "sockets": [
+    {
+     "id": "left_upper",
+     "type": "tool",
+     "x": -0.95,
+     "y": 1.21,
+     "z": -0.36,
+     "qx": -0.7071067690849304,
+     "qy": -0.0,
+     "qz": -0.0,
+     "qw": 0.7071067690849304
+    },
+    {
+     "id": "left_lower",
+     "type": "tool",
+     "x": -0.95,
+     "y": 0.67,
+     "z": -0.36,
+     "qx": -0.7071067690849304,
+     "qy": -0.0,
+     "qz": -0.0,
+     "qw": 0.7071067690849304
+    },
+    {
+     "id": "left_back",
+     "type": "utility",
+     "x": -0.4,
+     "y": 1.33,
+     "z": 0.47,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    },
+    {
+     "id": "right_upper",
+     "type": "tool",
+     "x": 0.95,
+     "y": 1.21,
+     "z": -0.36,
+     "qx": -0.7071067690849304,
+     "qy": -0.0,
+     "qz": -0.0,
+     "qw": 0.7071067690849304
+    },
+    {
+     "id": "right_lower",
+     "type": "tool",
+     "x": 0.95,
+     "y": 0.67,
+     "z": -0.36,
+     "qx": -0.7071067690849304,
+     "qy": -0.0,
+     "qz": -0.0,
+     "qw": 0.7071067690849304
+    },
+    {
+     "id": "right_back",
+     "type": "utility",
+     "x": 0.4,
+     "y": 1.33,
+     "z": 0.47,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    },
+    {
+     "id": "horn",
+     "type": "focus",
+     "x": 0,
+     "y": 2.63,
+     "z": -0.02,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    }
+   ],
+   "pairs": [
+    {
+     "primary": "right_upper",
+     "secondary": "left_upper"
+    },
+    {
+     "primary": "right_lower",
+     "secondary": "left_lower"
+    }
+   ]
+  },
+  {
+   "id": "wisp",
+   "name": "Wisp",
+   "mesh": "body_wisp",
+   "sockets": [
+    {
+     "id": "orbit_1",
+     "type": "arcane",
+     "x": 5.75583995599256e-17,
+     "y": 0.82,
+     "z": -0.94,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    },
+    {
+     "id": "orbit_2",
+     "type": "arcane",
+     "x": 0.8140638795573724,
+     "y": 0.82,
+     "z": 0.4699999999999999,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    },
+    {
+     "id": "orbit_3",
+     "type": "arcane",
+     "x": -0.8140638795573724,
+     "y": 0.82,
+     "z": 0.4699999999999999,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    },
+    {
+     "id": "horn",
+     "type": "focus",
+     "x": 0,
+     "y": 2.15,
+     "z": -0.02,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    }
+   ],
+   "pairs": []
+  },
+  {
+   "id": "duelist",
+   "name": "Duelist",
+   "mesh": "body_duelist",
+   "sockets": [
+    {
+     "id": "hand_L",
+     "type": "tool",
+     "x": -0.66,
+     "y": 0.65,
+     "z": -0.39,
+     "qx": -0.7071067690849304,
+     "qy": -0.0,
+     "qz": -0.0,
+     "qw": 0.7071067690849304
+    },
+    {
+     "id": "hand_R",
+     "type": "tool",
+     "x": 0.66,
+     "y": 0.65,
+     "z": -0.39,
+     "qx": -0.7071067690849304,
+     "qy": -0.0,
+     "qz": -0.0,
+     "qw": 0.7071067690849304
+    },
+    {
+     "id": "horn",
+     "type": "focus",
+     "x": 0.004350647795945406,
+     "y": 1.8538521528244019,
+     "z": -0.06465154886245728,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    }
+   ],
+   "pairs": [
+    {
+     "primary": "hand_R",
+     "secondary": "hand_L"
+    }
+   ]
+  },
+  {
+   "id": "mantle",
+   "name": "Mantle",
+   "mesh": "body_mantle",
+   "sockets": [
+    {
+     "id": "shoulder_L",
+     "type": "utility",
+     "x": -0.88,
+     "y": 1.4,
+     "z": 0.05,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    },
+    {
+     "id": "shoulder_R",
+     "type": "utility",
+     "x": 0.88,
+     "y": 1.4,
+     "z": 0.05,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    },
+    {
+     "id": "horn",
+     "type": "focus",
+     "x": 0.004350647795945406,
+     "y": 1.9238520860671997,
+     "z": -0.06465154886245728,
+     "qx": 0.0,
+     "qy": 0.0,
+     "qz": 0.0,
+     "qw": 1.0
+    }
+   ],
+   "pairs": []
+  }
+ ],
+ "modules": [
+  {
+   "id": "cleric_mace",
+   "name": "Cleric Mace",
+   "mesh": "module_cleric_mace",
+   "mount_types": [
+    "tool",
+    "arcane"
+   ],
+   "slots": 1,
+   "actions": [],
+   "description": "Visual prototype. No combat action is implemented for this module yet.",
+   "stat_modifiers": [],
+   "abilities": []
+  },
+  {
+   "id": "cleric_orb",
+   "name": "Cleric Orb",
+   "mesh": "module_cleric_orb",
+   "mount_types": [
+    "tool",
+    "arcane",
+    "focus",
+    "utility"
+   ],
+   "slots": 1,
+   "actions": [],
+   "description": "Visual prototype. No combat action is implemented for this module yet.",
+   "stat_modifiers": [],
+   "abilities": []
+  },
+  {
+   "id": "mage2h_greatstaff",
+   "name": "Mage2H Greatstaff",
+   "mesh": "module_mage2h_greatstaff",
+   "mount_types": [
+    "tool"
+   ],
+   "slots": 2,
+   "actions": [],
+   "description": "Visual prototype. No combat action is implemented for this module yet.",
+   "stat_modifiers": [],
+   "abilities": []
+  },
+  {
+   "id": "mage2h_lens",
+   "name": "Mage2H Lens",
+   "mesh": "module_mage2h_lens",
+   "mount_types": [
+    "tool",
+    "arcane",
+    "focus",
+    "utility"
+   ],
+   "slots": 1,
+   "actions": [],
+   "description": "Visual prototype. No combat action is implemented for this module yet.",
+   "stat_modifiers": [],
+   "abilities": []
+  },
+  {
+   "id": "mage_staff",
+   "name": "Mage Staff",
+   "mesh": "module_mage_staff",
+   "mount_types": [
+    "tool",
+    "arcane"
+   ],
+   "slots": 1,
+   "actions": [],
+   "description": "Visual prototype. No combat action is implemented for this module yet.",
+   "stat_modifiers": [],
+   "abilities": []
+  },
+  {
+   "id": "mage_tome",
+   "name": "Mage Tome",
+   "mesh": "module_mage_tome",
+   "mount_types": [
+    "tool",
+    "arcane",
+    "utility"
+   ],
+   "slots": 1,
+   "actions": [],
+   "description": "Visual prototype. No combat action is implemented for this module yet.",
+   "stat_modifiers": [],
+   "abilities": []
+  },
+  {
+   "id": "ranger_bowgun",
+   "name": "Ranger Bowgun",
+   "mesh": "module_ranger_bowgun",
+   "mount_types": [
+    "tool",
+    "arcane"
+   ],
+   "slots": 1,
+   "actions": [],
+   "description": "Visual prototype. No combat action is implemented for this module yet.",
+   "stat_modifiers": [],
+   "abilities": []
+  },
+  {
+   "id": "ranger_coil",
+   "name": "Ranger Coil",
+   "mesh": "module_ranger_coil",
+   "mount_types": [
+    "tool",
+    "arcane",
+    "utility"
+   ],
+   "slots": 1,
+   "actions": [],
+   "description": "Visual prototype. No combat action is implemented for this module yet.",
+   "stat_modifiers": [],
+   "abilities": []
+  },
+  {
+   "id": "rogue_dagger",
+   "name": "Rogue Dagger",
+   "mesh": "module_rogue_dagger",
+   "mount_types": [
+    "tool",
+    "light_tool"
+   ],
+   "slots": 1,
+   "actions": [],
+   "description": "Visual prototype. No combat action is implemented for this module yet.",
+   "stat_modifiers": [],
+   "abilities": []
+  },
+  {
+   "id": "rogue_hook",
+   "name": "Rogue Hook",
+   "mesh": "module_rogue_hook",
+   "mount_types": [
+    "tool",
+    "arcane",
+    "utility"
+   ],
+   "slots": 1,
+   "actions": [],
+   "description": "Visual prototype. No combat action is implemented for this module yet.",
+   "stat_modifiers": [],
+   "abilities": []
+  },
+  {
+   "id": "warrior_blade",
+   "name": "Warrior Blade",
+   "mesh": "module_warrior_blade",
+   "mount_types": [
+    "tool",
+    "light_tool"
+   ],
+   "slots": 1,
+   "actions": [
+    "slash"
+   ],
+   "description": "+2 STR. Grants Slash: damage equals effective STR; cardinally adjacent target.",
+   "stat_modifiers": [
+    {
+     "stat": "STR",
+     "amount": 2
+    }
+   ],
+   "abilities": [
+    {
+     "id": "slash",
+     "name": "Slash",
+     "stat": "STR",
+     "numerator": 1,
+     "denominator": 1,
+     "minimum": 1,
+     "reach": 1,
+     "description": "Strike a cardinally adjacent target. Damage equals effective STR."
+    }
+   ]
+  },
+  {
+   "id": "warrior_shield",
+   "name": "Warrior Shield",
+   "mesh": "module_warrior_shield",
+   "mount_types": [
+    "tool"
+   ],
+   "slots": 1,
+   "actions": [
+    "shield_bash"
+   ],
+   "description": "+2 CON. Grants Shield Bash: floor(CON / 3), minimum 1 damage; clear cardinal lane up to 3 squares, stop adjacent.",
+   "stat_modifiers": [
+    {
+     "stat": "CON",
+     "amount": 2
+    }
+   ],
+   "abilities": [
+    {
+     "id": "shield_bash",
+     "name": "Shield Bash",
+     "stat": "CON",
+     "numerator": 1,
+     "denominator": 3,
+     "minimum": 1,
+     "reach": 3,
+     "description": "Charge a clear cardinal lane to a target within 3 squares, stop adjacent. Damage is effective CON divided by 3, rounded down, minimum 1."
+    }
+   ]
+  }
+ ]
+}
