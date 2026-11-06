@@ -17,7 +17,7 @@ class GridWorld:
   """Resume saved state; a truncated or malformed file is set aside, loudly, instead of blocking startup."""
   try:
    state=json.loads(self.path.read_text(encoding='utf-8'));a=state['avatar']
-   if not (isinstance(state,dict) and state.get('world_id')=='steve_grid_v1' and isinstance(state.get('session_id'),str) and type(state.get('observation_seq')) is int and type(state.get('world_revision')) is int and type(a['col']) is int and type(a['row']) is int and 1<=a['col']<=10 and 1<=a['row']<=10 and a.get('facing') in ('north','south','east','west')):raise ValueError('unexpected grid state shape')
+   if not (isinstance(state,dict) and state.get('world_id')=='steve_grid_v1' and isinstance(state.get('session_id'),str) and type(state.get('observation_seq')) is int and type(state.get('world_revision')) is int and type(a['col']) is int and type(a['row']) is int and 1<=a['col']<=state.get('world_definition',{}).get('columns',10) and 1<=a['row']<=state.get('world_definition',{}).get('rows',10) and a.get('facing') in ('north','south','east','west')):raise ValueError('unexpected grid state shape')
    self.state=state
   except (OSError,ValueError,KeyError,TypeError) as error:
    aside=self.path.with_name(self.path.name+'.corrupt-'+time.strftime('%Y%m%d-%H%M%S'))
@@ -27,7 +27,7 @@ class GridWorld:
    self._initial()
  def _initial(self):
   definition=copy.deepcopy(getattr(self,'state',{}).get('world_definition'))
-  self.state=dict(world_id='steve_grid_v1',session_id=uuid.uuid4().hex,observation_seq=0,world_revision=0,avatar=dict(id='steve',col=5,row=5,facing='north'))
+  self.state=dict(world_id='steve_grid_v1',session_id=uuid.uuid4().hex,observation_seq=0,world_revision=0,avatar=dict(id='steve',col=(definition or {}).get('spawn',{}).get('col',5),row=(definition or {}).get('spawn',{}).get('row',5),facing='north'))
   if definition:self.state['world_definition']=definition
  @property
  def world_ready(self):return self.definition_confirmed and self.clock()-self.last_poll<=3
@@ -43,6 +43,10 @@ class GridWorld:
    confirmed_now=not self.definition_confirmed
    if changed or confirmed_now:
     self.state['world_definition']=definition
+    a=self.state['avatar'];blocked={(o['col'],o['row']) for o in definition.get('obstacles',[])}
+    if (a['col'],a['row']) in blocked or not (1<=a['col']<=definition['columns'] and 1<=a['row']<=definition['rows']):
+     previous=copy.deepcopy(a);a.update(definition.get('spawn',dict(col=5,row=5)));self.state['world_revision']+=1
+     self._log(dict(kind='world_change_relocation',position_before=previous,position_after=copy.deepcopy(a),reason='Previous cell is not occupiable in the new Unity world'))
     self.state.pop('targets',None);self.state.pop('landmarks_version',None)
     self.state['observation_seq']+=1
     if changed:self.state['world_revision']+=1
@@ -55,14 +59,27 @@ class GridWorld:
  def observe(self):
   with self.lock:
    a=self.state['avatar'];definition=self.state.get('world_definition');targets=definition['landmarks'] if definition and self.definition_confirmed else [];locations={(t['col'],t['row']):t['id'] for t in targets}
-   adjacent={n[5:]:dict(terrain='open_floor' if 1<=a['col']+d[0]<=10 and 1<=a['row']+d[1]<=10 else 'board_edge',target=locations.get((a['col']+d[0],a['row']+d[1]))) for n,d in DIRECTIONS.items()}
+   columns=definition['columns'] if definition else 10;rows=definition['rows'] if definition else 10
+   catalog={c['prototype']:c for c in definition.get('catalog',[])} if definition else {}
+   named=lambda items:[dict(i,name=catalog[i['prototype']]['name'],role=catalog[i['prototype']]['role']) if i.get('prototype') in catalog else dict(i) for i in items]
+   live=bool(definition and self.definition_confirmed)
+   obstacles=named(definition.get('obstacles',[])) if live else [];blocked={(o['col'],o['row']):o['id'] for o in obstacles}
+   hazards=[i for i in named(definition.get('props',[])) if i.get('role')=='hazard'] if live else [];hazardous={(h['col'],h['row']):h['id'] for h in hazards}
+   labels={o['id']:o.get('name') for o in obstacles+hazards}
+   def neighbour(d):
+    c=(a['col']+d[0],a['row']+d[1])
+    if not (1<=c[0]<=columns and 1<=c[1]<=rows):return dict(terrain='board_edge',target=None)
+    if c in blocked:return dict(terrain='obstacle',target=locations.get(c),**({'feature':labels[blocked[c]]} if labels.get(blocked[c]) else {}))
+    if c in hazardous:return dict(terrain='hazard',target=locations.get(c),**({'feature':labels[hazardous[c]]} if labels.get(hazardous[c]) else {}))
+    return dict(terrain='open_floor',target=locations.get(c))
+   adjacent={n[5:]:neighbour(d) for n,d in DIRECTIONS.items()}
    standing=[t['id'] for t in targets if (a['col'],a['row'])==(t['col'],t['row'])]
    state={k:copy.deepcopy(v) for k,v in self.state.items() if k not in ('targets','landmarks_version','world_definition')}
    if not definition:digest=''
    elif self._digest and self._digest[0] is definition:digest=self._digest[1]
    else:digest=validate_manifest(definition)[1];self._digest=(definition,digest)
    provenance=dict(source='unity_environment',world_id=self.state['world_id'],revision=definition['revision'] if definition else None,manifest_hash=digest,status='confirmed' if self.world_ready else 'disconnected' if self.definition_confirmed else 'awaiting_unity_manifest')
-   return dict(schema=SCHEMA,**state,world_ready=self.world_ready,world_manifest_hash=digest,world_definition=provenance,observation_id=f"{self.state['session_id']}:obs-{self.state['observation_seq']:04}",self=copy.deepcopy(a),board=dict(columns=10,rows=10,north='row+1',east='col+1'),visible_targets=copy.deepcopy(targets),surroundings=adjacent,standing_on=standing,last_action=copy.deepcopy(self.last_action),available_tools=[*DIRECTIONS,COMPLETE],enabled=self.enabled,running=self.running,decision_loop=dict(active=self.running,origin_request_id=self.loop_origin,pause_reason=self.pause_reason),presentation=copy.deepcopy(self.pending))
+   return dict(schema=SCHEMA,**state,world_ready=self.world_ready,world_manifest_hash=digest,world_definition=provenance,observation_id=f"{self.state['session_id']}:obs-{self.state['observation_seq']:04}",self=copy.deepcopy(a),board=dict(columns=columns,rows=rows,north='row+1',east='col+1'),visible_targets=copy.deepcopy(targets),visible_obstacles=copy.deepcopy(obstacles),visible_hazards=copy.deepcopy(hazards),hazard_here=hazardous.get((a['col'],a['row'])),surroundings=adjacent,standing_on=standing,last_action=copy.deepcopy(self.last_action),available_tools=[*DIRECTIONS,COMPLETE],enabled=self.enabled,running=self.running,decision_loop=dict(active=self.running,origin_request_id=self.loop_origin,pause_reason=self.pause_reason),presentation=copy.deepcopy(self.pending))
  def wake(self,request_id):
   with self.lock:
    self.running=True;self.loop_origin=request_id;self.pause_reason=None
@@ -116,12 +133,13 @@ class GridWorld:
       if name==COMPLETE:self.running=False;self.pause_reason='complete';outcome='interaction_complete'
       else:
        dx,dy=DIRECTIONS[name];col=before['col']+dx;row=before['row']+dy;after['facing']=name[5:]
-       if 1<=col<=10 and 1<=row<=10:after.update(col=col,row=row);outcome='moved'
-       else:outcome='blocked_boundary'
+       if not (1<=col<=actual['board']['columns'] and 1<=row<=actual['board']['rows']):outcome='blocked_boundary'
+       elif any((o['col'],o['row'])==(col,row) for o in actual['visible_obstacles']):outcome='blocked_obstacle'
+       else:after.update(col=col,row=row);outcome='moved'
    self.used_turns.add(turn);self.state['observation_seq']+=1
    if after!=before:self.state['avatar']=after;self.state['world_revision']+=1
    receipt=dict(action_id='act-'+uuid.uuid4().hex,call_id=call_id,turn_id=turn,session_id=self.state['session_id'],observation_id=observation,action=str(name)[:64],decision=decision,decision_basis=why or outcome,outcome=outcome,position_before=[before['col'],before['row']],position_after=[after['col'],after['row']],facing_before=before['facing'],facing_after=after['facing'],world_revision=self.state['world_revision'],observation_seq=self.state['observation_seq'],presentation_status='not_required')
-   if outcome in ('moved','blocked_boundary'):
+   if outcome in ('moved','blocked_boundary','blocked_obstacle'):
     receipt['presentation_status']='pending';self.pending=copy.deepcopy(receipt)
    self.last_action=receipt;self.receipts.append(receipt);self.save();self._log(receipt);return copy.deepcopy(receipt)
  def _log(self,value):
@@ -146,7 +164,7 @@ class GridDispatch:
  def __init__(self,world):self.world=world;self.bound='';self.turn='';self.local={}
  def bind(self,turn):self.turn=turn;self.bound=self.world.observe()['observation_id']
  def snapshot(self):
-  state=self.world.observe();fields=('schema','session_id','observation_id','observation_seq','world_revision','world_ready','world_definition','self','board','visible_targets','surroundings','standing_on','last_action','available_tools','enabled','decision_loop')
+  state=self.world.observe();fields=('schema','session_id','observation_id','observation_seq','world_revision','world_ready','world_definition','self','board','visible_targets','visible_obstacles','visible_hazards','hazard_here','surroundings','standing_on','last_action','available_tools','enabled','decision_loop')
   return dict(observation=dict(world={k:state[k] for k in fields}),state_source='deterministic_grid')
  def submit(self,target,call_id=None,tool=None):
   r=self.world.nominate(tool,target,self.turn,self.bound,call_id);self.local[call_id]=r['action_id'];return call_id

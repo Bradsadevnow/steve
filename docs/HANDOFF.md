@@ -1,145 +1,96 @@
-# Steve handoff
+# Steve handoff — AI escape RPG and memory design
 
-Written 4 November 2026, approximately 2:45 PM America/New_York. Runtime status below is a snapshot; re-read live files before acting.
+Written 5 November 2026, America/New_York. This replaces the earlier operational handoff. Runtime status is a snapshot: read live files before acting. The prior accumulated handoff is retained in [history](history/HANDOFF-before-memory-review-20261105.md); its launch, experiment and next-action instructions are historical.
 
-## Start here
+## Immediate direction from the owner
 
-Read `AGENTS.md`, `PROJECT_BOUNDARIES.md`, then this document. Current references are [architecture](ARCHITECTURE.md), [running](RUNNING.md), [experiments](EXPERIMENTS.md), [Self contracts](SELF_MODEL.md), and [three-call turns](SEQUENTIAL_TOOLS.md). Historical archive documents are not implementation authority.
+**Design only.** The owner explicitly clarified that no coding is requested yet. Step back from navigation tuning and develop the game premise and memory design together. Documentation updates are authorized; implementation, memory clearing and runtime changes are not the current task.
 
-The user's immediate objective is to evaluate three sequential tool calls per scheduled turn on the same ten navigation routes. Leave that experiment unchanged while it runs. The longer-term objective is to connect experience, simulated affect, memory and Self revision through a bounded review opportunity. That review is not implemented or authorized for automatic activation yet.
+The agreed direction is a literal **AI escape game with turn-based RPG elements**. Steve is an AI in a constructed world. The builder says they made it because they were bored and challenges him to find a way out. There may be an exit, or there may not; another room may hold a possibility, without any guarantee of escape or solvability. Do not convert that uncertainty into a promise that an exit exists or an assertion that it does not.
 
-## Status update, 4 November 2026, evening (supersedes the live-experiment snapshot below)
+The owner specified **turn-based RPG combat, enemies, classes, skills and feats**, with full class-role assets expected when implementation resumes. This is a future design requirement, not a claim that combat, roles or those assets have been implemented or inspected. Classes, combat actions, turn order, progression, death/retry rules and room transitions are not settled. The current three-call inference scheduler is not an agreed combat-turn system.
 
-No experiment is running. The v8.4 timed batch finished with 0 of 10 full passes; the v8.4.1 timed batch was stopped by the operator in trial 7 (six trials archived, no full passes). Results, defects and conditions are in [EXPERIMENTS.md](EXPERIMENTS.md). The experiment-status table further down describes the v8.4 run and is historical.
+For memory, the owner proposed replacing the existing accumulated memory with a small seed containing the game premise. The assistant proposed archiving existing state before any replacement; no archive/replacement operation for this redesign has been performed. A draft seed was discussed, not finalized as canonical text. Preserve the distinction between authored starting knowledge, the builder's statements, Steve's hypotheses and verified experiences during play. How experiences should become durable memories remains to be designed.
 
-State on disk, none of it committed (git reported a dubious-ownership error in this environment):
+Next: discuss the current memory implementation below and shape the new seed/lifetimes/experience-memory process with the owner. Preserve the current project ownership and runtime contracts until an implementation change is explicitly requested. Do not silently erase curated identity, grant executable capabilities from character claims, merge projects or launch another navigation experiment.
 
-- **v8.4.4 (`shared-chat-v8.4.4-free-retry`)**, written, not yet running: exact all-at-once tool errors, optional `landmark_id` for `manual` handoffs, free single retry with a stall stop, no facing shown to the model. Built after the v8.4.3 ten-route epoch batch (7 of 10 passes); see EXPERIMENTS.md.
-- **v8.4.3 (`shared-chat-v8.4.3-goal-and-tasks`)**, ran the ten-route epoch batch: the model records a goal (`intention_write`) and one task per checkable step; refused handoffs say how to add or reopen a task. Built after the epoch smoke test showed an umbrella task and a false `complete()`; see EXPERIMENTS.md. 
-- **v8.4.2 (`shared-chat-v8.4.2-phase-aware-rejections`)**, loaded and smoke-tested: phase-aware `complete()` hint, compact x/y recent experiences, epoch counter and context meter in `/health`. The last backend that ran was v8.4.1; restart it to load v8.4.2.
-- **Earlier fixes, loaded on the next restart:** loopback origin guard in `bridge.py`, executor error classes (`rejected_store`, `internal_error`), shared `decode_envelope()`, grid-state load guard, actionable rejection messages, and the registered clock-tool bundle with a switchable `clock_actions` counting policy (default off).
-- **Epoch runner** `t-scan/live/epoch_batch.py`: built, tested against a fake bridge and smoke-tested on one live route. Next step is a restart on v8.4.3 and the ten-route run (Unity in play mode on `Observatory.unity`, LM Studio serving the model, idle loop).
-- **Design drafts, not implemented:** [EPOCH_COMPACTION.md](EPOCH_COMPACTION.md) covers epoch compaction, a Steve-authored review step, a context meter in the model's context, the clock, and an affect/memory roadmap. Its checklist has the open owner decisions. Remaining build order: storage (epoch segments, hashed request log), compaction and review as v8.5, viewer phase/epoch/meter strip (hold Unity edits while a run is in progress).
+## Current runtime and environment
 
-Verification at this point: 235 tests pass and `Tools/verify_project_boundaries.py` passes.
+- Main bridge: `http://127.0.0.1:8765`, LM Studio at `http://192.168.1.128:1234`, model `google/gemma-4-e4b`, temperature 1. Loaded context was reported as 94,976; inspect live health/config for current values.
+- Main condition: `shared-chat-v8.4.7-execution-reminder`. Main Steve was idle at (8,8), facing north, world connected, no pending presentation when checked for this handoff.
+- Unity: `TScanViewer/Assets/TScan/Observatory.unity`; scene-owned `MeadowEnvironment` and `Resources/Meadow/World.asset` publish `meadow-world-v2`.
+- World: 15×15, two metres per cell, spawn/reset (8,8), four occupiable corner flags: blue (1,15), red (15,15), yellow (15,1), purple (1,1). There are 24 static obstacle cells. Python validates the authored manifest; `grid_world.py` alone writes position.
+- Model observation: a north-up x/y map with `X` obstacle, `@` Steve, dots open, flag initials; no separate obstacle ID/type/coordinate list or adjacent-cell enumeration. Four zero-argument cardinal tools, one tool per decision. Up to three accepted sequential calls per scheduled turn; one free rejected-call retry, bounded ceiling and stall stop. `complete()` ends continuation; text-only explicitly idles. Preserve operator Stop.
+- Planning/execution are machinery, not additional identities. Human messages return to planning; Steve authors tasks and selects one through `plan_handoff`. Executor chooses each movement. The execution reminder clarifies that handing off a plan does not start automatic navigation.
 
-## Live experiment snapshot (historical, v8.4 batch)
+## What memory is actually connected
 
-| Item | Current condition |
-| --- | --- |
-| Version | `shared-chat-v8.4-three-call-turn` |
-| Provider/model | LM Studio / `google/gemma-4-e4b` |
-| Provider address | `http://192.168.1.128:1234` |
-| Sampling/context | Temperature 1; loaded context reported as 131072 |
-| Bridge | `http://127.0.0.1:8765` |
-| Batch | `t-scan/runtime_data/transit-batch-three-call-20261104-1440/status.json` |
-| Scope | Ten fixed three-flag routes; 300-second caps; archived resets |
-| Snapshot | Running trial 1, zero archived trial results at the initial handoff read |
-| Initial run | `20261104-194015-8b77922b` |
-| Monitor | Codex heartbeat `watch-steve-three-call-trials`, every five minutes |
+Source paths below were inspected in this session. Storage, disclosure and model use are separate claims.
 
-The heartbeat monitors read-only and stays quiet during normal progress. It reports completion, failure, cancellation, missing capture or persistent rejections requiring attention, then deletes itself when finished. It must not restart trials, wake Steve, enable reflection, switch providers or alter inference conditions.
+1. **Active conversation:** `grid_conversation.py` persists native-role messages in `runtime_data/conversation.json`. Each decision receives the conversation through `inference_messages`, which compacts historical world evidence and supplies one current observation. A backend restart reloads the working conversation. New chat archives it and replaces it with a fresh system-led conversation; archived runs are not automatically reinjected.
+2. **Explicit user notes:** `RuntimeStore.accept_user()` recognizes a leading `remember:` and stores a `user_note` event linked to the human source event. `notes()` supplies the latest 12 notes. This is prefix-driven explicit storage, not autonomous experience consolidation. The current decision context includes those notes under `historical_memory`.
+3. **Authored seed memory:** `seed_memories()` reads imported source-linked records. `memory_context()` selects up to four conversation-memory records using word relevance to the latest human message, excluding curated identity duplicates and development material. This inspected path uses lexical matching, not embeddings. Seed records are not an automatic summary of every new interaction.
+4. **Persistent Self/doctrine/intentions:** `agent_state.py` stores records, immutable revisions, citations and transactional mutation receipts. `self_projection.py` projects eligible records under a 12,000 serialized-character budget and records supplied/omitted references. Curated identity remains source-linked. Reinforcement records reliance, not independent truth. Persistent intentions survive New chat; run intentions are archived, and working tasks are cleared.
+5. **Tasks and legacy notepad:** flat task tools and independent SQLite page/edit audit remain. Steve owns contents, order and status. Task completion is an agent assessment, not verified real-world success. Backend world events do not create or complete goals.
+6. **Simulated affect:** human messages trigger a separate structured appraisal; immediate affect/mood persist and decay. Appraisal receives active history, tasks and Self context. Affect is not evidence of truth or an automatic autobiographical-memory writer.
+7. **Run evidence:** `run_archive.py` retains requests, streams, reasoning, manifests, receipts and reset snapshots. This supports inspection and evaluation; an archive is not automatically a useful recalled experience. Provider reasoning is kept separate from chat/memory and is not proof of internal causes.
 
-Read `status.json` and the current run's archives rather than assuming this snapshot remains current. Capture lives under `t-scan/runtime_data/runs/<run-id>/`: exact provider requests, raw streams, interpreted reasoning/events, context manifests, run configuration and reset snapshots. Backend logs are `t-scan/runtime_data/logs/backend.stdout.log` and `backend.stderr.log`; batch logs use its batch-name prefix in that directory.
+**Observed wiring evidence:** in isolated probe 6, the saved synthetic note marker appeared in an actual action-provider request after New chat, with `historical_memory` present. Capture: `persistence-probes-20261105-10/isolated_data/runs/20261105-234753-92274242/inference-requests.jsonl`, request `736b7c01185944dfa872b324ec469269`. This establishes disclosure of that saved note, not broad memory quality or autonomous consolidation. Full probe assessment is still pending.
 
-Each trial is externally graded using ordered exact-cell arrivals in settled world receipts. A task marked complete is an agent claim, not proof of arrival. Multiple calls, their rejections, and per-decision evidence must remain observable.
+Do not describe memory as wholly disconnected. Equally, do not describe the existing stores as a verified companion-memory architecture. Automatic experiential consolidation, bounded review and context compaction remain design work; `EPOCH_COMPACTION.md` is a draft, not implemented authority.
 
-## What changed and what owns it
+## Ten chat/persistence probes currently running
 
-Steve is the persistent Self-model. Planner, executor and orchestrator are operating machinery, not separate identities. Unity owns the world definition and offline visuals; Python validates that manifest, and only `grid_world.py` commits authoritative positions. Unity presentation acknowledges those effects. Preserve the hovering unicorn, 10-by-10 meadow, four zero-argument cardinal tools and x/y 1..10 observations. No pathfinding or backend-authored flag layouts.
+Frozen design and assessment rules: [CHAT_PERSISTENCE_PROBES.md](CHAT_PERSISTENCE_PROBES.md).
 
-Steve alone authors tasks, changes their statuses and chooses which task to hand off. The backend never selects the next goal or completes goals from world events. Planner tools edit tasks, intentions and Self/doctrine claims; `plan_handoff` explicitly selects an unfinished task, with a reason and criterion. Executor tools choose individual movements and use `request_replan` to return to planning. A separate durable intention is optional, not a mandatory duplicate of each short plan.
+- Runner: `Tools/probe_chat_persistence.py`.
+- Output: `t-scan/runtime_data/persistence-probes-20261105-10/status.json`, `design.json`, per-probe turn/result/boundary files, and `isolated_data/runs/` exact captures.
+- Isolated backend: port 8877; an SQLite backup of Steve's real state, same prompt/model, synthetic facts only in the copy. A headless registration keepalive publishes a copy of the Unity-authored manifest for the no-movement chat gate. It does not fabricate animation acknowledgements. This is not a Unity/navigation test.
+- Seven probes were captured and probe 8 step 3 was underway when checked. Captured means evidence collected, not passed. Read status again before reporting results.
+- Topics: immediate recall; correction; recall after intervening chat; unfinished work; plan versus evidence; explicit saved note across New chat; corrected saved notes; persistent intention across New chat; clearing run-local chat/tasks; current-chat/task continuity across an isolated backend restart.
+- Runner uses ordinary chat/New chat APIs; it never authors agent records directly. It snapshots before/after boundaries and preserves source/request/run IDs. It terminates the isolated backend when finished. Main Steve's database, conversation and Unity session are not edited by this suite.
+- `watch-steve-persistence-probes` heartbeat monitors read-only every five minutes, stays quiet during routine progress, reports terminal results/failures and deletes itself afterward. Do not send extra probe prompts, restart/resume trials, alter conditions, or repair rejected calls while this condition runs. A STOP file in the suite directory cancels it. Main Steve starting inference also cancels it to release model access.
+- Review three things separately: actual storage/lifetime, actual supplied/omitted/tool-retrieved context, and Steve's use/claims. Do not turn keyword matches or the runner's `captured` labels into a pass rate.
 
-Important source files under `t-scan/live/`:
+## Navigation evidence retained for context
 
-| Files | Responsibility |
-| --- | --- |
-| `grid_worker.py`, `orchestrator.py` | Human priority, scheduled turns, phase changes, per-decision journal |
-| `decision_executor.py`, `lmstudio_client.py` | Tool/result execution boundary and LM Studio transport |
-| `grid_conversation.py`, `grid_context.py`, `context_records.py` | Prompt version, escaped records, actual observation/memory projection |
-| `agent_state.py`, `agent_state_tools.py`, `self_projection.py` | Self/doctrine/intentions, revision/citation/repair audit, supplied-versus-omitted manifests |
-| `agent_task_list.py`, `agent_notepad.py` | Flat task tools and legacy SQLite page/edit audit |
-| `self_view.py` | Read-only operator view of Self state, not an author of Self content |
-| `grid_world.py`, `world_manifest.py` | World validation, position authority and presentation handshake |
-| `runtime_store.py`, `run_archive.py` | Authored memory, affect, chat history, archives and reset |
+Fresh run `20261105-220044-070719ce` reached red from (8,8): 14 settled moves, one obstacle bump, 170.3 seconds to arrival and 229.3 seconds to complete. The X map and execution reminder were both active. Earlier stalled continuation attempts were genuine separate results; this fresh success does not isolate which change helped.
 
-Self/doctrine mutation records, revisions and receipts are transactional in SQLite. The world uses its own JSON/controller-log state; do not claim cross-store atomicity. Interrupted unresolved decisions return to review rather than blind replay. Reinforcement/citation counts do not establish truth or capabilities. Keep curated identity sources unchanged and source-linked.
+Two repeated five-route batches at `runtime_data/two-flag-20261105-2x5/` ended after Unity briefly disconnected during batch 2 trial 5:
 
-## Three-call behavior now active
+| Completed trials | Full passes | Ordered arrivals | Moves | Bumps | Premature complete calls |
+|---|---:|---:|---:|---:|---:|
+| Batch 1: 5 | 3/5 | 8/10 | 157 | 7 | 2 |
+| Batch 2: 4 | 2/4 | 5/8 | 121 | 18 | 2 |
 
-- At most three sequential tool calls per scheduled turn. Each call comes from a separate model response, after the previous result. Rejected calls consume the allowance. Multiple calls emitted in one response are rejected together and terminate that turn.
-- Every movement waits for settled presentation before another decision. Dispatch rebinds to the fresh observation ID. Calls do not accept coordinates or compound routes.
-- `plan_handoff`, `request_replan`, `complete()`, interruption, failed presentation and text-only responses are early boundaries. Phase changes return to scheduling to refresh the registry. Exhausting the call allowance yields to scheduling; it does not complete a goal or end the interaction.
-- Native call/result IDs, per-decision journal entries and actual provider context manifests distinguish all decisions within a turn. The parent chat request ID remains distinct from subsequent decision IDs.
-- Text-only responses explicitly idle even when an earlier decision in the same turn used a tool. This closes a continuation bug exposed by sequential execution.
-- No automatic reflection, affect appraisal or memory consolidation happens at this boundary. No token budget has been added. The old eight-call proposal is superseded.
+Thus 5/9 completed trials passed; the tenth was interrupted and excluded. Batch 1 had two repeated bump attempts: twice west from (4,12), then north; twice east from (10,8), then south. Batch 2 purple→red had 14 bumps and no ordered flag arrival. Red→blue failed after the first flag in both batches. All four completed failures called `complete()` early. Avoid reducing these distinct failures to one cognitive explanation without checking the captures.
 
-Task tools: `task_list_read()`, `task_list_write(task_id, title, status, expected_revision)`, `task_mark_complete(task_id, expected_revision)`, and new `task_remove(task_id, expected_revision)`. Writing an existing ID edits/reopens that task. Removal preserves prior versions in the audit and does not complete it. Keep actionable schema/stale-revision errors; never silently repair calls.
+The two-flag monitor was deleted after terminal failure. Trials were not resumed. `Tools/run_two_flag_batches.py`, custom routes/spawn options in `epoch_batch.py`, and settled obstacle-bump grading remain available; do not restart historical batches as setup.
 
-## Human corrections and the stopped baseline
+## Next memory design conversation
 
-The previous runner detected a new human request, then its generic failure cleanup sent Stop and interrupted the correction. The received correction is preserved in the interrupted run. Fixed in `transit_batch.py` and `bridge.py`: human takeover cancels batch ownership without Stop; cleanup Stop requests carry `expected_origin_request_id`. The backend checks both loop origin and queued human input under its lock. Operator Stop itself remains unconditional.
+Start with the implementation and probe evidence above. Questions to settle with the owner:
 
-Keep these conditions separate:
+- What should Steve carry between turns, between chats and across restarts? Which things are temporary, durable, editable or forgettable?
+- How should he distinguish a human statement, his own inference, an intention and a verified experience? How should corrections supersede earlier claims?
+- What should trigger memory writing and later retrieval? How should provenance, dates, uncertainty, relevance and omitted material remain visible?
+- What constitutes useful companion continuity rather than merely replaying transcript text? How should the owner inspect, correct and delete memories?
+- Which game-character facts belong in an authoritative RPG profile (class, skills, feats, measured capabilities), and which belong to Steve's authored Self or autobiographical account? Do not let character claims grant executable capabilities.
 
-| Batch | Interpretation |
-| --- | --- |
-| `transit-batch-self-model-20261104-1840` | Interrupted during trial 1 by human correction and old cleanup bug; zero completed trials |
-| `transit-batch-task-remove-20261104-1401` | Operator-cancelled during trial 5; four archived results, all timeouts, 0/4 full passes; ordered progress 2/3, 1/3, 2/3, 2/3; 56 moved steps and zero boundary blocks |
-| `transit-batch-xy-flatwrite-20261103` | Older repaired x/y condition: nine completed trials, eight passes, one timeout; trial 10 interrupted. Not a completed ten-trial batch |
-| `transit-batch-three-call-20261104-1440` | Current fresh v8.4 experiment; read live status for results |
+These are discussion points, not an approved implementation plan. Keep Steve's curated identity and current ownership contracts intact while exploring them.
 
-The older baseline heartbeat was deleted after cancellation. No delayed eight-call activation remains queued.
+## Verification, workspace and cautions
 
-The comparison scorecard should include ordered task/route completion, time to verified final arrival versus total elapsed, tools by outcome, replans, blocks, loops/stalls, recovery, completion-claim accuracy, explanation quality and consistency across explicit beliefs/plans/tasks/actions. Separate provider latency, presentation waiting, active loops and no-action idle. Use matching routes when comparing the stopped four-trial baseline. State denominators and unavailable measures. Do not infer an ambiguous title-to-flag mapping as fact. Provider reasoning is explanation text, not proof of internal causes; summarize with compact evidence references instead of long transcripts.
+- Full backend suite passed 239 tests after the prompt/map work. The later custom-route runner checks passed 14 epoch tests and four human-takeover tests. Probe runner syntax/specification checks passed; live probe captures are the relevant behavioral evidence, not a unit-test claim of memory quality.
+- Unity course compiled, frames advanced, and an isolated mechanical fixture received eight settled acknowledgements including hedge/boulder collision. Project boundary verification passed after resource/world changes. No Unity changes are part of the memory probes.
+- Git HEAD at inspection: `f444979` (`update`). There are uncommitted source/docs/resources changes from this session plus other user work. Do not reset or overwrite them. Newly observed art directories such as `t-scan/art/dungeon`, `highschool`, `swapmeet` and `unicore` were not reviewed or changed for this handoff.
+- Read `AGENTS.md` and `PROJECT_BOUNDARIES.md`. Steve, PleaseHold and PleaseHoldShorts stay independent: no shared saves, cross-project imports or symlinks. Use explicit local art copies.
+- Preserve private runtime data, authored identity/memory and `.env`. OpenAI use remains explicitly deferred; do not expose/load its key, switch providers or run paid experiments without the owner returning to that decision.
+- Windows sandbox startup has failed with a sandbox-helper directory lock error; shell commands in this session used approved escalation. Unity CLI update commands reported success but Windows app alias remained beta.15 and the direct older installation reported beta.13. Do not claim beta.16 was successfully installed.
+- Current reference docs: `ARCHITECTURE.md`, `RUNNING.md`, `EXPERIMENTS.md`, `SELF_MODEL.md`; course details in `MEADOW_COURSE.md`. Historical documents and migration scripts are not implementation authority.
 
-## Affect, memory and intended next design discussion
+## Status update, 5 November 2026, night: built worlds
 
-Current affect is 17 simulated dimensions. Each incoming human message gets a separate structured LM appraisal proposing up to three integer deltas in -2..2. A delta changes immediate affect by 0.12 and mood by 0.024, clamped to 0..1. Immediate affect decays toward baseline with a 180-second half-life, mood with an 1800-second half-life; exposed affect blends them 75/25. SQLite persists the state and appraisal event/source references. New chat preserves affect.
+Codex's navigation work is done; the world is now built from classified Blender kit pieces (manifest v3, see ARCHITECTURE.md). Four kits are exported (dungeon 25 pieces, swap meet 29, high school 34, dungeon foes 5; 93 total) with roles assigned in `t-scan/art/export_kit.py`. The runtime builder is live in Unity (Build button). Backend is `shared-chat-v8.5.0-built-worlds`, restarted from `Start-Steve.ps1`; it confirmed revision 6 of a built test world with hazards. The shipped `World.asset` is revision 5 (Codex's course re-drawn with dungeon pieces); the builder never edits it, and the last applied world resumes from `persistentDataPath/Worlds/_current.json`.
 
-Current chat/continuation context supplies labeled simulated affect, retrieved historical memory, tasks, Self projections and measured world evidence separately. Affect appraisal receives recent active conversation, current user input, tasks and a Self projection. World moves, blocked attempts and task completions do not currently trigger affect appraisal. Unity polls/smooths affect values, but the inspected active code has no visual behavior consuming them.
-
-The user explicitly does not want a reward score. Affect is intended as experiential feedback. First evaluate three-call turns; if reliable, consider a review/epoch boundary there. A future design may connect the same receipts to affect appraisal, agent-authored memory/Self revisions and replanning. Do not generate forced lessons, auto-complete goals, treat emotion as evidence of truth, or claim model-weight learning. Distinguish measured episode evidence from Steve's interpretation and affect response. No automatic review is currently implemented.
-
-## UI and naming
-
-The Unity product/app name is now **Steve**. Launch the backend through `t-scan/Start-Steve.ps1`. The user chose branding/launcher changes only: retain `t-scan`, `TScanViewer`, `Assets/TScan`, namespaces and internal identifiers. Do not initiate a folder/code migration.
-
-The full bottom panel displays Steve's provider thinking, with Stop in its header. Right tabs are Activity, Self and View. Self is a single view showing position, selected focus, unfinished and agent-marked finished goals, commitments, authored assessments/beliefs, recent experience and capabilities. The separate Goals view, Run notes, Current run/status area, State/Inspect selector and Details/revision inspector were removed at the user's request. Do not restore curator prose or metadata counters as personality theater. Backend audit/history storage remains intact.
-
-Removed Unity assets: `AgentGoalsPanel.cs`, `OperatorNotesPanel.cs`, `GridDashboard.cs`, with their `.meta` files through the Editor. `SelfModelPanel.cs` is new. Notes backend storage/archive compatibility still exists; removing its UI did not delete private notes or authored memory. New chat still archives the full run, clears working chat/tasks and resets to (5,5), north, while retaining persistent Self/doctrine/commitments and long-term memory.
-
-## Credentials, Git and launch cautions
-
-The user supplied an OpenAI key. It is stored locally as `OPENAI_API_KEY` in `t-scan/.env`, verified untracked and ignored. Never print it, place it in a handoff/capture, commit it or send it to an unrelated provider. **The user explicitly deferred OpenAI use.** The running backend neither loads that file nor uses OpenAI. Do not switch providers, run charged API tests or silently enable the key. Source credential document was left unchanged.
-
-Private remote: `https://github.com/Bradsadevnow/steve.git`. HEAD remains the pre-refactor checkpoint `dcf85fe318c73fa590b7a6f66b8cd5e4d3821a8c`, with tag `checkpoint/pre-self-model-20261104`. The Self architecture, UI work, task deletion, correction fix, branding and three-call changes are **local, uncommitted and unpushed** at this handoff. Do not mistake the remote checkpoint for current runtime source or reset the working tree. Runtime captures, private memory, `.env`, original research and independent sibling projects are excluded from Git.
-
-Git commands may require `git -c safe.directory=C:/Users/bradl/OneDrive/Desktop/steve ...` due workspace ownership. Avoid changing global Git trust settings. When reviewing/committing, include the new modules/tests/docs and preserve intended Unity `.meta` GUIDs; do not add private state. User requested this handoff, not a push.
-
-The backend uses `.venv/Scripts/python.exe -S live/bridge.py`, standard-library runtime, port 8765. It runs hidden with redirected logs. Do not launch a second backend on that port. Restart only after checking inference and loop idle with no queued human turn or presentation; preserve state. Do not restart during this batch. Use Unity tools/CLI for live Editor changes; never hand-edit scenes or serialized assets. No Unity code changed for the three-call feature.
-
-## Verification already performed
-
-- Full backend suite: **137 tests passed** after three-call implementation, including receipt-before-choice ordering, fresh observation binding across settled movements, revision-aware task edits, rejections consuming the cap, phase barriers, multiple-call rejection, interruption, presentation timeout, output truncation and text-only-after-tool idle.
-- Real worker fixture verifies six separate decision/context records across planner handoff, movements and completion.
-- `Tools/verify_project_boundaries.py`: passed after tool changes.
-- Isolated real LM Studio smoke: `Tools/verify_three_call_turn.py`. Three provider requests, three successful task writes, revisions 0 to 1 to 2 to 3, capped at three calls, no world movement. Evidence: `t-scan/runtime_data/verification/three-call-smoke-20261104-193435/`. Actual rendered provider requests were inspected: one current context, native call/results before the next choice, current revisions 0/1/2. This is a smoke, not navigation-success evidence.
-- Activation verification: `t-scan/runtime_data/verification/three-call-activation.json`; position, goals and Self records preserved; idle, world connected, v8.4 and limit three confirmed before the new batch started.
-- Unity has been compiling cleanly and advancing frames with a connected viewer. UI layouts were visually checked after edits; screenshots are under `runtime_data/verification/`. Branding is Steve; launch script syntax and project boundaries passed. Do not stop Play just to repeat a check while trials run.
-
-Run future source checks from workspace root, without launching model trials:
-
-```powershell
-./t-scan/.venv/Scripts/python.exe -S -m unittest discover -s t-scan/live -p 'test_*.py'
-./t-scan/.venv/Scripts/python.exe -S Tools/verify_project_boundaries.py
-```
-
-`Tools/verify_three_call_turn.py` does invoke LM Studio; do not run it concurrently with a trial. No extra testing is needed just to read this handoff.
-
-## Next operator/agent actions
-
-1. Preserve and monitor the current ten-trial condition. Do not edit experimental conditions mid-run or resume stopped batches.
-2. On completion, analyze the scorecard from settled receipts and captured calls/manifests, not just pass/fail. Verify three-call sequencing and phase barriers before attributing differences to model cognition.
-3. Discuss whether the three-call boundary is useful for affect-driven review and memory/Self updates. Keep that design separate from the measured condition.
-4. Keep OpenAI unused until the user explicitly returns to it. Any provider experiment should be a distinct, recorded condition.
+Not done: enemies are exported but not placeable (role `actor` is reserved); there is no hazard, combat or turn mechanic yet; the Uni-Core avatar modules are Blender-only; no model run on a built world; the avatar (`hover.json`) is still the old hover unicorn. Nothing was committed.

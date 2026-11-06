@@ -36,7 +36,7 @@ namespace Steve.TScan {
    material=new Material(Shader.Find("Steve/MeadowVertex"));
    var art=JsonUtility.FromJson<Art>(Resources.Load<TextAsset>("Meadow/hover").text);visual=new GameObject("HoverVisual").transform;visual.SetParent(transform,false);head=new GameObject("Expressive head").transform;head.SetParent(visual,false);head.localPosition=Vector3.up*1.15f;
    foreach(var p in art.parts){bool face=!p.name.StartsWith("POD /");var part=Render(p.name,face?head:visual,MakeMesh(p,face?Vector3.up*1.15f:Vector3.zero));if(p.name.Contains("pupil")||p.name.Contains("iris")||p.name.Contains("catchlight"))eyes.Add(part.transform);}
-   visual.localPosition=Cell(5,5);visual.localRotation=Quaternion.Euler(0,Yaw("north"),0);
+   visual.localPosition=Cell(environment.definition.manifest.spawn.col,environment.definition.manifest.spawn.row);visual.localRotation=Quaternion.Euler(0,Yaw("north"),0);
    var s=GameObject.CreatePrimitive(PrimitiveType.Quad);s.name="Hover floor shadow";s.layer=30;Destroy(s.GetComponent<Collider>());shadow=s.transform;shadow.SetParent(transform,false);shadow.localRotation=Quaternion.Euler(90,0,0);shadow.localScale=new Vector3(1.05f,.8f,1);var sm=new Material(Shader.Find("Steve/HoverShadow"));sm.SetColor("_BaseColor",new Color(.04f,.09f,.07f,.3f));s.GetComponent<Renderer>().material=sm;
    StartCoroutine(Poll());
   }

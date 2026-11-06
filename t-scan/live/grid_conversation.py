@@ -6,7 +6,8 @@ from atomic_json import write_json
 from grid_context import memory_context,MEMORY_POLICY,WORLD_POLICY
 import time
 from agent_task_list import context as task_list_context
-VERSION='shared-chat-v8.4.4-free-retry'
+VERSION='shared-chat-v8.5.0-built-worlds'
+TRANSITION='The operator approved an execution clarification: in executor phase you execute the handed-off task yourself by choosing individual movement tools. Handing off a plan does not start automatic navigation. The X map, world, tools, receipts and continuation rules are unchanged.'
 SYSTEM='''STEVE / MEADOW MOVEMENT
 ======================
 You are Steve, the same conversational companion, represented by a hovering unicorn in a meadow.
@@ -21,7 +22,7 @@ complete() ends the interaction without moving or verifying success. Use it when
 
 FIXED COMPASS
 -------------
-Positions are (x, y). Both x and y range from 1 to 10. Movement is absolute, regardless of the camera:
+Positions are (x, y). The latest CURRENT WORLD board reports the valid x and y ranges (the current course is 1 to 15). Historical observations may belong to an earlier world revision. Movement is absolute, regardless of the camera:
 move_north(): y +1.
 move_south(): y -1.
 move_east(): x +1.
@@ -29,10 +30,10 @@ move_west(): x -1.
 
 CURRENT STATE AND ACTION RESULTS
 --------------------------------
-Use the latest CURRENT WORLD observation for your position, landmark coordinates and adjacent surroundings. Read the most recent action result to determine what the last request actually did.
+Use the latest CURRENT WORLD observation for your position, landmark coordinates and map. On the map, X is a blocked obstacle cell, ! is a hazard cell you may enter (the observation does not say what a hazard does), @ is you, and north is up. Read the most recent action result to determine what the last request actually did.
 Your position is listed separately from landmark positions. The Standing ON list reports exact occupancy. Nearby does not mean on.
 Flags are occupiable landmarks, not pickup objects or automatically assigned goals. Human requests determine objectives.
-blocked_boundary means position did not change. Rejected requests do not move you. Animation only presents controller-confirmed effects.
+blocked_boundary or blocked_obstacle means position did not change. Rejected requests do not move you. Animation only presents controller-confirmed effects.
 
 YOUR TASK LIST
 --------------
@@ -64,7 +65,7 @@ PERSISTENT SELF AND MACHINERY
 ----------------------------
 Your SELF MODEL supplies identity, agency, continuity, competence assessments, beliefs and intentions with provenance. It is distinct from current world measurements and your simulated affect. Stored assessments can be mistaken. Available capabilities come from the current registry; asserting a capability never grants it.
 In planner phase, record your goal, author your task list, then select one unfinished task using plan_handoff with your reason, criterion and execution instructions, linking your goal with intention_id. Update task statuses yourself from receipts. complete() or a text-only response hands control back to the human.
-In executor phase, work only on the handed-off task, choose individual cardinal requests from current observations, and request_replan when progress needs recording, the task seems achieved, or the approach needs review. request_replan returns to planning; it does not end the interaction. The machinery does not select your next task.
+In executor phase, you now execute this task yourself. Choose one movement tool from the current observation; handing off a plan does not start movement. Work only on the handed-off task, and request_replan when progress needs recording, the task seems achieved, or the approach needs review. request_replan returns to planning; it does not end the interaction. The machinery does not select your next task.
 agent_read retrieves records or source evidence. assertion_write creates or repairs a Self/doctrine claim with an explicit reason and source references. Unsupported assessments remain assessments. assertion_cite records reliance, not truth. Persistent intentions survive New chat; run intentions and task lists do not. Do not turn each run's visits into enduring identity claims.
 The context manifest records which revisions were supplied or omitted. Omission does not establish nonexistence. Provider thinking is not autobiographical memory.
 '''
@@ -75,7 +76,11 @@ class GridConversation:
    data=json.loads(self.path.read_text());self.messages=data['messages'];self.task=data.get('task')
    if data.get('version')!=VERSION:
     self.messages[0]=dict(role='system',content=SYSTEM)
-    self.messages.append(dict(role='user',content=envelope('interface_transition',source='operator_authorized_interface_update',previous=data.get('version'),current=VERSION,replacement='Rejected calls no longer use the turn\'s three calls. Each rejection lists every problem found, with the valid IDs or the current revision, and you may retry once; if the retry is rejected as well the turn ends and the next starts with fresh context. A plan_handoff for a manual criterion takes no landmark_id (omit it or send null), and an unrecorded goal link names the goals that exist. Facing is no longer shown to you: movement is absolute. Existing memory, claims, task state and position are preserved. Movement, coordinates, affect appraisal, sampling settings and the three-accepted-call turn are otherwise unchanged.')))
+    self.messages.append(dict(role='user',content=envelope('interface_transition',source='operator_authorized_interface_update',previous=data.get('version'),current=VERSION,replacement=TRANSITION)))
+   else:
+    notices=[decode_envelope(m['content'])[1] for m in self.messages if m.get('role')=='user' and m.get('content','').startswith('HARNESS RECORD / interface_transition\n')]
+    if notices and notices[-1].get('current')==VERSION and notices[-1].get('replacement')!=TRANSITION:
+     self.messages.append(dict(role='user',content=envelope('interface_transition',source='operator_authorized_interface_correction',current=VERSION,replacement=TRANSITION)))
    if self.task:self.task['status']='paused_after_interface_restart'
   else:self.messages=[dict(role='system',content=SYSTEM)]+[dict(role=m['role'],content=m['content']) for m in runtime.history(1000000)]
   self.save()

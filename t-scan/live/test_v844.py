@@ -85,6 +85,19 @@ class ExecutionErrors(unittest.TestCase):
         text=self.handoff(landmark_id='target_green')['error']
         self.assertIn('"target_green" is not a landmark in the current world',text);self.assertIn('target_blue',text);self.assertIn('target_yellow',text)
 
+    def test_goal_id_from_an_earlier_run_can_be_reused_with_revision_zero(self):
+        self.r.agent.execute('intention_write',dict(intention_id='g',statement='Old.',reason='r',status='active',lifetime='run',expected_revision=0),'c-old','d-old','run-old',self.w.observe())
+        self.r.agent.reset_run('run-b')
+        self.assertIn('has no goal record',self.agent_in('run-b','plan_handoff',task_id='visit_blue',task_list_revision=1,reason='r',criterion='manual',landmark_id=None,instructions='i',intention_id='g')['error'])
+        made=self.agent_in('run-b','intention_write',intention_id='g',statement='New.',reason='r',status='active',lifetime='run',expected_revision=0)
+        self.assertEqual((made['outcome'],made['record']['run_id'],made['record']['revision']),('record_saved','run-b',3))
+        self.assertEqual(self.agent_in('run-b','plan_handoff',task_id='visit_blue',task_list_revision=1,reason='r',criterion='manual',landmark_id=None,instructions='i',intention_id='g')['outcome'],'plan_handed_off')
+        again=self.agent_in('run-b','intention_write',intention_id='g',statement='Same.',reason='r',status='active',lifetime='run',expected_revision=0)
+        self.assertEqual(again['outcome'],'rejected_stale_revision')
+
+    def agent_in(self,run,name,**args):
+        self.n+=1;return self.r.agent.execute(name,args,'call-%d'%self.n,'decision-%d'%self.n,run,self.w.observe())
+
     def test_manual_handoff_without_a_landmark_succeeds(self):
         self.assertEqual(self.handoff(criterion='manual',landmark_id=None)['outcome'],'plan_handed_off')
         self.assertIsNone(self.r.agent.get('plan','current')['landmark_id'])

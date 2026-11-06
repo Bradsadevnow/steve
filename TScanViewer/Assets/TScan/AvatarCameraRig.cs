@@ -12,8 +12,8 @@ namespace Steve.TScan {
    foreach(var r in renderers)bounds.Encapsulate(r.bounds);
    center=bounds.center;fittedWidth=bounds.extents.x*1.3f;fittedZoom=Mathf.Max(1.5f,bounds.extents.y*1.3f);ResetView();
   }
-  public void ConfigureMeadow(Transform avatar){actor=avatar;center=avatar.position;fittedWidth=12;fittedZoom=12;ResetView();Pitch=50;}
-  public void ResetView(){Target=center;Yaw=25;Pitch=12;Zoom=fittedZoom;OrbitEnabled=false;}
+  public void ConfigureMeadow(Transform avatar){actor=avatar;center=avatar.position;fittedWidth=18;fittedZoom=18;ResetView();Pitch=50;}
+  public void ResetView(){Target=center;Yaw=25;Pitch=12;Zoom=fittedZoom;if(fittedZoom>=18)Pitch=50;OrbitEnabled=false;}
   public void FocusActor()=>ResetView();
   public void ApplyGesture(Vector2 delta,float scroll,bool pan){
    if(OrbitEnabled)return;

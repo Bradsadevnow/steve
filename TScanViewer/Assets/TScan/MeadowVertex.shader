@@ -9,7 +9,7 @@ Shader "Steve/MeadowVertex" {
    struct A {float4 vertex:POSITION;float3 normal:NORMAL;float4 color:COLOR;};
    struct V {float4 pos:SV_POSITION;float3 normal:TEXCOORD0;float4 color:COLOR;};
    V vert(A v){V o;o.pos=TransformObjectToHClip(v.vertex.xyz);o.normal=TransformObjectToWorldNormal(v.normal);o.color=v.color;return o;}
-   half4 frag(V i):SV_Target {Light l=GetMainLight();float d=saturate(dot(normalize(i.normal),l.direction));return half4(i.color.rgb*(.52+d*.55)*lerp(half3(1,1,1),l.color,.4),1);}
+   half4 frag(V i):SV_Target {Light l=GetMainLight();float d=saturate(dot(normalize(i.normal),l.direction));half3 lit=i.color.rgb*(.52+d*.55)*lerp(half3(1,1,1),l.color,.4);half glow=1-i.color.a;return half4(lit+i.color.rgb*glow*1.6,1);}  // vertex alpha: 1 = no glow, lower = emissive (kit exporter)
    ENDHLSL
   }
   UsePass "Universal Render Pipeline/Lit/ShadowCaster"

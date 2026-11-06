@@ -53,7 +53,7 @@ namespace Steve.TScan
         Rect AvatarPanel=>MainVisualPanel;
         Rect ContentPixels(Rect panel)=>new Rect(panel.x*UIScale,(CanvasHeight-panel.yMax)*UIScale,panel.width*UIScale,Mathf.Max(1,panel.height-42)*UIScale);
         Rect Normalized(Rect pixels)=>new Rect(pixels.x/Screen.width,pixels.y/Screen.height,pixels.width/Screen.width,pixels.height/Screen.height);
-        public Rect EnvironmentViewport=>cinema?new Rect(0,0,1,1):Normalized(ContentPixels(AvatarPanel));
+        public Rect EnvironmentViewport=>new Rect(0,0,1,1);
 
         Texture2D Swatch(Color color){var t=new Texture2D(1,1);t.SetPixel(0,0,color);t.Apply();uiTextures.Add(t);return t;}
         void UIStyles(){
@@ -124,44 +124,16 @@ namespace Steve.TScan
         public void ApplyCameraGesture(Vector2 delta,float scrollSteps,bool pan)=>WorldCamera?.ApplyGesture(delta,scrollSteps,pan);
         void HandleCameraInput(){
             var mouse=Mouse.current;if(mouse==null){cameraDrag=false;return;}
-            bool inside=WorldInputContains(mouse.position.ReadValue());
+            bool inside=WorldInputContains(mouse.position.ReadValue())&&!OverUI(mouse.position.ReadValue());
             bool held=mouse.leftButton.isPressed||mouse.rightButton.isPressed||mouse.middleButton.isPressed;
             bool pressed=held&&!cameraButtonHeld;cameraButtonHeld=held;
             if(inside&&pressed){cameraDrag=!OrbitEnabled;cameraPan=mouse.rightButton.isPressed||mouse.middleButton.isPressed||(Keyboard.current!=null&&(Keyboard.current.leftShiftKey.isPressed||Keyboard.current.rightShiftKey.isPressed));}
+            if(buildOpen&&mouse.leftButton.isPressed&&!cameraPan)cameraDrag=false;   // building: left click paints, right/middle drag pans
             if(!held)cameraDrag=false;
             Vector2 delta=cameraDrag?mouse.delta.ReadValue():Vector2.zero;
             float wheel=inside?mouse.scroll.ReadValue().y:0;if(Mathf.Abs(wheel)>10)wheel/=120;
             if(delta!=Vector2.zero)ApplyCameraGesture(delta,0,cameraPan);
             if(wheel!=0)ApplyCameraGesture(Vector2.zero,wheel,false);
-        }
-        void OnGUI(){
-            if(WorldCamera==null)return;
-            if(chatBody==null)UIStyles();
-            float scale=UIScale,w=CanvasWidth,h=CanvasHeight,left=LeftWidth,right=RightWidth;
-            GUI.matrix=Matrix4x4.Scale(new Vector3(scale,scale,1));
-            if(cinema){
-                if(GUI.Button(new Rect(w-110,16,94,30),"Show panels",flatButton))cinema=false;
-                return;
-            }
-            GUI.BeginGroup(new Rect(0,MessageHeight,w,h));
-            var panel=new Color(.014f,.022f,.031f,1);
-            // Camera content is drawn before IMGUI: leave the docked scan viewport uncovered.
-            Fill(new Rect(0,0,left,h),panel);Fill(new Rect(w-right,0,right,h),panel);
-            Fill(new Rect(left-1,0,1,h),new Color(.09f,.13f,.16f));Fill(new Rect(w-right,0,1,h),new Color(.09f,.13f,.16f));
-            DrawDashboardLeft(left,h);DrawDashboardRight(w-right,right,h);DrawRunDashboard();
-            if(FindFirstObjectByType<SteveBody>()!=null){
-                var body=AvatarPanel;
-                Fill(new Rect(body.x,body.y,body.width,42),panel);
-                GUI.Label(new Rect(body.x+10,body.y+12,Mathf.Max(0,body.width-335),22),"STEVE / MEADOW",caption);
-                if(GUI.Button(new Rect(body.xMax-178,body.y+6,66,29),OrbitEnabled?"Orbit on":"Orbit off",OrbitEnabled?accentButton:flatButton))SetOrbit(!OrbitEnabled);
-                if(GUI.Button(new Rect(body.xMax-104,body.y+6,96,29),memoryFlyout?"Close memory":"Memory",memoryFlyout?accentButton:flatButton))SetMemoryFlyout(!memoryFlyout);
-                if(memoryFlyout){
-                    var flyout=new Rect(body.x,body.y+42,body.width,body.height-42);
-                    DrawMemoryGraph(flyout);
-                }
-                if(memoryFlyout&&Event.current.type==EventType.KeyDown&&Event.current.keyCode==KeyCode.Escape){SetMemoryFlyout(false);Event.current.Use();}
-            }
-            GUI.EndGroup();
         }
         void DrawChat(float width,float height){
             GUI.Label(new Rect(22,22,width-160,27),"Steve",heading);

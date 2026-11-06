@@ -16,7 +16,7 @@ def grade(events,route,landmarks):
  locations={(v['col'],v['row']):v['color'] for v in landmarks};visits=[];progress=0;steps=0;blocked=0
  for e in events:
   if e.get('action_id') not in settled:continue
-  if e.get('outcome')=='blocked_boundary':blocked+=1
+  if e.get('outcome') in ('blocked_boundary','blocked_obstacle'):blocked+=1
   if e.get('outcome')!='moved':continue
   steps+=1;color=locations.get(tuple(e['position_after']))
   if color:

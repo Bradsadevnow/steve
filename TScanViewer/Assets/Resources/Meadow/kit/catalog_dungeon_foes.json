@@ -1,0 +1,66 @@
+{
+ "pack": "dungeon_foes",
+ "title": "Dungeon foes",
+ "pieces": [
+  {
+   "id": "dungeon_foes_enemy_goblin",
+   "name": "Goblin bomber",
+   "role": "actor",
+   "blocks": true,
+   "category": "enemy",
+   "pack": "dungeon_foes",
+   "note": "Goblin bomber: throws bombs, fragile",
+   "height": 1.7,
+   "vertices": 3730,
+   "triangles": 7320
+  },
+  {
+   "id": "dungeon_foes_enemy_golem",
+   "name": "Stone golem",
+   "role": "actor",
+   "blocks": true,
+   "category": "enemy",
+   "pack": "dungeon_foes",
+   "note": "Stone golem: slow, heavy hitter",
+   "height": 2.31,
+   "vertices": 2634,
+   "triangles": 5140
+  },
+  {
+   "id": "dungeon_foes_enemy_mimic",
+   "name": "Mimic",
+   "role": "actor",
+   "blocks": true,
+   "category": "enemy",
+   "pack": "dungeon_foes",
+   "note": "Mimic: chest ambush, bites hard",
+   "height": 1.775,
+   "vertices": 2010,
+   "triangles": 3872
+  },
+  {
+   "id": "dungeon_foes_enemy_skeleton",
+   "name": "Skeleton knight",
+   "role": "actor",
+   "blocks": true,
+   "category": "enemy",
+   "pack": "dungeon_foes",
+   "note": "Bone guard: sword and shield, medium",
+   "height": 2.08,
+   "vertices": 4449,
+   "triangles": 8730
+  },
+  {
+   "id": "dungeon_foes_enemy_slime",
+   "name": "Slime",
+   "role": "actor",
+   "blocks": true,
+   "category": "enemy",
+   "pack": "dungeon_foes",
+   "note": "Jelly slime: melee, slow, squishy",
+   "height": 1.406,
+   "vertices": 2179,
+   "triangles": 4282
+  }
+ ]
+}

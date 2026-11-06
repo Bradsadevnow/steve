@@ -13,44 +13,421 @@ MonoBehaviour:
   m_Name: World
   m_EditorClassIdentifier: Assembly-CSharp::Steve.TScan.MeadowWorldDefinition
   manifest:
-    schema: meadow-world-v1
+    schema: meadow-world-v3
     world_id: steve_grid_v1
-    revision: 1
-    columns: 10
-    rows: 10
+    revision: 7
+    columns: 15
+    rows: 15
     landmarks:
     - id: target_blue
       name: Blue flag
       color: blue
       kind: flag
-      col: 8
-      row: 7
-      occupiable: 1
-    - id: target_red
-      name: Red flag
-      color: red
-      kind: flag
-      col: 2
-      row: 8
-      occupiable: 1
-    - id: target_yellow
-      name: Yellow flag
-      color: yellow
-      kind: flag
-      col: 9
-      row: 2
+      col: 1
+      row: 15
       occupiable: 1
     - id: target_purple
       name: Purple flag
       color: purple
       kind: flag
-      col: 2
-      row: 2
+      col: 1
+      row: 1
       occupiable: 1
-    - id: target_orange
-      name: Orange flag
-      color: orange
+    - id: target_red
+      name: Red flag
+      color: red
       kind: flag
-      col: 6
-      row: 10
+      col: 15
+      row: 15
       occupiable: 1
+    - id: target_yellow
+      name: Yellow flag
+      color: yellow
+      kind: flag
+      col: 15
+      row: 1
+      occupiable: 1
+    spawn:
+      col: 8
+      row: 8
+    obstacles:
+    - id: boulder_cluster_11_8
+      prototype: dungeon_prop_rubble
+      col: 11
+      row: 8
+      yaw: 0
+    - id: boulder_cluster_12_8
+      prototype: dungeon_prop_rubble
+      col: 12
+      row: 8
+      yaw: 0
+    - id: boulder_cluster_4_8
+      prototype: dungeon_prop_rubble
+      col: 4
+      row: 8
+      yaw: 0
+    - id: boulder_cluster_5_8
+      prototype: dungeon_prop_rubble
+      col: 5
+      row: 8
+      yaw: 0
+    - id: boulder_cluster_7_13
+      prototype: dungeon_prop_rubble
+      col: 7
+      row: 13
+      yaw: 0
+    - id: boulder_cluster_9_3
+      prototype: dungeon_prop_rubble
+      col: 9
+      row: 3
+      yaw: 0
+    - id: hedge_10_11
+      prototype: dungeon_prop_crate_stack
+      col: 10
+      row: 11
+      yaw: 0
+    - id: hedge_11_11
+      prototype: dungeon_prop_crate_stack
+      col: 11
+      row: 11
+      yaw: 0
+    - id: hedge_12_11
+      prototype: dungeon_prop_crate_stack
+      col: 12
+      row: 11
+      yaw: 0
+    - id: hedge_13_11
+      prototype: dungeon_prop_crate_stack
+      col: 13
+      row: 11
+      yaw: 0
+    - id: hedge_7_11
+      prototype: dungeon_prop_crate_stack
+      col: 7
+      row: 11
+      yaw: 0
+    - id: hedge_8_11
+      prototype: dungeon_prop_crate_stack
+      col: 8
+      row: 11
+      yaw: 0
+    - id: hedge_9_11
+      prototype: dungeon_prop_crate_stack
+      col: 9
+      row: 11
+      yaw: 0
+    - id: stone_wall_3_5
+      prototype: dungeon_wall_plain
+      col: 3
+      row: 5
+      yaw: 0
+    - id: stone_wall_4_5
+      prototype: dungeon_wall_plain
+      col: 4
+      row: 5
+      yaw: 0
+    - id: stone_wall_5_5
+      prototype: dungeon_wall_plain
+      col: 5
+      row: 5
+      yaw: 0
+    - id: stone_wall_6_5
+      prototype: dungeon_wall_plain
+      col: 6
+      row: 5
+      yaw: 0
+    - id: stone_wall_7_5
+      prototype: dungeon_wall_plain
+      col: 7
+      row: 5
+      yaw: 0
+    - id: stone_wall_8_5
+      prototype: dungeon_wall_plain
+      col: 8
+      row: 5
+      yaw: 0
+    - id: stone_wall_9_5
+      prototype: dungeon_wall_plain
+      col: 9
+      row: 5
+      yaw: 0
+    - id: wood_hurdle_12_3
+      prototype: dungeon_prop_crate
+      col: 12
+      row: 3
+      yaw: 0
+    - id: wood_hurdle_13_13
+      prototype: dungeon_prop_crate
+      col: 13
+      row: 13
+      yaw: 0
+    - id: wood_hurdle_3_12
+      prototype: dungeon_prop_crate
+      col: 3
+      row: 12
+      yaw: 0
+    - id: wood_hurdle_3_3
+      prototype: dungeon_prop_crate
+      col: 3
+      row: 3
+      yaw: 0
+    floors:
+    - dungeon_floor_flag_c
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_c
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_c
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_c
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_c
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_b
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_b
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_b
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_b
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_b
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_b
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_c
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_c
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_c
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_c
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_c
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_b
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_b
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_b
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_b
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_b
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_b
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_c
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_c
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_c
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_c
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_flag_c
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_b
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_c
+    - dungeon_floor_flag_a
+    - dungeon_floor_mossy
+    - dungeon_floor_flag_c
+    props: []
+    catalog:
+    - prototype: dungeon_floor_flag_a
+      name: Flagstone floor
+      role: floor
+      blocks: 0
+    - prototype: dungeon_floor_flag_b
+      name: Big flagstone floor
+      role: floor
+      blocks: 0
+    - prototype: dungeon_floor_flag_c
+      name: Cracked flagstone floor
+      role: floor
+      blocks: 0
+    - prototype: dungeon_floor_mossy
+      name: Mossy flagstone floor
+      role: floor
+      blocks: 0
+    - prototype: dungeon_prop_crate
+      name: Crate
+      role: obstacle
+      blocks: 1
+    - prototype: dungeon_prop_crate_stack
+      name: Crates and barrel
+      role: obstacle
+      blocks: 1
+    - prototype: dungeon_prop_rubble
+      name: Rubble
+      role: obstacle
+      blocks: 1
+    - prototype: dungeon_wall_plain
+      name: Stone wall
+      role: wall
+      blocks: 1

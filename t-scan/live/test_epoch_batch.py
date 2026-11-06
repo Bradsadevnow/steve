@@ -21,6 +21,10 @@ def health(index,ending=None,run='run-1'):
 
 
 class Watcher(unittest.TestCase):
+    def test_settled_obstacle_bumps_are_counted_without_arrivals(self):
+        events=[dict(action_id='bump',outcome='blocked_obstacle',position_after=[5,5]),dict(kind='presentation_result',action_id='bump',status='settled')]
+        result=epoch_batch.grade(events,['red'],LANDMARKS)
+        self.assertEqual((result['blocked_steps'],result['moved_steps'],result['ordered_flags_reached']),(1,0,0))
     def make(self,**limits):return TrialWatcher(ROUTE,LANDMARKS,'run-1',100.0,**limits)
 
     def test_progress_is_graded_from_settled_arrivals_and_stamped_with_the_epoch(self):
@@ -107,6 +111,14 @@ class FakeBridge:
 
 
 class WholeRunner(unittest.TestCase):
+    def test_custom_two_flag_route_and_course_spawn(self):
+        with tempfile.TemporaryDirectory() as directory:
+            routes=Path(directory)/'routes.json';routes.write_text(json.dumps([['red','blue']]))
+            original=FakeBridge.state
+            with patch.object(FakeBridge,'state',lambda fake:dict(original(fake),self=dict(id='steve',col=8,row=8,facing='north'))):
+                report,_=self.run_runner([dict(epoch=1,arrive=['red']),dict(epoch=2,arrive=['blue'],complete=True)],'--routes-file',str(routes),'--spawn','8','8')
+            self.assertEqual(report['routes'],[['red','blue']]);self.assertTrue(report['results'][0]['passed'])
+            self.assertIn('After visiting all requested flags',report['results'][0]['prompt'])
     def run_runner(self,script,*flags):
         with tempfile.TemporaryDirectory() as folder:
             fake=FakeBridge(folder,script);fake.serve()

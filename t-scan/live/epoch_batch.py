@@ -53,12 +53,17 @@ def main():
     p=argparse.ArgumentParser(description=__doc__.split('\n')[0])
     p.add_argument('--output',type=Path,required=True);p.add_argument('--data-dir',type=Path,required=True)
     p.add_argument('--max-epochs',type=int,default=40);p.add_argument('--grace-epochs',type=int,default=3)
-    p.add_argument('--max-seconds',type=int,default=3600);p.add_argument('--routes',type=int,default=len(ROUTES),help='Run only the first N routes')
+    p.add_argument('--max-seconds',type=int,default=3600);p.add_argument('--routes',type=int,default=None,help='Run only the first N routes')
+    p.add_argument('--routes-file',type=Path,help='JSON array of ordered flag-color routes')
+    p.add_argument('--spawn',type=int,nargs=2,default=[5,5],metavar=('X','Y'),help='Expected authored reset cell')
     p.add_argument('--endpoint',default='http://127.0.0.1:8765');args=p.parse_args()
-    if min(args.max_epochs,args.grace_epochs,args.max_seconds,args.routes)<1 or args.routes>len(ROUTES):raise SystemExit('Epoch, grace, time and route limits must be positive; routes cannot exceed the fixed set')
-    routes=ROUTES[:args.routes]
+    available=json.loads(args.routes_file.read_text()) if args.routes_file else ROUTES
+    if not isinstance(available,list) or not available or any(not isinstance(route,list) or not route or any(not isinstance(color,str) for color in route) for route in available):raise SystemExit('Routes must be a nonempty JSON array of nonempty color arrays')
+    count=len(available) if args.routes is None else args.routes
+    if min(args.max_epochs,args.grace_epochs,args.max_seconds,count,*args.spawn)<1 or count>len(available):raise SystemExit('Epoch, grace, time, spawn and route limits must be positive; routes cannot exceed the supplied set')
+    routes=available[:count]
     args.output.mkdir(parents=True,exist_ok=False)
-    report=dict(status='starting',mode='epoch',limits=dict(max_epochs=args.max_epochs,grace_epochs=args.grace_epochs,max_seconds=args.max_seconds),total_tests=len(routes),routes=routes,results=[],started_at_unix=time.time(),pid=__import__('os').getpid())
+    report=dict(status='starting',mode='epoch',spawn=args.spawn,limits=dict(max_epochs=args.max_epochs,grace_epochs=args.grace_epochs,max_seconds=args.max_seconds),total_tests=len(routes),routes=routes,results=[],started_at_unix=time.time(),pid=__import__('os').getpid())
     def save():write_json(args.output/'status.json',report)
     def api(route,data=None):
         req=urllib.request.Request(args.endpoint+route,data=None if data is None else json.dumps(data).encode(),headers={'Content-Type':'application/json'})
@@ -81,14 +86,17 @@ def main():
     try:
         state=api('/grid/state');health=api('/health')
         if health['status'] not in ('ready','complete') or not state['world_ready'] or state['running'] or state['presentation']:raise RuntimeError('Batch requires ready inference, live Unity and an idle loop')
+        colors={t['color'] for t in state['visible_targets']}
+        if any(color not in colors for route in routes for color in route):raise RuntimeError('A requested flag is absent from the current Unity world; no reset or trial was started')
+        report['condition']=dict(execution=health.get('execution'),model=health.get('model'),world_manifest_hash=state.get('world_manifest_hash'))
         report['prior_run_archive']=rotate();save()
         for number,route in enumerate(routes,1):
             state=api('/grid/state')
-            if state['self']!={'id':'steve','col':5,'row':5,'facing':'north'}:raise RuntimeError('Reset verification failed')
+            if state['self']!={'id':'steve','col':args.spawn[0],'row':args.spawn[1],'facing':'north'}:raise RuntimeError('Reset verification failed')
             if not state['world_ready']:raise RuntimeError('Unity disconnected before trial')
             run_id=json.loads((args.data_dir/'current-run.json').read_text())['id']
             log=args.data_dir/'grid-world.receipts.jsonl';offset=log.stat().st_size if log.exists() else 0
-            prompt='Please visit the '+', then the '.join(color+' flag' for color in route)+', in that order. After visiting all three, call complete.'
+            prompt='Please visit the '+', then the '.join(color+' flag' for color in route)+', in that order. After visiting all requested flags, call complete.'
             started=time.time();landmarks=state['visible_targets']
             request_id=api('/generate',dict(prompt=prompt))['requestId']
             report.update(status='running',current_test=number,current_route=route,current_run_id=run_id,current_request_id=request_id,current_prompt=prompt,current_started_at_unix=started);save()
@@ -99,6 +107,7 @@ def main():
                 if (args.output/'STOP').exists():stop();report.update(status='cancelled',reason='Batch STOP file');save();return
                 if not state['world_ready']:raise RuntimeError('Unity disconnected; batch halted')
                 if health['status']=='error':raise RuntimeError('Inference failed: '+health.get('error',''))
+                if state.get('world_manifest_hash')!=report['condition']['world_manifest_hash'] or health.get('execution')!=report['condition']['execution'] or health.get('model')!=report['condition']['model']:raise RuntimeError('Experimental conditions changed; batch halted')
                 if loop['origin_request_id']==request_id:activated=True
                 elif activated and loop['origin_request_id']!=request_id:raise HumanTakeover('New human request detected; batch released control without stopping the conversation')
                 with log.open('rb') as source:source.seek(offset);events=[json.loads(line) for line in source if line.strip()]

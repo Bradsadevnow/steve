@@ -160,12 +160,18 @@ class AgentState:
         if name == 'intention_write':
             body = {k:a[k] for k in ('statement', 'reason', 'status', 'lifetime')}
             body['run_id'] = run_id
-            return self._put('intention', a['intention_id'], body, a['expected_revision'], call_id)
+            expected = a['expected_revision']
+            # A run-lifetime goal left by an earlier run is not this run's record. Its ID is free to reuse:
+            # creating (expected_revision 0) continues the same ID's revision history under this run.
+            earlier = self.get('intention', a['intention_id'])
+            if earlier and expected == 0 and earlier.get('lifetime') == 'run' and earlier.get('run_id') != run_id: expected = earlier['revision']
+            return self._put('intention', a['intention_id'], body, expected, call_id)
         if name == 'plan_handoff':
             from agent_task_list import context
             tasks = context(self.runtime)
             task = next((t for t in tasks['tasks'] if t['id'] == a['task_id']), None)
             intention = self.get('intention', a['intention_id']) if a.get('intention_id') else None
+            if intention and intention.get('lifetime') == 'run' and intention.get('run_id') != run_id: intention = None
             if not task or task['status'] == 'completed' or tasks['revision'] != a['task_list_revision']:
                 unfinished = [t['id'] for t in tasks['tasks'] if t['status'] != 'completed']
                 reasons = []

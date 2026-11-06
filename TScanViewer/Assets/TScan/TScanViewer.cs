@@ -11,6 +11,7 @@ namespace Steve.TScan {
   public bool reasoningActive;
   public string[] cancelledRequests;
  }
+ [DefaultExecutionOrder(300)]
  public sealed partial class TScanViewer : MonoBehaviour {
   public string Endpoint="http://127.0.0.1:8765";
   public int ReceivedFrames;
@@ -19,8 +20,8 @@ namespace Steve.TScan {
   bool cinema;string prompt="";
   void Start(){
    Application.runInBackground=true;Application.targetFrameRate=60;
-   foreach(var camera in FindObjectsByType<Camera>(FindObjectsSortMode.None))camera.gameObject.SetActive(false);
-   StartCoroutine(PollMemoryGraphs());StartCoroutine(RestoreChat());
+   foreach(var camera in FindObjectsByType<Camera>(FindObjectsSortMode.None))if(camera.GetComponentInParent<SteveBody>()==null)camera.gameObject.SetActive(false);
+   LoadAppliedWorld();StartCoroutine(PollMemoryGraphs());StartCoroutine(RestoreChat());
    StartCoroutine(PollSelf());StartCoroutine(Poll());
   }
   IEnumerator Poll(){while(true){
@@ -33,7 +34,8 @@ namespace Steve.TScan {
    }
    yield return new WaitForSecondsRealtime(.1f);
   }}
-  void Update(){HandleCameraInput();}
+  void Update(){HandleCameraInput();UpdateBuilder();UpdateShell();}
+  void LateUpdate(){ShellLateUpdate();}
         IEnumerator Generate(){
             string submitted=prompt.Trim();if(submitted.Length==0||sending)yield break;
             chat.Add(new ChatLine("user",submitted));pendingChat=new ChatLine("assistant","");chat.Add(pendingChat);

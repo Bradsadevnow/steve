@@ -7,7 +7,7 @@ import agent_state_tools
 DIRECTIONS={'move_north':(0,1),'move_south':(0,-1),'move_east':(1,0),'move_west':(-1,0)}
 COMPLETE='complete'
 MAP_DIRECTIONS={'move_north':'y +1','move_south':'y -1','move_east':'x +1','move_west':'x -1'}
-TOOLS=[dict(type='function',function=dict(name=n,description='Request one step '+n[5:]+' ('+MAP_DIRECTIONS[n]+'). x and y each range from 1 to 10. The environment reports the actual outcome.',parameters=dict(type='object',properties={},required=[],additionalProperties=False))) for n in DIRECTIONS]
+TOOLS=[dict(type='function',function=dict(name=n,description='Request one step '+n[5:]+' ('+MAP_DIRECTIONS[n]+'). Use the x/y bounds in the latest CURRENT WORLD board. Obstacles block entry into their cells. The environment reports the actual outcome.',parameters=dict(type='object',properties={},required=[],additionalProperties=False))) for n in DIRECTIONS]
 TOOLS.append(dict(type='function',function=dict(name=COMPLETE,description='End this interaction and stop further decision ticks when finished or handing control back to the human. Takes no arguments. A later human message wakes the loop again. Does not move the avatar, mark a task done (the planner phase records task statuses with task_mark_complete) or certify that a navigation goal succeeded.',parameters=dict(type='object',properties={},required=[],additionalProperties=False))))
 TOOLS+=agent_task_list.TOOLS+agent_state_tools.TOOLS
 def done_hint(names=None):
@@ -32,7 +32,7 @@ def validate(name,text,names=None):
 # rejected, stale or offline attempts do not. Future world actions register by joining CLOCK_TOOLS
 # and CLOCK_OUTCOMES. Non-clock calls (tasks, reads, notes) are free but bounded by MAX_TOTAL_CALLS.
 CLOCK_TOOLS=frozenset(DIRECTIONS)
-CLOCK_OUTCOMES=frozenset({'moved','blocked_boundary'})
+CLOCK_OUTCOMES=frozenset({'moved','blocked_boundary','blocked_obstacle'})
 COUNT_ALL='all_calls';COUNT_CLOCK='clock_actions';COUNT_ACCEPTED='accepted_calls'
 MAX_TOTAL_CALLS=8
 def registry(active_task=False,phase=None,max_calls=3,count_policy=COUNT_ALL,max_total_calls=MAX_TOTAL_CALLS):

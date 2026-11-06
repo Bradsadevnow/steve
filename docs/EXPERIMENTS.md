@@ -143,7 +143,7 @@ Compare against the v8.4.2 baseline on the same ten routes, with the epoch runne
 - **Goal and tasks:** in passing trials Steve typically wrote one task per flag (trial 6: three per-flag tasks and a goal). Trial 3 and the early ones show the structure is not enforced, only visible.
 - **Cost:** about 0.65 to 1.1 million prompt tokens per trial and 10k to 26k completion tokens (the prompt grows with the epoch count).
 
-## Condition: `shared-chat-v8.4.4-free-retry` (not yet run)
+## Condition: `shared-chat-v8.4.4-free-retry` (ran: ten-route epoch batch, 8 of 10 passes)
 
 Model, sampling, tools and the world are unchanged. Model-visible changes:
 
@@ -158,3 +158,43 @@ Not included: a factual line about an active goal and unfinished tasks at the mo
 Verification: 235 tests pass. The assembled prompt sections and sample errors were inspected directly.
 
 Compare with the v8.4.3 table above on the same ten routes: full passes, handoff rejections per trial, trials ending `stalled`, false completions, decisions and tokens to the final arrival.
+
+### v8.4.4 results (`epoch-batch-v844-20261104-1829`, same ten routes, 1200 s ceiling per trial)
+
+| Measure | v8.4.3 | v8.4.4 |
+| --- | --- | --- |
+| Full passes | 7/10 | 8/10 |
+| Ordered flags reached | 24/30 | 26/30 |
+| Trials ending `stalled` | 0 (one `no_action`) | 1 (trial 8) |
+| False completions | 2 (trials 3, 9) | 1 (trial 5, 2 of 3 flags) |
+| Passing trials | median 467 s | median 439 s, 11 to 19 epochs, 1 to 2 epochs after the final arrival |
+
+- **Trial 8 (stalled, 0 moves, 3 epochs):** run-scoped goal ID `visit_flags_sequence` had been used in trial 5 and left archived. `intention_write` with `expected_revision` 0 was rejected as stale (revision 2 existed), so the goal was never recorded. Every handoff linking it was rejected ("archived, not active... Goals recorded for this run: none"); he never tried omitting `intention_id`, which the error offered. The stall stop ended it as designed.
+- **Trial 5 (`complete` at 2 of 3 flags):** same false-completion class as v8.4.3.
+
+### New environment condition, 5 November 2026
+
+Chat/memory/persistence suite: the owner requested ten diagnostic probes after reviewing navigation. See [frozen design and assessment criteria](CHAT_PERSISTENCE_PROBES.md). Uses an isolated SQLite backup of Steve, ordinary chat/reset APIs, the current prompt/model, and a headless copy of the authored world for the no-movement chat gate. Synthetic test memories do not enter the main store. Tests visible-history recall, corrections, unfinished work, plans/evidence, saved notes across reset, corrected notes, persistent intentions, run-local clearing and backend restart. Storage, actual disclosure and model behavior are separate observations; captures are not automatic semantic passes.
+
+Two-flag repetitions requested by the owner: two consecutive batches of five fresh-chat trials, repeating the same ordered pairs: red→blue, blue→yellow, yellow→purple, purple→red, red→yellow. Every trial archives/resets through New chat to the authored (8,8), north. Condition stays `shared-chat-v8.4.7-execution-reminder`, with the X map and existing model/sampling/world. Limits: 40 completed epochs, 3 grace epochs after the final arrival, 1200 seconds. `epoch_batch.py` accepts an explicit route file and reset cell; settled obstacle bumps now count in blocked steps. `Tools/run_two_flag_batches.py` sequences both batches and does not start batch 2 after cancellation/failure. Human takeover and operator Stop remain authoritative. These routes differ from the historical 10×10 three-flag routes; compare only matching pairs and state denominators.
+
+Execution clarification: `shared-chat-v8.4.7-execution-reminder` adds one short executor instruction: Steve executes the task himself by choosing a movement tool; handing off a plan does not start movement. Approved after red-flag requests produced handoff/replan calls and text-only waiting without moves. X map, world, tools, sampling and scheduler remain unchanged. The earlier request captures show cardinal tools registered in executor phase; lack of movement was not a missing-tool result. Retry red under this separately recorded prompt condition.
+
+The approved retry (`3446a39e934640a1ae9431571217364f`, "Please resume going to the red flag.") ended `no_action` in its first planner epoch, with no tool calls and no movement from (8,8). Steve's reply claimed the plan was guiding movement and that he was waiting for observations. The captured system message included the execution reminder; this attempt never entered executor phase. It does not establish whether the reminder would help a fresh executor decision or whether the X map helps navigation. 239 tests passed and assembled messages were inspected before activation. No further prompt change was made after this result.
+
+Follow-up presentation condition: `shared-chat-v8.4.6-x-map`, requested by the owner, replaces the obstacle ID/type/coordinate list and adjacent-cell enumeration with a north-up x/y map: `X` obstacles, `@` Steve, dots open, flag initials. The world, movement tools and collision mechanics are unchanged. No model-navigation result is implied by formatting verification.
+
+`shared-chat-v8.4.5-meadow-course` installs the owner-approved [15×15 obstacle course](MEADOW_COURSE.md). Bounds, world/obstacle observations, blocked outcomes, movement descriptions and prompt version changed. Four corner flags replace the old five interior flags; New chat resets to the authored (8,8) spawn. No navigation model trial has run under this condition. The previous ten-route scorecards describe the old world and are not directly comparable. Backend verification: 239 tests passed; isolated Unity presentation: eight settled acknowledgements, including two obstacle bumps; boundary and compilation checks passed.
+- **Fix after the batch (state-level, version string unchanged):** a run-lifetime goal from an earlier run is not this run's record. `intention_write` with `expected_revision` 0 on such an ID now succeeds and continues that ID's revision history; a handoff linking it reports "has no goal record". Persistent goals are unchanged. Test: `test_v844.py`. 236 tests pass. Not yet re-run on live routes.
+
+## Condition: `shared-chat-v8.5.0-built-worlds` (not yet run)
+
+Model, sampling, tools and the epoch rules are unchanged. Model-visible changes, all caused by worlds being built from classified pieces:
+
+- **Obstacles by name.** The current-world text lists obstacles grouped by curated catalog name and role (`{"name":"Stone wall","role":"wall","cells":[[3,5],...]}`) instead of only `X` on the map. Pieces without a curated name are not listed, so raw prototype ids (`stone_wall`) are never shown.
+- **Hazards.** Walkable cells marked as hazards appear in their own section ("effects are not stated here") and as `!` on the map. No hazard mechanic exists yet; the receipt for entering one is an ordinary `moved`.
+- **Surroundings.** An adjacent obstacle or hazard cell now carries `feature` (its name) beside `terrain`.
+- **Prompt.** One clause in `CURRENT STATE AND ACTION RESULTS` explains `!`. The `YOUR GOAL`, `REJECTED CALLS` and other sections are unchanged.
+- **Decor and floors** are cosmetic and not part of the model's context.
+
+Verification: 258 tests pass, including role-rule tests and a test that every exported catalog piece validates in its own world. The assembled observation text was inspected on a live v3 world (revision 6) and contains only curated names, roles, hazards and the two map symbols. No navigation batch has been run on a built world; compare against the v8.4.7 15x15 result only after one is.

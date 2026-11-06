@@ -16,10 +16,10 @@ namespace Steve.TScan {
    textMaterial=new Material(Shader.Find("Steve/Depth Tested Label"));textMaterial.mainTexture=font.material.mainTexture;
    Font.textureRebuilt+=RefreshFont;
    plateMaterial=new Material(Shader.Find("Universal Render Pipeline/Unlit"));plateMaterial.SetColor("_BaseColor",new Color(.025f,.065f,.075f));
-   AddLabel("NORTH",new Vector3(0,.95f,10.8f));
-   AddLabel("SOUTH",new Vector3(0,.95f,-10.8f));
-   AddLabel("EAST",new Vector3(10.8f,.95f,0));
-   AddLabel("WEST",new Vector3(-10.8f,.95f,0));
+   AddLabel("NORTH",new Vector3(0,.95f,16.0f));
+   AddLabel("SOUTH",new Vector3(0,.95f,-16.0f));
+   AddLabel("EAST",new Vector3(16.0f,.95f,0));
+   AddLabel("WEST",new Vector3(-16.0f,.95f,0));
   }
   void AddLabel(string direction,Vector3 position){
    var root=new GameObject("Compass / "+direction);root.layer=30;root.transform.SetParent(transform,false);root.transform.localPosition=position;labels.Add(root.transform);
