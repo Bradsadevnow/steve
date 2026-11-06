@@ -13,7 +13,7 @@ from movement_tools import registry
 
 output=ROOT/'t-scan/runtime_data/verification'/('stats-provider-'+uuid.uuid4().hex[:8]);output.mkdir(parents=True)
 client=LMStudio('http://192.168.1.128:1234','google/gemma-4-e4b');client.connect();results=[]
-for action,con_base,distance,expected in [('slash',1,1,3),('shield_bash',4,3,2)]:
+for action,con_base,distance,expected in [('slash',1,1,3),('shield_bash',4,3,4)]:
  folder=output/action;folder.mkdir();world=GridWorld(folder/'world.json');publish(world)
  world.apply_character(dict(request_id=uuid.uuid4().hex,character_id='steve',expected_revision=0,catalog_version=rules.CATALOG['version'],body_id='unicore',equipment=[dict(socket_id='arm_R',module_id='warrior_blade'),dict(socket_id='arm_L',module_id='warrior_shield')]))
  world.state['character']['stats']['base']['CON']=con_base;world.state['character']['stats']['revision']+=1;world.state['character']=rules.project(world.state['character'])
@@ -27,7 +27,7 @@ for action,con_base,distance,expected in [('slash',1,1,3),('shield_bash',4,3,2)]
  assert 'simulated_affect' not in record and 'self_model' in record and 'historical_memory' in record
  messages=reg.INFERENCE_MESSAGES(conversation.messages+[dict(role='user',content=context)])
  assert sum('CURRENT WORLD /' in m.get('content','') for m in messages)==1
- assert '"effective": 3' in messages[-1]['content'] and '"stats"' not in messages[-1]['content']
+ assert 'STR 3' in messages[-1]['content'] and '"stats"' not in messages[-1]['content']
  assert 'bosses_dummy_unarmed' not in json.dumps(messages)
  (folder/'context.json').write_text(json.dumps(record,indent=2),encoding='utf-8')
  client.on_request=lambda path,payload,f=folder:(f/'provider-request.json').write_text(json.dumps(dict(path=path,payload=payload),indent=2),encoding='utf-8')

@@ -46,9 +46,10 @@ class CharacterTests(unittest.TestCase):
   self.assertEqual(self.w.state['character']['revision'],0)
  def test_bash_commits_damage_position_tick_and_receipt_together(self):
   self.equip();a=self.w.state['avatar'];self.w.state['training_targets']=[dict(id='dummy',col=a['col'],row=a['row']+3,hp=10,max_hp=10)]
-  old=a.copy();r=self.attack();self.assertEqual(r['outcome'],'target_hit');self.assertEqual(r['damage'],1);self.assertEqual(r['target_hp_after'],9);self.assertEqual(r['position_after'],[old['col'],old['row']+2]);self.assertEqual(self.w.state['game_tick'],1)
-  disk=json.loads(self.w.path.read_text());self.assertEqual(disk['training_targets'][0]['hp'],9);self.assertEqual(disk['avatar']['row'],old['row']+2);self.assertEqual(disk['last_committed_action']['action_id'],r['action_id'])
-  self.w.acknowledge('test',r['action_id'],self.w.state['session_id']);r=self.attack('slash');self.assertEqual(r['target_hp_after'],6);self.assertEqual(r['damage'],3)
+  old=a.copy();r=self.attack();self.assertEqual(r['outcome'],'target_hit');self.assertEqual(r['damage'],2);self.assertEqual(r['target_hp_after'],8);self.assertEqual(r['position_after'],[old['col'],old['row']+2]);self.assertEqual(self.w.state['game_tick'],1)
+  self.assertEqual(r['damage_curve'],dict(numerator=2,denominator=3,minimum=1));self.assertEqual(r['rules_version'],rules.RULES_VERSION)
+  disk=json.loads(self.w.path.read_text());self.assertEqual(disk['training_targets'][0]['hp'],8);self.assertEqual(disk['avatar']['row'],old['row']+2);self.assertEqual(disk['last_committed_action']['action_id'],r['action_id'])
+  self.w.acknowledge('test',r['action_id'],self.w.state['session_id']);r=self.attack('slash');self.assertEqual(r['target_hp_after'],5);self.assertEqual(r['damage'],3)
  def test_clear_lane_range_and_unequipped_rejections_are_free(self):
   self.equip();a=self.w.state['avatar'];self.w.state['training_targets']=[dict(id='dummy',col=a['col']+1,row=a['row']+1,hp=10,max_hp=10)]
   self.assertEqual(self.attack()['outcome'],'rejected_range');self.assertEqual(self.w.state['game_tick'],0)

@@ -548,6 +548,7 @@
      "denominator": 1,
      "minimum": 1,
      "reach": 1,
+     "targeting": "Strike a living target in a cardinally adjacent cell.",
      "description": "Strike a cardinally adjacent target. Damage equals effective STR."
     }
    ]
@@ -563,7 +564,7 @@
    "actions": [
     "shield_bash"
    ],
-   "description": "+2 CON. Grants Shield Bash: floor(CON / 3), minimum 1 damage; clear cardinal lane up to 3 squares, stop adjacent.",
+   "description": "+2 CON. Grants Shield Bash: floor(2 * CON / 3), minimum 1 damage; clear cardinal lane up to 3 squares, stop adjacent.",
    "stat_modifiers": [
     {
      "stat": "CON",
@@ -575,11 +576,12 @@
      "id": "shield_bash",
      "name": "Shield Bash",
      "stat": "CON",
-     "numerator": 1,
+     "numerator": 2,
      "denominator": 3,
      "minimum": 1,
      "reach": 3,
-     "description": "Charge a clear cardinal lane to a target within 3 squares, stop adjacent. Damage is effective CON divided by 3, rounded down, minimum 1."
+     "targeting": "Charge a clear cardinal lane to a living target and stop adjacent.",
+     "description": "Charge a clear cardinal lane to a target within 3 squares, stop adjacent. Damage is twice effective CON divided by 3, rounded down, minimum 1."
     }
    ]
   }

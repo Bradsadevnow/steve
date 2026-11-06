@@ -43,7 +43,7 @@ class StatsTests(unittest.TestCase):
   restarted=GridWorld(self.path);self.assertEqual(restarted.observe()['character']['sheet']['hp']['current'],6)
  def test_bounded_formula_rounding_and_no_capability_from_stats(self):
   self.equip();character=copy.deepcopy(self.world.state['character'])
-  for base,expected in ((1,1),(3,1),(4,2),(7,3)):
+  for base,expected in ((1,2),(3,3),(4,4),(7,6)):
    character['stats']['base']['CON']=base
    self.assertEqual(rules.ability(character,'shield_bash')['damage'],expected)
   character['stats']['base']['STR']=7;self.assertEqual(rules.ability(character,'slash')['damage'],9)
@@ -52,7 +52,7 @@ class StatsTests(unittest.TestCase):
  def test_multi_mount_modules_contribute_once_and_bonuses_stack_per_instance(self):
   equipment=[dict(socket_id=slot,module_id='warrior_shield') for slot in ('left_upper','right_upper','left_lower')]+[dict(socket_id='right_lower',module_id='warrior_blade')]
   value=self.equip(equipment,'bulwark');abilities={a['id']:a for a in value['sheet']['abilities']}
-  self.assertEqual(abilities['shield_bash']['effective_stat'],7);self.assertEqual(abilities['shield_bash']['damage'],2)
+  self.assertEqual(abilities['shield_bash']['effective_stat'],7);self.assertEqual(abilities['shield_bash']['damage'],4)
   self.assertEqual(value['capabilities'],['shield_bash','slash'])
  def test_scaled_attack_receipt_and_overkill_are_committed(self):
   self.equip();avatar=self.world.state['avatar'];self.world.state['training_targets']=[dict(id='dummy',col=avatar['col'],row=avatar['row']+1,hp=2,max_hp=10)]

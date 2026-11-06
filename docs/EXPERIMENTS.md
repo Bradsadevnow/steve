@@ -1,5 +1,35 @@
 # Navigation experiments
 
+## Shield Bash balance change, 6 November 2026
+
+After reviewing the live kill, the operator requested starter Bash damage 2.
+`steve-combat-v2-bash-scaling` changes the coefficient to 2/3 effective CON,
+rounded down with minimum 1. Reach/lane/position/tick rules are unchanged.
+296 tests passed, including scaled curves, authoritative damage/HP/position/tick
+receipts and model observation damage. Catalog parity and boundaries passed.
+Idle activation capture `verification/bash-scaling-reload-c219effd` confirms
+live damage 2 with agent/world state preserved. Historical trials below used
+the previous coefficient; no new autonomous trial is implied by this change.
+
+## Combat card and native model trials, 6 November 2026
+
+See [COMBAT_CONTEXT.md](COMBAT_CONTEXT.md) for conditions, cases, exact capture
+directories, settled defeat times and limitations. Ten valid isolated trials
+produced 7/8 armed kills: 3/4 under v8.9.0 and 4/4 under v8.9.1 (plain Steve
+identity). The two unarmed cases caused no damage; neither handled the capability
+limit successfully. Two false kill-task completions occurred in A, zero in B.
+One successful A kill still reached its interaction time budget. Synthetic
+presentation ACKs do not verify Unity animation or enemy AI. No causal claim
+about the identity sentence follows from these stochastic five-case batches.
+
+296 backend tests, asset parity and boundary checks passed. Actual provider
+payload audits checked 58 A and 72 B requests for a single current character card
+and native tool-call/result linkage; B identity wording was also checked. The
+character/target region was 52.6% smaller by serialized characters than the
+reconstructed committed format on the same fixture. Main idle reload applied
+the context change without resuming or resetting the agent; preserved-state
+capture: `verification/combat-context-reload-a4b5649b`.
+
 ## Pre-commit cleanup verification, 6 November 2026
 
 290 backend tests passed, including atomic combat/world save failures, preservation

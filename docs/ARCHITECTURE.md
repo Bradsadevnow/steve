@@ -1,5 +1,19 @@
 # Steve architecture
 
+## Combat observation formatting
+
+`combat_context.py` supplies a read-only character card: effective stats/resources,
+equipped modules, evaluated damage/reach, physically valid target IDs and measured
+target health/positions. It calls the same pure targeting checks as execution;
+it never selects actions, routes or tasks. The native phase registry still owns
+tool availability. `grid_context.py` supplies one current card and T/t map markers
+for living/defeated training targets. See [COMBAT_CONTEXT.md](COMBAT_CONTEXT.md)
+for provider-capture verification and isolated trial design.
+
+Prompt condition `shared-chat-v8.9.1-combat-card-identity` introduces Steve with
+“You are Steve.” Body/environment wording was removed from that identity sentence
+at the operator's request. World observations and authored Self/memory remain.
+
 ## Cleanup ownership and persistence
 
 `combat_rules.resolve_attack` computes a proposed admitted/rejected effect without
@@ -56,8 +70,8 @@ neither can submit arbitrary stats or damage. Enemy state remains world-owned.
 target IDs, positions, HP and curated names while omitting art prototype IDs.
 
 Base attributes are all 1; sword +2 STR, shield +2 CON. HP/MP are 10/10 initially.
-Slash equals STR; Bash is max(1, floor(CON/3)). Starter pair yields STR/CON 3,
-Slash 3 and Bash 1. Maximum HP is 10 + (effective CON − 1), so the shield gives
+Slash equals STR; Bash is max(1, floor(2 * CON/3)). Starter pair yields STR/CON 3,
+Slash 3 and Bash 2. Maximum HP is 10 + (effective CON − 1), so the shield gives
 12 max HP. Capacity increases do not heal; decreases persistently clamp current
 HP, preventing swap healing. MP stays 10. Resource rules are versioned separately
 as `steve-resources-v2-con-hp`. Other attributes have no new starter actions.
@@ -147,7 +161,7 @@ operator Stop remain in force.
 
 Unity-authored `bosses_dummy_unarmed`, `bosses_dummy_melee` and
 `bosses_dummy_ranged` placements become stationary 10 HP training targets. They do
-not retaliate. Slash deals 3 adjacent cardinal damage. Bash deals 1 through a clear
+not retaliate. Slash deals 3 adjacent cardinal damage. Bash deals 2 through a clear
 cardinal lane to a target within 3 squares, ending adjacent. Position, HP and game
 tick commit in the world snapshot before cosmetic presentation acknowledgment.
 Defeated training models remain blocking scenery; further attacks are rejected.

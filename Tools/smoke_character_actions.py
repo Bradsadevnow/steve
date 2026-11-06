@@ -25,6 +25,6 @@ if len(response['calls'])==1:
  if name in reg.SCHEMAS:
   reg.validate(name,text);poll(world);receipt=world.nominate(name,json.loads(text),uuid.uuid4().hex,world.observe()['observation_id'],call['id']);result['receipt']=receipt
   if receipt['presentation_status']=='pending':world.acknowledge('test',receipt['action_id'],world.state['session_id'])
-  result['success']=name=='shield_bash' and receipt['outcome']=='target_hit' and receipt.get('damage')==1 and receipt['position_after']==[a['col'],a['row']+2]
+  result['success']=name=='shield_bash' and receipt['outcome']=='target_hit' and receipt.get('damage')==2 and receipt['position_after']==[a['col'],a['row']+2]
 result['final']=world.observe();(out/'result.json').write_text(json.dumps(result,indent=2));print(json.dumps({k:v for k,v in result.items() if k not in ('response','final')},indent=2))
 raise SystemExit(0 if result['success'] else 1)

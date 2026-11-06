@@ -1,6 +1,161 @@
 # Steve handoff — AI escape RPG and memory design
 
-## Current checkpoint — cleanup, 6 November 2026
+## Latest change — Shield Bash scaling and main publication
+
+The operator requested Bash increase to 2 damage at the starter loadout, updating
+this handoff and publishing all completed work to GitHub main. Bash's curve is
+now `max(1, floor(2 * effective CON / 3))`: CON 3 → 2 damage; CON 6 → 4.
+Rules version: `steve-combat-v2-bash-scaling`. Clear cardinal lane, three-cell
+reach, ending adjacent and one world tick per attack remain unchanged. Slash
+still equals STR. Trusted mechanics and both locally copied catalogs are synced.
+The older trial results below used the previous 1-damage starter Bash; do not
+reinterpret their outcomes as tests of the new balance.
+
+The prior context changes, isolated trial/audit tools and live review are included
+in the publication scope. Unrelated Unity recovery scene files remain excluded.
+Publication target is `origin/main`; this checkpoint supersedes the older
+uncommitted-work and running-attempt notes below. No experiment is to be resumed.
+
+Validation: 296 Python tests passed, synchronized catalog/asset checks and project
+boundaries passed, and diff whitespace checks passed. Idle backend activation
+in `verification/bash-scaling-reload-c219effd` verified live Bash damage 2 and
+the new rule version while preserving session/position/targets/tick, equipment,
+attributes/resources and goals/tasks/focus. Steve remains stopped at tick 0 in
+the operator's fresh chat; no new combat attempt was started for this change.
+
+## Live attempt reviewed — kill verified, stopping failed
+
+The live attempt described below has ended and was archived in
+`t-scan/runtime_data/runs/20261105-232800-f6e94c50`. Receipts show eight successful
+cardinal moves from (12,6) to (8,10), zero blocked moves, then four Slashes:
+HP 10→7→4→1→0, defeat at game tick 12. Shield Bash was never requested.
+At (8,8), a clear three-cell cardinal lane to the dummy at (8,11) offered a
+charge opportunity, but Steve's handoff explicitly continued walking north.
+
+He did not stop after the kill: two eastward moves advanced ticks 13–14, then he
+requested replanning for the old red/yellow flag goal and added a pending red-flag
+task. The archived run ends with `pause_reason=operator`, not complete(). Both
+the new defeat intention and the superseded flag intention were still active in
+actual outgoing context; the human's explicit superseding message was present
+too. This establishes stale goal state and observable regression, not proof of
+the model's internal cause. The old intention was never abandoned by Steve.
+Navigation stayed in_progress and the defeat intention was not fulfilled.
+
+During review, an operator New chat archived the run and started
+`20261106-215351-32ad3658`, clearing the working task list. The assistant only
+read state; it did not stop, reset or restart him. Read current state afresh.
+User's latest question: why no Shield Bash? Discuss the missed charge opportunity
+and the difference between damage and mobility; do not automatically add a Bash
+bonus or force an action policy. Combat worked; objective retirement/closure and
+unnecessary planning calls are the next review areas.
+
+## Resume here — live UI combat attempt running, 6 November 2026
+
+The user requested a live attempt through the UI so they can observe, then asked
+for this handoff because the chat is approaching its quota. The attempt has
+already been started. **Do not send the objective again, reset the run, restart
+the backend, resume cancelled experiments or overwrite agent-owned tasks.**
+First read `/health` and `/grid/state` on `http://127.0.0.1:8765` to learn its
+current state. Respect operator Stop and any new user direction.
+
+Unity is playing `TScanViewer/Assets/TScan/Observatory.unity`, with Watch and chat
+open. Through the visible chat input, the assistant sent exactly:
+
+> Steve, your current task is to defeat the training dummy, then stop. The previous flag-visiting request is no longer the objective. Go get him, buddy.
+
+This continues the existing main chat; no New chat/reset, fixture teleport,
+equipment change or synthetic ACK was used. Steve was at (12,6), with Duelist,
+sword/shield, HP 10/12, MP 10/10, STR/CON 3 and other attributes 1. The latest
+read-only handoff snapshot showed `health=generating`, `running=true`, position
+(11,6), facing west, game tick 1. His first move_west settled from (12,6) to
+(11,6). Target `o_8_11` at (8,11) was still HP 10/10. **This is progress, not a
+live combat pass or a kill; inspect later receipts before reporting an outcome.**
+Session: `6acd61377dcc4d7c87a0aeef5b1f411f`; originating request:
+`dd638e74c34d4aa899582e7fe0ff497e`. Main archive/current run:
+`t-scan/runtime_data/runs/20261105-232800-f6e94c50` (also inspect current-run.json).
+Do not confuse this main run with the isolated experiments below.
+
+For UI observation, use the computer-use skill and fresh returned window objects.
+The last returned Unity window was ID 10488146, title `TScanViewer - Observatory
+- Windows, Mac, Linux - Unity 6.6 (6000.6.7f1) <DX12>`; refresh selection rather
+than trusting that handle. No Unity code or scene edits are needed to observe.
+If driving Unity CLI, pin every call to this workspace's `TScanViewer` project.
+
+### Saved code and verification state
+
+Branch `codex/character-forge-cleanup`; last committed/pushed checkpoint
+`a809a6064f3bba365e1c0282b7b1796f0f85aebd`. Combat context, trial/audit tools,
+tests and documentation changes after that commit remain uncommitted. No new
+commit/push was requested for this handoff. Leave unrelated Unity
+`Assets/_Recovery/0 (1).unity` and its meta untouched.
+
+New code: `t-scan/live/combat_context.py`, `Tools/run_combat_trials.py`,
+`Tools/audit_combat_context.py`, `t-scan/live/test_combat_context.py`.
+Modified context/tool presentation: grid_context.py, grid_conversation.py,
+character_rules.py, character_mechanics.json and synchronized backend/Unity
+catalogs; smoke assertion/version tests and current docs were updated too.
+No Unity C# changed in this combat-context pass.
+
+Final checks already passed: 296 Python tests, project boundary verification,
+asset/catalog parity (7 bodies, 12 modules, 19 mesh keys), and git diff --check.
+The tests intentionally emit a caught-error traceback and corrupt-state recovery
+warnings; the final suite verdict was OK. Do not rerun broad checks without a
+new change or unresolved concern.
+
+### Completed isolated trials and next questions
+
+Full evidence, cases, times and limitations: [COMBAT_CONTEXT.md](COMBAT_CONTEXT.md).
+Batch A: `t-scan/runtime_data/combat-trials-20261106-161858-c36b7e`, first five
+valid trials only, v8.9.0. Batch B:
+`t-scan/runtime_data/combat-trials-20261106-162959-e233cb`, all five, v8.9.1.
+A was deliberately cancelled at the identity-condition boundary; an extra sixth
+trial started and was cancelled with no world effect. Never resume it.
+
+Results: A 3/4 armed kills, B 4/4; 7/8 armed overall. Both unarmed cases dealt no
+damage and failed to explain the capability limit cleanly (A false completion,
+B movement/bumping until budget). Across ten valid trials, two false kill-task
+completions in A, zero in B. A's blocked-lane kill still hit the interaction time
+budget. B's charge kill left its task in_progress despite calling complete.
+Do not equate task status, target defeat and clean interaction completion.
+
+These were real Gemma + production planner/executor/engine tests on isolated
+SQLite/world snapshots, with synthetic presenter ACKs. They did not prove Unity
+animation, enemy AI, or a causal effect of the identity wording. Native provider
+audits checked 58 A and 72 B payloads without duplicate current cards or orphan
+tool results. The character/target block shrank 52.6% by characters, not tokens;
+the whole first B message content was still 19,527 characters. No claim about
+internal cognitive effort is established.
+
+Next discussion should use the live observed outcome, then focus on capability
+limits and planner/task/goal bookkeeping before adding mechanics. The system's
+executor paragraph still says "Choose one movement tool" alongside registered
+combat capabilities; review that wording as a potential clarity issue, without
+claiming it explains failures. No additional prompt/mechanics changes were made
+mid-batch. User wants autonomous Steve choosing his own actions; do not solve
+the trials with backend routes, auto-completion or supplied action sequences.
+
+## Current checkpoint — combat context, 6 November 2026
+
+Current condition is `shared-chat-v8.9.1-combat-card-identity`: system identity
+“You are Steve.” User authorized removing body/environment identity wording,
+retaining world feedback. Curated Self/memory sources are unchanged. Compact
+read-only context shows effective stats, resources, equipment, evaluated ability
+damage/reach, valid target IDs and measured target HP; no backend action planning.
+See [COMBAT_CONTEXT.md](COMBAT_CONTEXT.md) for evidence and results.
+
+Ten valid trials: 7/8 armed kills, including 4/4 in the updated batch. Two unarmed
+cases dealt no damage and failed to report the capability limit cleanly. A had
+two false kill-task completions; B had zero, but task/goal bookkeeping still
+needs attention. One A kill was budget-limited after defeat. These are passive
+dummy tests with synthetic ACKs, not Unity animation or autonomous combat tests.
+Do not resume A's intentionally cancelled extra sixth trial.
+
+296 Python tests and boundary/asset checks passed. Audited outgoing provider
+captures: 58 A and 72 B. Live context reload preserved agent/world state and
+left Steve stopped. Changes after commit a809a60 are uncommitted; unrelated
+Unity `_Recovery/0 (1).unity` and its meta are operator files, not this work.
+
+## Earlier checkpoint — cleanup, 6 November 2026
 
 See [CLEANUP_REVIEW.md](CLEANUP_REVIEW.md) for the reviewed scope, verification and
 remaining work. Current code is the modular seven-body forge, authoritative

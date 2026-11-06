@@ -1,5 +1,9 @@
 # Running Steve
 
+Current context condition is `shared-chat-v8.9.1-combat-card-identity`. Its identity
+sentence is “You are Steve.” World feedback remains: map, position, target HP,
+effective stats and evaluated equipment actions. See [COMBAT_CONTEXT.md](COMBAT_CONTEXT.md).
+
 Watch records use a single icon row inside the existing flyout: Goals, Self, Log,
 Debug, camera and menu. The row stays available when its content is collapsed.
 No additional Goals monitor is present. The minimap is above the flyout.
@@ -31,7 +35,7 @@ position, level, HP/MP and effective stats. **Sheet +** opens the bounded charac
 details, and **Edit loadout** opens the forge. **Changes from equipped** compares
 equipment, effective stats and gained/lost abilities before Apply using a read-only
 engine preview. Base stats are 1; sword +2 STR and shield +2 CON give the starter
-pair STR/CON 3. Slash deals STR; Bash deals floor(CON/3), minimum 1. Stale connection
+pair STR/CON 3. Slash deals STR; Bash deals floor(2 * CON/3), minimum 1. Stale connection
 state is labeled. Maximum HP is 10 + (CON − 1): the starter shield gives 12 max HP.
 Gear swaps never heal; removing CON gear clamps excess current HP. Inspecting these
 views never issues a combat action or ticks time.
@@ -45,7 +49,7 @@ sheet showing engine-preview HP/MP, attributes, changes and granted abilities.
 Chassis choices collapse; detailed stat breakdowns and ability rules are on hover.
 Preset controls are deferred; existing saved preset files are untouched.
 
-The sword grants Slash (3 adjacent damage); the shield grants Bash (1 damage,
+The sword grants Slash (3 adjacent damage); the shield grants Bash (2 damage,
 clear cardinal lane, target within 3 squares, stops adjacent). Other modules are
 labeled visual prototypes. Place the authored Crash-test dummy assets using the
 world builder's actor/enemy palette and Apply the world; the backend initializes

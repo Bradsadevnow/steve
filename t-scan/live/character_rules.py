@@ -72,7 +72,7 @@ def validate(body_id,equipment):
  return sorted(resolved,key=lambda a:a['socket_id']),sorted(actions)
 
 def tools(capabilities):
- return [dict(type='function',function=dict(name=name,description=ACTIONS[name]['description']+' Requires the currently equipped module. Current evaluated damage is in the authoritative character sheet. One admitted attack advances the world clock by one tick. Target must be a current measured entity ID.',parameters=dict(type='object',properties=dict(target_id=dict(type='string',description='Measured training target entity ID')),required=['target_id'],additionalProperties=False))) for name in sorted(set(capabilities)&ACTIONS.keys())]
+ return [dict(type='function',function=dict(name=name,description=ACTIONS[name]['targeting']+' Read evaluated damage, reach and physically valid target IDs in CURRENT CHARACTER. Requires confirmed equipment; one admitted attack advances game time by one tick.',parameters=dict(type='object',properties=dict(target_id=dict(type='string',description='Measured target ID from TRAINING TARGETS')),required=['target_id'],additionalProperties=False))) for name in sorted(set(capabilities)&ACTIONS.keys())]
 
 def validate_action(name,text):
  value=json.loads(text)
